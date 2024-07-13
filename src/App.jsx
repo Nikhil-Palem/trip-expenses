@@ -6,8 +6,8 @@ import PaidPage from './components/Paid/PaidPage'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import Navbar from './components/header/Navbar'
 import TourPage from './components/Tour/TourPage'
-import SignIn from './components/logs/SignIn'
-import Signup from './components/logs/Signup'
+import SignIn from './components/authentication/SignIn'
+import Signup from './components/authentication/Signup'
 function App() {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [User_Id, setUser_Id] = useState(0);
