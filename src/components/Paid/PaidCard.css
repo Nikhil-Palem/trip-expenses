@@ -1,0 +1,91 @@
+.paidcard-div{
+    box-shadow:0 4px 8px rgba(0,0,0,0.1),0 6px 20px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    width:50vw;
+    border: 1px solid rgb(171, 171, 171);
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
+}
+.paidcard-form{
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.paidcard-form :last-child{
+    display:flex;
+    align-items:center;
+}
+.paidcard-form div{
+    display: flex;
+    flex: 1;
+}
+.paidcard-form div label{
+    display: flex;
+    padding-right: 5px;
+    flex: 0.3;
+    align-items: center;
+    justify-content: center;
+}
+.paidcard-form div input{
+    flex:0.7;
+    padding-left: 15px;
+    width:300px;
+    height:25px;
+    border-radius: 3px;
+    border: 1px solid gray;
+}
+.paidcard-form input:focus{
+    border-color: #0073b1;
+    outline: none;
+    border-width: 2px;
+    box-shadow: 0px 0px 3px #0073b1;
+}
+.paidcard-form .paidform-button{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.paidcard-form .paidform-button button{
+    border-radius: 20px;
+    background-color: #0073b1;
+    color: white;
+    margin-top: 5px;
+    place-content: center;
+    height: 30px;
+    width: 150px;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+}
+.paiddetails-tab{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+.paiddetails-tab th,.paiddetails-tab td{
+    word-wrap: break-word;
+    vertical-align: middle;
+}
+.paiddetails-table td {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.paiddetails-tab tbody .buttons{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5px 10px;
+    align-items: center;
+    height: 100%;
+}
+
+.paiddetails-tab tbody td  button{
+    background-color: #0073b1;
+    color: aliceblue;
+    cursor: pointer;
+    border-radius: 10px;
+    border:none;
+}
