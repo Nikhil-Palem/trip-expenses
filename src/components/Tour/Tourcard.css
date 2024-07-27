@@ -20,15 +20,16 @@
     position: relative;
 }
 .tour-div strong{
-    color: rgb(209, 4, 209);
+    color: #198754;
 }
 .tour-inner-div1 p{
     font-size: small;
-    padding-right: 10px;
+    padding-right: 20px;
 }
 .tour-inner-div1 .arrow-button{
     position: absolute;
-    top: 50%;
+    /* top: 50%; */
+    padding-top: 100px;
     right: 10px;
     cursor: pointer;
     transform: translateY(-50%);
@@ -37,4 +38,6 @@
     margin-top: 20px;
     border-top: 1px solid #ccc;
     padding-top: 10px;
+    display: flex;
+    place-content: center;
 }

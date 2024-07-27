@@ -11,7 +11,7 @@ import { Message } from '@mui/icons-material';
 function SignIn({SignIn}) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-    const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
   const [visibility, setVisibility] = useState(false)
   const [id, setId] = useState(1)
     const navigate = useNavigate();
@@ -62,7 +62,7 @@ function SignIn({SignIn}) {
           <span onClick={handleVisibility}>{!visibility ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />}</span>
         </div>
 
-        <a href="http://"><span>Forgot Password?</span></a>
+        <a><Link to="/ForgotPage"><span>Forgot Password?</span></Link></a>
         <input type="submit" value="Sign In" className="submit" />
         <span className='signin-span'>Don't have an Account? <Link to="/Signup">Sign Up</Link> </span>
         {errorMessage && <p style={{ color: "red", fontSize: "12px" }}> {errorMessage} </p>}

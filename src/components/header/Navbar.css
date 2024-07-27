@@ -1,16 +1,26 @@
-.navbar{
-    background-color: rgb(30, 28, 28);
+.navbar {
+    background-color: #198754;
     width: 100%;
     height: 50px;
-   
 }
-.navbar nav{
+
+.navbar nav {
     display: flex;
-    place-content: center;
-    gap:60px;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    padding: 0 10px;
 }
-nav .common{
-    text-decoration:none;
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    gap: 20px;
+}
+
+nav .common {
+    text-decoration: none;
     color: white;
     padding-top: 10px;
     height: 34px;
@@ -20,10 +30,11 @@ nav .common{
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-nav .PaidPage{
+
+nav .PaidPage {
     text-decoration: none;
     background-color: white;
-    color: black;
+    color: #198754;
     height: 34px;
     margin-top: 8px;
     padding-top: 8px;
@@ -31,17 +42,107 @@ nav .PaidPage{
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-nav .PaidPage.active::after{
+
+nav .PaidPage.active::after {
     border-bottom-left-radius: 10px;
 }
-nav .TourPage{
+
+nav .TourPage {
     text-decoration: none;
     background-color: white;
-    color: black;
+    color: #198754;
     height: 34px;
     margin-top: 8px;
     padding-top: 8px;
     width: 110px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+}
+
+.account-container {
+    position: relative;
+    place-content: center;
+}
+
+nav .logout {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+nav .account-icon {
+    font-size: 35px;
+}
+
+nav .dropdown-menu {
+    position: absolute;
+    top: 7%;
+    right: 15px;
+    background-color: white;
+    color: #198754;
+    border-radius: 10px;
+    border: 1px solid gray;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.dropdown-item {
+    display: flex;
+    padding: 10px 20px;
+    gap: 10px;
+    color: green;
+    text-decoration: none;
+}
+
+.dropdown-item:hover {
+    background-color: whitesmoke;
+}
+
+.navbar .confirm-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.confirm-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 6px;
+    text-align: center;
+    width: 300px;
+}
+
+.confrim-buttons button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.confrim-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm {
+    background-color: green;
+    color: white;
+    border: none;
+
+}
+.cancel{
+    background-color: #ccc;
 }

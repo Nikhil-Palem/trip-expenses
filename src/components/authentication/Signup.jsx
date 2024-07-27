@@ -6,9 +6,10 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 
-function Signup({ Signup }) {
+function Signup({ onSignUp }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [Email, setEmail] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const [visibility, setVisibility] = useState(false)
     const [id, setId] = useState(1)
@@ -21,7 +22,12 @@ function Signup({ Signup }) {
             setPassword("");
             return;
         }
-
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email)){
+            setErrorMessage("Invalid Email address");
+            setEmail('');
+            setPassword('');
+            return;
+        }
         if (!/^[a-zA-Z0-9 ]+$/.test(username)) {
             setErrorMessage("Username must not contain special characters");
             setPassword('');
@@ -32,15 +38,16 @@ function Signup({ Signup }) {
             // const credentials = { username, password };
             // console.log(username,password);
             try {
-                const response = await axios.post("http://localhost:3000/login", {
+                const response = await axios.post("http://localhost:3000/signup", {
                     username: username,
-                    password: password
+                    password: password,
+                    Email:Email, 
                 });
                 if (response.data.error) {
                     setErrorMessage(response.data.error);
                 } else {
                     setId(response.data.user_id);
-                    Signup(response.data.user_id,response.data.username);
+                    onSignUp(response.data.user_id,response.data.username);
                     console.log("login page", response.data.user_id);
                     navigate("/PaidPage");
                 }
@@ -50,9 +57,13 @@ function Signup({ Signup }) {
             }
             setPassword('');
             setUsername('');
-
+            setEmail('');
         }
     };
+    const handleChange=(e)=>{
+        const email=e.target.value.toLowerCase();
+        setEmail(email);
+    }
 
     const handleVisibility = () => {
         setVisibility(!visibility);
@@ -68,6 +79,11 @@ function Signup({ Signup }) {
                     <label htmlFor="username">username</label>
                     <div className='input-username'>
                         <input type="text" value={username} name="username" placeholder='Enter username' id={id} onChange={(e) => { setUsername(e.target.value) }} required autoComplete="username" />
+                    </div>
+
+                    <label htmlFor="Email">Email</label>
+                    <div className='input-email'>
+                        <input type="text" value={Email} name="email" placeholder='xyz@gmail.com' id={id} onChange={handleChange} required autoComplete="email" />
                     </div>
 
                     <label htmlFor="password">password</label>

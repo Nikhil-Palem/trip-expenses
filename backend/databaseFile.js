@@ -3,10 +3,13 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import bcrypt from "bcrypt";
 import cors from 'cors';
-// import Login from '../src/components/Login'
+import nodemailer from 'nodemailer';
+import env from 'dotenv';
+
 const app = express();
 const port = 3000;
 const saltRounds = 10;
+env.config();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,20 +37,24 @@ app.get("/PaidPage/:user_id", async (req, res) => {
     }
 });
 
-app.post("/login", async (req, res) => {
-    const { username, password } = req.body;
+app.post("/signup", async (req, res) => {
+    const { username, password, Email } = req.body;
     try {
-        const checkExists = await db.query("SELECT * FROM users WHERE username=$1", [username]);
-        if (checkExists.rows.length > 0) {
-            res.json({ error: "username already exists..." })
+        const checkExistsEmail = await db.query("SELECT * FROM users WHERE email=$1", [Email]);
+        const checkExistsUser = await db.query("select * from users where username=$1", [username]);
+        if (checkExistsEmail.rows.length > 0) {
+            res.json({ error: "email already exists..." });
+        }
+        else if (checkExistsUser.rows.length > 0) {
+            res.json({ error: "username already exists..." });
         } else {
             bcrypt.hash(password, saltRounds, async function (err, hash) {
                 if (err) {
-                    console.log("error during hashing",err);
+                    console.log("error during hashing", err);
                 } else {
-                    const result = await db.query("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *", [username, hash]);
+                    const result = await db.query("INSERT INTO users (username, password,email) VALUES ($1, $2,$3) RETURNING *", [username, hash, Email]);
                     res.json(result.rows[0]);
-                    console.log(username,hash);
+                    console.log(username, hash, Email);
                 }
             })
         }
@@ -57,47 +64,101 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.post("/signIn",async(req,res)=>{
-    const {username,password}=req.body;
-    try{
-        const Exists=await db.query("select * from users where username=$1",[username]);
+app.post("/signIn", async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const Exists = await db.query("select * from users where username=$1", [username]);
         if (Exists.rows.length > 0) {
-            const user=Exists.rows[0];
-            const hashedPassword=user.password;
+            const user = Exists.rows[0];
+            const hashedPassword = user.password;
             console.log(hashedPassword);
-            bcrypt.compare(password,hashedPassword,(err,valid)=>{
-                if(err){
-                    console.log("Error comparing passwords",err);
-                    res.json({error:"Internel Server error"});
-                }else{
-                    if(valid){
+            bcrypt.compare(password, hashedPassword, (err, valid) => {
+                if (err) {
+                    console.log("Error comparing passwords", err);
+                    res.json({ error: "Internel Server error" });
+                } else {
+                    if (valid) {
                         res.json(user);
-                    }else{
-                        res.json({error:"Incorrect Password"});
+                    } else {
+                        res.json({ error: "Incorrect Password" });
                     }
                 }
             })
-        }else{
-            res.json({error:"user doesn't exists please signup"});
+        } else {
+            res.json({ error: "user doesn't exists please signup" });
         }
 
-    }catch(err){
-        console.log("db error",err);
-        res.json({error:"Internel Server error"});
+    } catch (err) {
+        console.log("db error", err);
+        res.json({ error: "Internel Server error" });
     }
 });
 
-app.post("/PaidPage",async(req,res)=>{
-    const {item_id,user_id,Payername,Itemname,Amountpaid,PaidDate}=req.body;
+app.post("/PaidPage", async (req, res) => {
+    const { item_id, user_id, Payername, Itemname, Amountpaid, PaidDate } = req.body;
     console.log(req.body);
-    try{
-        const details=await db.query("INSERT INTO paid_list (item_id,user_id,Payername,Itemname,Amountpaid,PaidDate) VALUES ($1,$2,$3,$4,$5,$6)",[item_id,user_id,Payername,Itemname,Amountpaid,PaidDate]);
+    try {
+        const details = await db.query("INSERT INTO paid_list (item_id,user_id,Payername,Itemname,Amountpaid,PaidDate) VALUES ($1,$2,$3,$4,$5,$6)", [item_id, user_id, Payername, Itemname, Amountpaid, PaidDate]);
         res.json(details.rows[0]);
-    }catch(err){
+    } catch (err) {
         console.log("Database query error:", err);
-        res.json({error:"server side error"});
+        res.json({ error: "server side error" });
     }
 });
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+    },
+});
+
+app.post("/send_recovery_email", async (req, res) => {
+    const { OTP, Email } = req.body;
+    try {
+        const EmailExists = await db.query("select * from users where email=$1", [Email]);
+        if (EmailExists.rows.length == 0) {
+            res.send({ error: "user not found" });
+            return;
+        }
+        else {
+            const mailOptions = {
+                from: process.env.EMAIL,
+                to: Email,
+                subject: 'Password Recovery',
+                text: `Your OTP for password recovery is: ${OTP}`
+            }
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    res.send({ error: "Failed to send recovery email", err });
+                    return;
+                } else {
+                    console.log(info.response);
+                    res.send({ success: "Recovery email sent" });
+                }
+            });
+
+
+        }
+    } catch (error) {
+        res.send({ error: "Database error" });
+    }
+});
+
+app.post("/reset",async(req,res)=>{
+    const {Email,NewPassword}=req.body;
+    if(!Email || !NewPassword){
+        res.send({error:"Enter Valid Password"});
+    }
+    try{
+        const hashedPassword=await bcrypt.hash(NewPassword,saltRounds);
+        await db.query("update users set password=$1 where email=$2",[hashedPassword,Email]);
+        res.send({success:"password updated successfully"});    
+    }catch(err){
+        res.send({error:"Database Error"})
+    }
+})
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
