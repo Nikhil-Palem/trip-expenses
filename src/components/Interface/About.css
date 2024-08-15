@@ -1,0 +1,40 @@
+.about-div {
+    padding: 20px;
+}
+
+.first-about-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-img {
+    display: flex;
+    flex: 3;
+}
+.about-img img{
+    width: 300px;
+    object-fit:cover;
+}
+
+.about-info {
+    display: flex;
+    flex: 7;
+}
+
+.second-about-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+    .about-info2{
+        display: flex;
+        flex: 7;
+    }
+    .about-img2{
+        display: flex;
+        flex: 3;
+        /* width: 100px; */
+    }

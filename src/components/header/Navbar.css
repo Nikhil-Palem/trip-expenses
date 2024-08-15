@@ -18,7 +18,19 @@
     flex: 1;
     gap: 20px;
 }
-
+.nav-links .pages{
+    display: flex;
+    flex: 5;
+}
+nav .travel-logo{
+    display: flex;
+    flex:3;
+    text-decoration: none;
+    color: white;
+    font-size: 2em;
+    font-family: 'Times New Roman', Times, serif;
+    padding-left: 20px;
+}
 nav .common {
     text-decoration: none;
     color: white;
@@ -29,6 +41,7 @@ nav .common {
     width: 110px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    
 }
 
 nav .PaidPage {
@@ -58,7 +71,13 @@ nav .TourPage {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-
+.info{
+    display: flex;
+    flex: 5;
+}
+.info .common:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+}
 .account-container {
     position: relative;
     place-content: center;

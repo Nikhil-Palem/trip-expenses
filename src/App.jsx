@@ -9,6 +9,8 @@ import Signup from './components/authentication/Signup'
 import Otp from './components/ForgotPassword/Otp'
 import Reset from './components/ForgotPassword/Reset'
 import ForgotPage from './components/ForgotPassword/ForgotPage'
+import Profile from './components/header/Profile'
+import Home from './components/Interface/Home'
 
 export const RecoveryContext = createContext();
 function App() {
@@ -28,7 +30,11 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: isLoggedin ? <PaidPage /> : <Signup onSignUp={handleLogin} />
+      element: isLoggedin ? <PaidPage /> : <Home/>
+    },
+    {
+      path:"/home",
+      element:<Home/>
     },
     {
       path: "/Signin",
@@ -56,11 +62,15 @@ function App() {
     {
       path: "/ForgotPage",
       element: <> <ForgotPage /></>
+    },
+    {
+      path: "/Profile",
+      element: <> <Profile /></>
     }
   ]);
 
   return (
-    <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP }}>
+    <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP,user_name,User_Id ,isLoggedin,setIsLoggedin}}>
       <div className="app">
         <RouterProvider router={router} />
       </div>

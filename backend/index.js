@@ -160,6 +160,31 @@ app.post("/reset",async(req,res)=>{
     }
 })
 
+app.post("/contact",async(req,res)=>{
+    const {Name,UserEmail,Msg}=req.body;
+    console.log(UserEmail);
+    try{
+        const mailOptions={
+            from:UserEmail,
+            replyTo:UserEmail,
+            to:process.env.EMAIL,
+            subject:`User Message from ${Name}`,
+            text:`User Message:${Msg}`,
+        }
+        transporter.sendMail(mailOptions,(err,info)=>{
+            if (err) {
+                res.send({ error: "Failed to send Message", err });
+                return;
+            } else {
+                console.log(info.response);
+                res.send({ success: "Messge sent..." });
+            }
+        })
+    }catch(error){
+        res.send({error:"Database error"});
+    }
+})
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
