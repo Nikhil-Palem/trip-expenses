@@ -16,21 +16,30 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cors());
 
-const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "traval_book",
-    password: "Nani@2003",
-    port: "5432",
-});
-db.connect();
+const { Pool } = pg;
 
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+})
+pool.connect((err)=>{
+    if(err) throw err
+    console.log("Connect to postgreSQL Successfull");
+});
+
+app.get("/",(req,res)=>{
+    res.send("Server is running");
+});
 
 app.get("/PaidPage/:user_id", async (req, res) => {
     const { user_id } = req.params;
     try {
-        const details = await db.query("SELECT * FROM paid_list WHERE user_id = $1", [user_id]);
-        res.json(details.rows);
+        const details = await pool.query("SELECT * FROM paid_list WHERE user_id = $1", [user_id]);
+        const Url=await pool.query("select profile_url from users where user_id=$1",[user_id]);
+        res.json({
+            profile_url: Url.rows[0]?.profile_url,  
+            details: details.rows  
+        });
+
     } catch (err) {
         console.log("Database query error:", err);
         res.json({ error: "Server side error" });
@@ -40,8 +49,8 @@ app.get("/PaidPage/:user_id", async (req, res) => {
 app.post("/signup", async (req, res) => {
     const { username, password, Email } = req.body;
     try {
-        const checkExistsEmail = await db.query("SELECT * FROM users WHERE email=$1", [Email]);
-        const checkExistsUser = await db.query("select * from users where username=$1", [username]);
+        const checkExistsEmail = await pool.query("SELECT * FROM users WHERE email=$1", [Email]);
+        const checkExistsUser = await pool.query("select * from users where username=$1", [username]);
         if (checkExistsEmail.rows.length > 0) {
             res.json({ error: "email already exists..." });
         }
@@ -67,7 +76,7 @@ app.post("/signup", async (req, res) => {
 app.post("/signIn", async (req, res) => {
     const { username, password } = req.body;
     try {
-        const Exists = await db.query("select * from users where username=$1", [username]);
+        const Exists = await pool.query("select * from users where username=$1", [username]);
         if (Exists.rows.length > 0) {
             const user = Exists.rows[0];
             const hashedPassword = user.password;
@@ -98,7 +107,7 @@ app.post("/PaidPage", async (req, res) => {
     const { item_id, user_id, Payername, Itemname, Amountpaid, PaidDate } = req.body;
     console.log(req.body);
     try {
-        const details = await db.query("INSERT INTO paid_list (item_id,user_id,Payername,Itemname,Amountpaid,PaidDate) VALUES ($1,$2,$3,$4,$5,$6)", [item_id, user_id, Payername, Itemname, Amountpaid, PaidDate]);
+        const details = await pool.query("INSERT INTO paid_list (item_id,user_id,Payername,Itemname,Amountpaid,PaidDate) VALUES ($1,$2,$3,$4,$5,$6)", [item_id, user_id, Payername, Itemname, Amountpaid, PaidDate]);
         res.json(details.rows[0]);
     } catch (err) {
         console.log("Database query error:", err);
@@ -117,7 +126,7 @@ const transporter = nodemailer.createTransport({
 app.post("/send_recovery_email", async (req, res) => {
     const { OTP, Email } = req.body;
     try {
-        const EmailExists = await db.query("select * from users where email=$1", [Email]);
+        const EmailExists = await pool.query("select * from users where email=$1", [Email]);
         if (EmailExists.rows.length == 0) {
             res.send({ error: "user not found" });
             return;
@@ -153,7 +162,7 @@ app.post("/reset",async(req,res)=>{
     }
     try{
         const hashedPassword=await bcrypt.hash(NewPassword,saltRounds);
-        await db.query("update users set password=$1 where email=$2",[hashedPassword,Email]);
+        await pool.query("update users set password=$1 where email=$2",[hashedPassword,Email]);
         res.send({success:"password updated successfully"});    
     }catch(err){
         res.send({error:"Database Error"})
@@ -185,6 +194,18 @@ app.post("/contact",async(req,res)=>{
     }
 })
 
+app.post("/profile_url",async(req,res)=>{
+    const {url,User_Id}=req.body;
+    try{
+        const urlupdate=await pool.query("update users set profile_url=$1 where user_id=$2",[url,User_Id]);
+        res.send({success:`url:${urlupdate}`});
+    }catch(err){
+        res.send({error:"Database error"});
+    }
+})
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+// module.exports=pool;

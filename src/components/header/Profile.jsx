@@ -3,13 +3,14 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Avatar } from '@mui/material';
 import './Profile.css';
 import { RecoveryContext } from '../../App';
+import axios from 'axios';
 
 function Profile() {
-    const { user_name, User_Id } = useContext(RecoveryContext);
-    const [imageUrl, setImageUrl] = useState('');
-    const [imageChange, setImageChange] = useState('');
+    const { user_name, User_Id, imageUrl, setImageUrl } = useContext(RecoveryContext);
     const [urlTrue, setUrlTrue] = useState(false);
-
+    
+    const [imageChange, setImageChange] = useState('');
+    
     const handleProfile = () => {
         setUrlTrue(!urlTrue);
     };
@@ -18,9 +19,23 @@ function Profile() {
         setImageChange(event.target.value);
     };
 
-    const handleUrlClick=()=>{
-        setImageUrl(imageChange);
-        setUrlTrue(!urlTrue);
+    const handleUrlClick = async () => {
+        try {
+            const response = await axios.post("http://localhost:3000/profile_url", {
+                url: imageChange,
+                User_Id: User_Id
+            });
+            if (response.data.error) {
+                console.log(response.data.error);
+            } else {
+                console.log(response.data);
+                setImageUrl(imageChange);
+                setUrlTrue(!urlTrue);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     return (

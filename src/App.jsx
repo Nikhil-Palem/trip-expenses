@@ -20,6 +20,7 @@ function App() {
   const [Email, setEmail] = useState();
   const [OTP, setOTP] = useState();
 
+  const [imageUrl, setImageUrl] = useState('');
 
   const handleLogin = (id, username) => {
     setIsLoggedin(true);
@@ -70,7 +71,7 @@ function App() {
   ]);
 
   return (
-    <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP,user_name,User_Id ,isLoggedin,setIsLoggedin}}>
+    <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP,user_name,User_Id ,isLoggedin,setIsLoggedin,imageUrl, setImageUrl}}>
       <div className="app">
         <RouterProvider router={router} />
       </div>

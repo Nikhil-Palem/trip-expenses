@@ -107,7 +107,16 @@ nav .dropdown-menu {
     padding: 10px 0;
     z-index: 1000;
 }
-
+.dropdown-menu .profile-drop{
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px 0px 10px;
+    align-items: center;
+}
+.dropdown-menu .profile-drop p{
+    font-size: 1.5rem;
+    color: gray;
+}
 .dropdown-item {
     display: flex;
     padding: 10px 20px;
