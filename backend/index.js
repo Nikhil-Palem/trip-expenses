@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer';
 import env from 'dotenv';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 const saltRounds = 10;
 env.config();
 
