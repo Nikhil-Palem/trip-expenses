@@ -52,7 +52,7 @@ function PaidCard({ User_Id, user_name }) {
     const handleClick = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/PaidPage", {
+            const response = await axios.post(`${BackendUrl}/PaidPage`, {
                 item_id: Details.id,
                 user_id: User_Id,
                 Payername: Details.Payername,
