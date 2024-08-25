@@ -21,7 +21,7 @@ function App() {
   const [OTP, setOTP] = useState();
 
   const [imageUrl, setImageUrl] = useState('');
-
+  const BackendUrl="https://trip-expenses-website-backend.vercel.app";
   const handleLogin = (id, username) => {
     setIsLoggedin(true);
     setUsername(username)
@@ -71,7 +71,7 @@ function App() {
   ]);
 
   return (
-    <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP,user_name,User_Id ,isLoggedin,setIsLoggedin,imageUrl, setImageUrl}}>
+    <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP,user_name,User_Id ,isLoggedin,setIsLoggedin,imageUrl, setImageUrl,BackendUrl}}>
       <div className="app">
         <RouterProvider router={router} />
       </div>

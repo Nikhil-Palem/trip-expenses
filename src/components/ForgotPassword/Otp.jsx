@@ -8,7 +8,7 @@ import axios from 'axios';
 
 function Otp() {
     const navigate = useNavigate();
-    const { Email, OTP } = useContext(RecoveryContext);
+    const { Email, OTP ,BackendUrl} = useContext(RecoveryContext);
     const [UserOTP, setUserOTP] = useState(['', '', '', '']);
     const [ErrorMsg, setErrorMsg] = useState('');
     const [canResend, setcanResend] = useState(true);
@@ -34,7 +34,7 @@ function Otp() {
         if(canResend){
         try{
         const newOtp=Math.floor(Math.random()*9000+1000);
-        await axios.post("http://localhost:3000/send_recovery_email",{
+        await axios.post(`${BackendUrl}/send_recovery_email`,{
             OTP:newOtp,
             Email,
         })

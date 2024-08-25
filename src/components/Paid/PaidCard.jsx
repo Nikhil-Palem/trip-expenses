@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './PaidCard.css'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import PaidIcon from '@mui/icons-material/Paid';
+import { RecoveryContext } from '../../App';
 
 function PaidCard({ User_Id, user_name }) {
     const [Details, setDetails] = useState({
@@ -14,7 +15,7 @@ function PaidCard({ User_Id, user_name }) {
     const [checkedItems, setcheckedItems] = useState([]);
     const [Transactions, setTransactions] = useState([]);
     const [setshowTrans, setsetshowTrans] = useState(false);
-
+    const {BackendUrl} = useContext(RecoveryContext)
     useEffect(() => {
         if (User_Id) {
             localStorage.setItem('User_Id', User_Id);
@@ -24,7 +25,7 @@ function PaidCard({ User_Id, user_name }) {
 
     const fetchedDetails = async (userId) => {
         try {
-            const response = await axios.get(`http://localhost:3000/PaidPage/${userId}`);
+            const response = await axios.get(`${BackendUrl}/PaidPage/${userId}`);
             if (response.data.error) {
                 console.log(response.data.error);
             } else {

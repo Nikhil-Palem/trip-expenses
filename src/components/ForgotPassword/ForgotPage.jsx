@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function ForgotPage() {
-  const { Email, setEmail, setOTP } = useContext(RecoveryContext);
+  const { Email, setEmail, setOTP,BackendUrl } = useContext(RecoveryContext);
   const [sucess, setSucess] = useState(false)
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function ForgotPage() {
       console.log("Generated OTP:", OTP);
 
       try {
-        const response = await axios.post("http://localhost:3000/send_recovery_email", {
+        const response = await axios.post(`${BackendUrl}/send_recovery_email`, {
           OTP,
           Email,
         });

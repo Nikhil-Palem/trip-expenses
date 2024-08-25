@@ -6,7 +6,7 @@ import { RecoveryContext } from '../../App';
 import axios from 'axios';
 
 function Profile() {
-    const { user_name, User_Id, imageUrl, setImageUrl } = useContext(RecoveryContext);
+    const { user_name, User_Id, imageUrl, setImageUrl ,BackendUrl} = useContext(RecoveryContext);
     const [urlTrue, setUrlTrue] = useState(false);
     
     const [imageChange, setImageChange] = useState('');
@@ -21,7 +21,7 @@ function Profile() {
 
     const handleUrlClick = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/profile_url", {
+            const response = await axios.post(`${BackendUrl}/profile_url`, {
                 url: imageChange,
                 User_Id: User_Id
             });

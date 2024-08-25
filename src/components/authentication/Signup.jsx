@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import './Signup.css';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
+import { RecoveryContext } from '../../App';
 
 function Signup({ onSignUp }) {
     const [username, setUsername] = useState("")
@@ -14,6 +15,8 @@ function Signup({ onSignUp }) {
     const [visibility, setVisibility] = useState(false)
     const [id, setId] = useState(1)
     const navigate = useNavigate();
+
+    const {BackendUrl} = useContext(RecoveryContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,7 +41,7 @@ function Signup({ onSignUp }) {
             // const credentials = { username, password };
             // console.log(username,password);
             try {
-                const response = await axios.post("http://localhost:3000/signup", {
+                const response = await axios.post(`${BackendUrl}/signup`, {
                     username: username,
                     password: password,
                     Email:Email, 

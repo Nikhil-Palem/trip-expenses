@@ -12,7 +12,7 @@ function Reset() {
     const [visibilityPassword, setvisibilityPassword] = useState(false);
     const [visibilityCP, setvisibilityCP] = useState(false)
     const [ErrorMsg, setErrorMsg] = useState('');
-    const {Email} = useContext(RecoveryContext);
+    const {Email,BackendUrl} = useContext(RecoveryContext);
     const navigate = useNavigate();
 
     const handleVisibility=(field)=>{
@@ -28,7 +28,7 @@ function Reset() {
             return;
         }
         try{
-            const Response=await axios.post("http://localhost:3000/reset",{
+            const Response=await axios.post(`${BackendUrl}/reset`,{
                 Email,
                 NewPassword,
             });

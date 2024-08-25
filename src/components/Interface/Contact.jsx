@@ -1,19 +1,22 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Contact.css'
 import NearMeOutlinedIcon from '@mui/icons-material/NearMeOutlined';
 import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 import SmartphoneOutlinedIcon from '@mui/icons-material/SmartphoneOutlined';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import axios from 'axios';
+import { RecoveryContext } from '../../App';
 function Footer() {
   const [Name, setName] = useState("");
   const [UserEmail, setUserEmail] = useState("");
 
   const [Msg, setMsg] = useState("");
+  const {BackendUrl} = useContext(RecoveryContext);
+
   const handleContact=async(e)=>{
     e.preventDefault();
         try{
-          const response=await axios.post("http://localhost:3000/contact",{
+          const response=await axios.post(`${BackendUrl}/contact`,{
             Name:Name,
             UserEmail:UserEmail,
             Msg:Msg,
