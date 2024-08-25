@@ -16,16 +16,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cors({
-    origin: 'https://trip-expenses-website.vercel.app', // allow this specific origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // specify allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // specify allowed headers
-    credentials: true // allow cookies or other credentials
+    origin: 'https://trip-expenses-website.vercel.app', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true 
 }));
 
 const { Pool } = pg;
 
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
+  connectionString: process.env.POSTGRES_URL_URL,
 })
 pool.connect((err)=>{
     if(err) throw err
@@ -116,8 +116,8 @@ app.post("/PaidPage", async (req, res) => {
         const details = await pool.query("INSERT INTO paid_list (item_id,user_id,Payername,Itemname,Amountpaid,PaidDate) VALUES ($1,$2,$3,$4,$5,$6)", [item_id, user_id, Payername, Itemname, Amountpaid, PaidDate]);
         res.json(details.rows[0]);
     } catch (err) {
-        console.log("Database query error:", err);
-        res.json({ error: "server side error" });
+        console.log("Database query error:", err.message);
+        res.json({ error: `server side error,${err.message}` });
     }
 });
 
