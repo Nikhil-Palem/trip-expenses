@@ -15,7 +15,12 @@ console.log(port);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(cors());
+app.use(cors({
+    origin: 'https://trip-expenses-website.vercel.app', // allow this specific origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // specify allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // specify allowed headers
+    credentials: true // allow cookies or other credentials
+}));
 
 const { Pool } = pg;
 
