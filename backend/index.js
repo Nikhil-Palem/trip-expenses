@@ -6,10 +6,11 @@ import cors from 'cors';
 import nodemailer from 'nodemailer';
 import env from 'dotenv';
 
-const app = express();
-const port = process.env.PORT;
-const saltRounds = 10;
 env.config();
+const app = express();
+const saltRounds = 10;
+const port = process.env.PORT;
+console.log(port);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -61,7 +62,7 @@ app.post("/signup", async (req, res) => {
                 if (err) {
                     console.log("error during hashing", err);
                 } else {
-                    const result = await db.query("INSERT INTO users (username, password,email) VALUES ($1, $2,$3) RETURNING *", [username, hash, Email]);
+                    const result = await pool.query("INSERT INTO users (username, password,email) VALUES ($1, $2,$3) RETURNING *", [username, hash, Email]);
                     res.json(result.rows[0]);
                     console.log(username, hash, Email);
                 }
@@ -205,7 +206,7 @@ app.post("/profile_url",async(req,res)=>{
 })
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on  http://localhost:${port}`);
 });
 
 // module.exports=pool;
