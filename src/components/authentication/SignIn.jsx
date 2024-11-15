@@ -49,7 +49,7 @@ function SignIn({ SignIn }) {
   const handleGoogleLoginSuccess = async (response) => {
     const token = response.credential;
     try {
-      const response = axios.post(`${BackendUrl}/google-siginIn`, { token });
+      const response = axios.post(`${BackendUrl}/google-signIn`, { token });
       if (response.data.success) {
         setId(response.data.user_id);
         SignIn(response.data.user_id, response.data.username);
