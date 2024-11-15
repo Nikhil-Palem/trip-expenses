@@ -11,7 +11,7 @@ import Reset from './components/ForgotPassword/Reset'
 import ForgotPage from './components/ForgotPassword/ForgotPage'
 import Profile from './components/header/Profile'
 import Home from './components/Interface/Home'
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 export const RecoveryContext = createContext();
 function App() {
   const [isLoggedin, setIsLoggedin] = useState(false);
@@ -71,11 +71,13 @@ function App() {
   ]);
 
   return (
+    <GoogleOAuthProvider clientId='383503788730-vocchmf30hvcqclbugr6pi3eic56s32p.apps.googleusercontent.com'>
     <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP,user_name,User_Id ,isLoggedin,setIsLoggedin,imageUrl, setImageUrl,BackendUrl}}>
       <div className="app">
         <RouterProvider router={router} />
       </div>
     </RecoveryContext.Provider>
+    </GoogleOAuthProvider>
   )
 }
 

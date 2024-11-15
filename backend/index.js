@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cors({
-    origin: 'https://trip-expenses-website.vercel.app', 
+    origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true 
@@ -207,6 +207,28 @@ app.post("/profile_url",async(req,res)=>{
         res.send({success:`url:${urlupdate}`});
     }catch(err){
         res.send({error:"Database error"});
+    }
+})
+
+app.post('/google-signIn',async(req,res)=>{
+    const token=req.body.token;
+    try{
+        const ticket=await client.verifyIdToken({
+            idToken:token,
+            audience:'383503788730-vocchmf30hvcqclbugr6pi3eic56s32p.apps.googleusercontent.com',
+        });
+        const payload=ticket.getPayload();
+        const email=payload.email;
+        const result= await pool.query("select * from users where email=$1",[email]);
+        if(result.rows.length>0){
+            const user=result.rows[0];
+            res.json(user);
+        }else{
+            res.status(404).json({success:false,message:'user not found'});
+        }
+    }catch(error){
+        console.log('db google auth failed',error);
+        res.status(404).json({success:false,message:'Google auth failed'});
     }
 })
 
