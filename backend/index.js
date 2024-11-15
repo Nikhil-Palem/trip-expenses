@@ -16,23 +16,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'], 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true 
+    credentials: true
 }));
 
 const { Pool } = pg;
 
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL_URL,
+    connectionString: process.env.POSTGRES_URL_URL,
 })
-pool.connect((err)=>{
-    if(err) throw err
+pool.connect((err) => {
+    if (err) throw err
     console.log("Connect to postgreSQL Successfull");
 });
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("Server is running");
 });
 
@@ -40,10 +40,10 @@ app.get("/PaidPage/:user_id", async (req, res) => {
     const { user_id } = req.params;
     try {
         const details = await pool.query("SELECT * FROM paid_list WHERE user_id = $1", [user_id]);
-        const Url=await pool.query("select profile_url from users where user_id=$1",[user_id]);
+        const Url = await pool.query("select profile_url from users where user_id=$1", [user_id]);
         res.json({
-            profile_url: Url.rows[0]?.profile_url,  
-            details: details.rows  
+            profile_url: Url.rows[0]?.profile_url,
+            details: details.rows
         });
 
     } catch (err) {
@@ -161,32 +161,32 @@ app.post("/send_recovery_email", async (req, res) => {
     }
 });
 
-app.post("/reset",async(req,res)=>{
-    const {Email,NewPassword}=req.body;
-    if(!Email || !NewPassword){
-        res.send({error:"Enter Valid Password"});
+app.post("/reset", async (req, res) => {
+    const { Email, NewPassword } = req.body;
+    if (!Email || !NewPassword) {
+        res.send({ error: "Enter Valid Password" });
     }
-    try{
-        const hashedPassword=await bcrypt.hash(NewPassword,saltRounds);
-        await pool.query("update users set password=$1 where email=$2",[hashedPassword,Email]);
-        res.send({success:"password updated successfully"});    
-    }catch(err){
-        res.send({error:"Database Error"})
+    try {
+        const hashedPassword = await bcrypt.hash(NewPassword, saltRounds);
+        await pool.query("update users set password=$1 where email=$2", [hashedPassword, Email]);
+        res.send({ success: "password updated successfully" });
+    } catch (err) {
+        res.send({ error: "Database Error" })
     }
 })
 
-app.post("/contact",async(req,res)=>{
-    const {Name,UserEmail,Msg}=req.body;
+app.post("/contact", async (req, res) => {
+    const { Name, UserEmail, Msg } = req.body;
     console.log(UserEmail);
-    try{
-        const mailOptions={
-            from:UserEmail,
-            replyTo:UserEmail,
-            to:process.env.EMAIL,
-            subject:`User Message from ${Name}`,
-            text:`User Message:${Msg}`,
+    try {
+        const mailOptions = {
+            from: UserEmail,
+            replyTo: UserEmail,
+            to: process.env.EMAIL,
+            subject: `User Message from ${Name}`,
+            text: `User Message:${Msg}`,
         }
-        transporter.sendMail(mailOptions,(err,info)=>{
+        transporter.sendMail(mailOptions, (err, info) => {
             if (err) {
                 res.send({ error: "Failed to send Message", err });
                 return;
@@ -195,40 +195,43 @@ app.post("/contact",async(req,res)=>{
                 res.send({ success: "Messge sent..." });
             }
         })
-    }catch(error){
-        res.send({error:"Database error"});
+    } catch (error) {
+        res.send({ error: "Database error" });
     }
 })
 
-app.post("/profile_url",async(req,res)=>{
-    const {url,User_Id}=req.body;
-    try{
-        const urlupdate=await pool.query("update users set profile_url=$1 where user_id=$2",[url,User_Id]);
-        res.send({success:`url:${urlupdate}`});
-    }catch(err){
-        res.send({error:"Database error"});
+app.post("/profile_url", async (req, res) => {
+    const { url, User_Id } = req.body;
+    try {
+        const urlupdate = await pool.query("update users set profile_url=$1 where user_id=$2", [url, User_Id]);
+        res.send({ success: `url:${urlupdate}` });
+    } catch (err) {
+        res.send({ error: "Database error" });
     }
 })
 
-app.post('/google-signIn',async(req,res)=>{
-    const token=req.body.token;
-    try{
-        const ticket=await client.verifyIdToken({
-            idToken:token,
-            audience:'383503788730-vocchmf30hvcqclbugr6pi3eic56s32p.apps.googleusercontent.com',
+app.post('/google-signIn', async (req, res) => {
+    const token = req.body.token;
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: '383503788730-vocchmf30hvcqclbugr6pi3eic56s32p.apps.googleusercontent.com',
         });
-        const payload=ticket.getPayload();
-        const email=payload.email;
-        const result= await pool.query("select * from users where email=$1",[email]);
-        if(result.rows.length>0){
-            const user=result.rows[0];
-            res.json(user);
-        }else{
-            res.status(404).json({success:false,message:'user not found'});
+        const payload = ticket.getPayload();
+        const email = payload.email;
+        console.log("Received token:", token);
+        console.log("Payload email:", email);
+
+        const result = await pool.query("select * from users where email=$1", [email]);
+        if (result.rows.length > 0) {
+            const user = result.rows[0];
+            res.json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url });
+        } else {
+            res.status(404).json({ success: false, message: 'user not found' });
         }
-    }catch(error){
-        console.log('db google auth failed',error);
-        res.status(404).json({success:false,message:'Google auth failed'});
+    } catch (error) {
+        console.log('db google auth failed', error);
+        res.status(404).json({ success: false, message: 'Google auth failed' });
     }
 })
 

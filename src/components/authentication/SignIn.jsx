@@ -49,21 +49,21 @@ function SignIn({ SignIn }) {
   const handleGoogleLoginSuccess = async (response) => {
     const token = response.credential;
     try {
-      const response = axios.post(`${BackendUrl}/google-signIn`, { token });
-      if (response.data.success) {
-        setId(response.data.user_id);
-        SignIn(response.data.user_id, response.data.username);
-        setImageUrl(response.data.profile_url);
-        console.log("login page", response.data.user_id);
+      const res = await axios.post(`${BackendUrl}/google-signIn`, { token });
+      if (res.data.success) {
+        setId(res.data.user_id);
+        SignIn(res.data.user_id, res.data.username);
+        setImageUrl(res.data.profile_url);
+        console.log("login page", res.data.user_id);
         navigate("/PaidPage");
       } else {
-        setErrorMessage('Google SignIn failed');
+        setErrorMessage(res.data.message || 'Google SignIn failed');
       }
     } catch (error) {
-      console.log('Error during Google Sign-In', error);
+      console.log('Error during Google Sign-In', error.message);
       setErrorMessage('Google Sign-In failed');
     }
-  }
+  };  
 
   const handleGoogleLoginFail = (error) => {
     console.log(error);
