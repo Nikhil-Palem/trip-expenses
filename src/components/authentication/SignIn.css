@@ -40,17 +40,20 @@
 .signin-form label{
     text-align: start;
 }
-.signin-form div{
+.signin-form .signin-input-username,
+.signin-form .sigin-input-password{
     display: flex;
     border:0.3px solid grey;
     border-radius: 3px;
     align-items: center;
 }
 
-.signin-form div:focus-within{
+.signin-form .signin-input-username:focus-within,
+.signin-form .sigin-input-password:focus-within{
     border-width: 2px;
     border-color: #198754;
 }
+
 .signin-form input{
     font-weight: bold;
     font-size: 13px;
@@ -110,39 +113,6 @@
     flex-direction: column;
     gap: 5px;
 }
-.google,
-.facebook{
-    display: flex;
-    align-items: center;
-    padding: 5px;
+.login-container .custom-googleButton{
     width: 100%;
-    border: 1.3px solid #B0B0B0;
-    border-radius: 10px;
-    justify-content: space-around;
-    cursor: pointer;
-}
-.facebook{
-    background-color: #1877F2;
-}
-.google img{
-    height: 20px;
-}
-.facebook img{
-    height: 20px;
-}
-.google span{
-    padding-left: 2px;
-    font-size: 15px;
-    color: gray;
-    font-weight:300;
-}
-.facebook span{
-    font-size: 15px;
-    color: white;
-    font-weight:300;
-}
-.signin-form .signin-span{
-    text-align: center;
-    align-items: center;
-    font-size: 13px;
 }

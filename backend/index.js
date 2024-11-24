@@ -29,12 +29,12 @@ app.use(cors());
 
 const { Pool } = pg;
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL_URL,
+    connectionString: process.env.POSTGRES_URL_URL,
 });
 
 pool.on("error", (err, client) => {
-  console.error("Unexpected error on idle client", err);
-  process.exit(-1);
+    console.error("Unexpected error on idle client", err);
+    process.exit(-1);
 });
 
 // const db = new pg.Client({
@@ -97,8 +97,11 @@ app.post("/signIn", async (req, res) => {
     const { username, password } = req.body;
     try {
         const Exists = await pool.query("select * from users where username=$1", [username]);
+        const user = Exists.rows[0];
+        if(user.password==="google"){
+            return res.json({error:"Please sigin with Google (or) Reset Password"});
+        }
         if (Exists.rows.length > 0) {
-            const user = Exists.rows[0];
             const hashedPassword = user.password;
             console.log(hashedPassword);
             bcrypt.compare(password, hashedPassword, (err, valid) => {
@@ -225,18 +228,18 @@ app.post("/profile_url", async (req, res) => {
 })
 
 app.post('/google-signIn', async (req, res) => {
-    const {token} = req.body;
+    const { token } = req.body;
     console.log(token);
     if (!token) {
         return res.status(400).json({ success: false, message: 'Token is required' });
-      }
+    }
     try {
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience:process.env.GOOGLE_CLIENT_ID,
+            audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const {email} = payload;
+        const { email } = payload;
         console.log("Received token:", token);
         console.log("Payload email:", email);
 
@@ -251,6 +254,31 @@ app.post('/google-signIn', async (req, res) => {
     } catch (error) {
         console.log('db google auth failed', error);
         res.status(404).json({ success: false, message: 'Google auth failed' });
+    }
+})
+
+app.post('/google-signUp', async (req, res) => {
+    const { token } = req.body;
+    if (!token) {
+        return res.status(400).json({ success: false, message: 'Token is required' });
+    }
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const { name, email, picture } = payload;
+        const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (userCheck.rows.length > 0) {
+            return res.status(200).json({ success: true, message: 'User already exists' });
+        }else{
+            const result = await pool.query("insert into users(username, password,email,profile_url) VALUES ($1, $2,$3) RETURNING *",[name,'google',email,picture]);
+            res.status(200).json({success:true,user:result.rows[0]});
+        }
+
+    } catch (error) {
+        res.status(404).json({ success: false, errorMessage: 'Google auth failed' })
     }
 })
 

@@ -42,14 +42,18 @@
 .login-form label{
     text-align: start;
 }
-.login-form div{
+.login-form .input-username,
+.login-form .input-email,
+.login-form .input-password{
     display: flex;
     border:0.3px solid grey;
     border-radius: 3px;
     align-items: center;
 }
 
-.login-form div:focus-within{
+.login-form .input-username:focus-within,
+.login-form .input-email:focus-within,
+.login-form .input-password:focus-within{
     border-width: 2px;
     border-color: #198754;
 }
@@ -116,40 +120,28 @@
     flex-direction: column;
     gap: 5px;
 }
-.google,
-.facebook{
+.google-signup-btn {
     display: flex;
     align-items: center;
-    padding: 5px;
-    width: 100%;
-    border: 1.3px solid #B0B0B0;
-    border-radius: 10px;
-    justify-content: space-around;
+    justify-content: stretch;
+    gap: 60px;
+    background-color: white;
+    color: #4c4c4c;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 0px 10px 25px;
+    border: 1px solid #d1d1d1;
+    border-radius: 7px;
     cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
 }
-.facebook{
-    background-color: #1877F2;
+
+.google-signup-btn:hover {
+    background-color: #f7f7f7;
 }
-.google img{
-    height: 20px;
-}
-.facebook img{
-    height: 20px;
-}
-.google span{
-    padding-left: 2px;
-    font-size: 15px;
-    color: gray;
-    font-weight:300;
-}
-.facebook span{
-    font-size: 15px;
-    color: white;
-    font-weight:300;
-}
-.login-form .login-span{
-    text-align: center;
-    align-items: center;
-    font-size: 13px;
-    /* padding-bottom:20px; */
+
+.google-logo {
+    width: 25px;
+    vertical-align: middle;
 }
