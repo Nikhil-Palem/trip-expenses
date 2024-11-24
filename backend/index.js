@@ -17,22 +17,34 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(cors({
-    origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-}));
+
+app.use(cors());
+
+// app.use(cors({
+//     origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'],
+//     methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true
+// }));
 
 const { Pool } = pg;
-
 const pool = new Pool({
-    connectionString: process.env.POSTGRES_URL_URL,
-})
-pool.connect((err) => {
-    if (err) throw err
-    console.log("Connect to postgreSQL Successfull");
+  connectionString: process.env.POSTGRES_URL_URL,
 });
+
+pool.on("error", (err, client) => {
+  console.error("Unexpected error on idle client", err);
+  process.exit(-1);
+});
+
+// const db = new pg.Client({
+//     user: process.env.PG_USER,
+//     password: process.env.PG_PASSWORD,
+//     host: process.env.PG_HOST,
+//     database: process.env.PG_DATABASE,
+//     port: process.env.PG_PORT,
+//   });
+//   db.connect(); 
 
 app.get("/", (req, res) => {
     res.send("Server is running");
@@ -221,7 +233,7 @@ app.post('/google-signIn', async (req, res) => {
     try {
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience:client,
+            audience:process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
         const {email} = payload;
@@ -232,6 +244,7 @@ app.post('/google-signIn', async (req, res) => {
         if (result.rows.length > 0) {
             const user = result.rows[0];
             res.status(200).json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url });
+            console.log("successfull");
         } else {
             res.status(500).json({ success: false, message: 'user not found' });
         }

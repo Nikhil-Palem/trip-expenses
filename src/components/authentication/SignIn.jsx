@@ -59,7 +59,7 @@ function SignIn({ SignIn }) {
           },
         }
       );
-      if (res.data.status==200) {
+      if (res.status===200) {
         setId(res.data.user_id);
         SignIn(res.data.user_id, res.data.username);
         setImageUrl(res.data.profile_url);
@@ -74,7 +74,6 @@ function SignIn({ SignIn }) {
     }
   };
   
-
   const handleGoogleLoginFail = (error) => {
     console.log(error);
     setErrorMessage('Google signIn failed');
