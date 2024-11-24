@@ -71,7 +71,7 @@ function App() {
   ]);
 
   return (
-    <GoogleOAuthProvider clientId='383503788730-vocchmf30hvcqclbugr6pi3eic56s32p.apps.googleusercontent.com'>
+    <GoogleOAuthProvider clientId='19918831208-tedq0rkmeus8j7lgo8ginorig6ekqt6s.apps.googleusercontent.com'>
     <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP,user_name,User_Id ,isLoggedin,setIsLoggedin,imageUrl, setImageUrl,BackendUrl}}>
       <div className="app">
         <RouterProvider router={router} />

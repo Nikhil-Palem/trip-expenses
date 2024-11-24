@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import cors from 'cors';
 import nodemailer from 'nodemailer';
 import env from 'dotenv';
+import { OAuth2Client } from "google-auth-library";
 
 env.config();
 const app = express();
@@ -12,12 +13,13 @@ const saltRounds = 10;
 const port = process.env.PORT;
 console.log(port);
 
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cors({
     origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
@@ -211,23 +213,27 @@ app.post("/profile_url", async (req, res) => {
 })
 
 app.post('/google-signIn', async (req, res) => {
-    const token = req.body.token;
+    const {token} = req.body;
+    console.log(token);
+    if (!token) {
+        return res.status(400).json({ success: false, message: 'Token is required' });
+      }
     try {
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: '383503788730-vocchmf30hvcqclbugr6pi3eic56s32p.apps.googleusercontent.com',
+            audience:client,
         });
         const payload = ticket.getPayload();
-        const email = payload.email;
+        const {email} = payload;
         console.log("Received token:", token);
         console.log("Payload email:", email);
 
         const result = await pool.query("select * from users where email=$1", [email]);
         if (result.rows.length > 0) {
             const user = result.rows[0];
-            res.json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url });
+            res.status(200).json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url });
         } else {
-            res.status(404).json({ success: false, message: 'user not found' });
+            res.status(500).json({ success: false, message: 'user not found' });
         }
     } catch (error) {
         console.log('db google auth failed', error);
