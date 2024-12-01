@@ -14,7 +14,7 @@ const port = process.env.PORT;
 console.log(port);
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-app.use(bodyParser.json());
+app.use(express.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 

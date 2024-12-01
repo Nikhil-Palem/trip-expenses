@@ -75,13 +75,13 @@ function Signup({ onSignUp }) {
 
     }
 
-    const handleGoogleLoginSuccess = useGoogleLogin({
+    const {signIn} = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             try {
                 const res = await axios.post(`${BackendUrl}/google-signUp`, {
                     token: tokenResponse.credential,
                 });
-                if (res.status.errorMessage) {
+                if (res.data.errorMessage) {
                     setErrorMessage(res.data.errorMessage);
                 } else {
                     const { user_id, username } = res.data.user;
@@ -94,7 +94,7 @@ function Signup({ onSignUp }) {
                 setErrorMessage("Google SignUp failed");
             }
         },
-        onError: () => setErrorMessage("User Already Exists.."),
+        onError: (error) => setErrorMessage(error?.message || "Google SignUp failed"),
     });
 
     return (
@@ -103,7 +103,7 @@ function Signup({ onSignUp }) {
                 <h1>Create an account</h1>
                 <p className='Cp'>connect your friends today!</p>
                 <p> <span className='signup-hylyt'>Sign Up </span>to continue</p>
-                <form action="" className='login-form' onSubmit={handleSubmit} >
+                <form className='login-form' onSubmit={handleSubmit} >
 
                     <label htmlFor="username">username</label>
                     <div className='input-username'>
@@ -131,7 +131,7 @@ function Signup({ onSignUp }) {
                     <div className="login-container">
                         <button
                             className="google-signup-btn"
-                            onClick={handleGoogleLoginSuccess}
+                            onClick={signIn}
                         >
                             <img src={"https://cdn.codechef.com/images/icons/google.svg"} alt="Google Logo" className="google-logo" />
                             <span>Sign Up with Google</span>
