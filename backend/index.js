@@ -281,14 +281,14 @@ app.post('/google-signUp', async (req, res) => {
     }
     try {
         const tokenResponse = await axios.post(
-            'https://oauth2.googleapis.com/token',
+            'https://oauth2.googleapis.com/token',//is this wright
             null,
             {
                 params: {
                     code,
                     client_id: process.env.GOOGLE_CLIENT_ID,  
                     client_secret: process.env.GOOGLE_CLIENT_SECRET, 
-                    redirect_uri: 'http://localhost:5173/auth/google',  
+                    redirect_uri: 'http://localhost:5173/oauth2callback',  
                     grant_type: 'authorization_code',
                 },
             }
