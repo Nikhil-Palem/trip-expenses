@@ -6,8 +6,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from 'jwt-decode';
+import { GoogleLogin} from "@react-oauth/google";
 
 function Signup({ onSignUp }) {
     const [username, setUsername] = useState("")
