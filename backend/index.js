@@ -11,7 +11,7 @@ import axios from "axios";
 env.config();
 const app = express();
 const saltRounds = 10;
-const port = process.env.PORT;
+const port = process.env.PORT||3000;
 console.log(port);
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -275,7 +275,7 @@ app.post('/google-signIn', async (req, res) => {
 
 app.post('/google-signUp', async (req, res) => {
     console.log("response received");
-    const { code } = req.body;
+    const code  = req.query.code;
     console.log("Received authorization code:", code);
 
     if (!code) {
@@ -289,7 +289,7 @@ app.post('/google-signUp', async (req, res) => {
             null,
             {
                 params: {
-                    code,
+                    code:code,
                     client_id: process.env.GOOGLE_CLIENT_ID,  
                     client_secret: process.env.GOOGLE_CLIENT_SECRET, 
                     redirect_uri: 'http://localhost:5173/oauth2callback',  
