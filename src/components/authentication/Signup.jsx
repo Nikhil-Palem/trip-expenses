@@ -79,7 +79,8 @@ function Signup({ onSignUp }) {
         onSuccess: async (tokenResponse) => {
             console.log("Google Login Token Response:", tokenResponse);
     
-            const token = tokenResponse.access_token || tokenResponse.credential;
+            const token = tokenResponse.id_token || tokenResponse.access_token;
+            console.log(token);
             if (!token) {
                 console.log("Token is undefined:", tokenResponse);
                 setErrorMessage("Failed to retrieve token from Google.");

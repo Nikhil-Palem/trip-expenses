@@ -273,8 +273,10 @@ app.post('/google-signIn', async (req, res) => {
 })
 
 app.post('/google-signUp', async (req, res) => {
+    console.log("response received");
     const { token } = req.body;
     console.log(token);
+    
     if (!token) {
         return res.status(400).json({ success: false, message: 'Token is required' });
     }
