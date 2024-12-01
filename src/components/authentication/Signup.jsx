@@ -75,12 +75,22 @@ function Signup({ onSignUp }) {
 
     }
 
-    const {signIn} = useGoogleLogin({
+    const handleGoogleLoginSuccess = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
+            console.log("Google Login Token Response:", tokenResponse);
+    
+            const token = tokenResponse.access_token || tokenResponse.credential;
+            if (!token) {
+                console.log("Token is undefined:", tokenResponse);
+                setErrorMessage("Failed to retrieve token from Google.");
+                return;
+            }
+    
             try {
                 const res = await axios.post(`${BackendUrl}/google-signUp`, {
-                    token: tokenResponse.credential,
+                    token: token,
                 });
+    
                 if (res.data.errorMessage) {
                     setErrorMessage(res.data.errorMessage);
                 } else {
@@ -90,13 +100,16 @@ function Signup({ onSignUp }) {
                     navigate("/PaidPage");
                 }
             } catch (error) {
-                console.error("Google signup error:", error);
-                setErrorMessage("Google SignUp failed");
+                console.error("Google signup error:", error?.response || error.message || error);
+                setErrorMessage("Google SignUp failed. Please try again.");
             }
         },
-        onError: (error) => setErrorMessage(error?.message || "Google SignUp failed"),
+        onError: (error) => {
+            console.error("Google Login Error:", error);
+            setErrorMessage(error?.message || "Google SignUp failed. Please try again.");
+        },
     });
-
+    
     return (
         <div className="centered-container">
             <div className='login-div'>
@@ -131,7 +144,7 @@ function Signup({ onSignUp }) {
                     <div className="login-container">
                         <button
                             className="google-signup-btn"
-                            onClick={signIn}
+                            onClick={handleGoogleLoginSuccess }
                         >
                             <img src={"https://cdn.codechef.com/images/icons/google.svg"} alt="Google Logo" className="google-logo" />
                             <span>Sign Up with Google</span>

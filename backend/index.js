@@ -17,15 +17,20 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 app.use(express.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use((req, res, next) => {
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+    next();
+});
 
-app.use(cors());
+// app.use(cors());
 
-// app.use(cors({
-//     origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'],
-//     methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-//     credentials: true
-// }));
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 
 const { Pool } = pg;
 const pool = new Pool({
@@ -269,6 +274,7 @@ app.post('/google-signIn', async (req, res) => {
 
 app.post('/google-signUp', async (req, res) => {
     const { token } = req.body;
+    console.log(token);
     if (!token) {
         return res.status(400).json({ success: false, message: 'Token is required' });
     }
@@ -280,15 +286,21 @@ app.post('/google-signUp', async (req, res) => {
         const payload = ticket.getPayload();
         const { name, email, picture } = payload;
         const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+
         if (userCheck.rows.length > 0) {
-            return res.json({ success: true, errorMessage: 'User already exists' });
+            // User exists, return existing user details
+            return res.status(200).json({
+                success: true,
+                user: userCheck.rows[0],
+                errorMessage: 'User already exists',
+            });
         }else{
             const result = await pool.query("insert into users(username, password,email,profile_url) VALUES ($1, $2,$3) RETURNING *",[name,'google',email,picture]);
             res.status(200).json({success:true,user:result.rows[0]});
         }
 
     } catch (error) {
-        res.status(404).json({ success: false, errorMessage: 'Google auth failed' })
+        res.status(500).json({ success: false, errorMessage: 'Google auth failed' })
     }
 })
 
