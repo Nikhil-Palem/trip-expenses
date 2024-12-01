@@ -276,7 +276,6 @@ app.post('/google-signIn', async (req, res) => {
 app.post('/google-signUp', async (req, res) => {
     console.log("response received");
     const { code } = req.body;
-
     console.log("Received authorization code:", code);
 
     if (!code) {
@@ -286,7 +285,7 @@ app.post('/google-signUp', async (req, res) => {
     try {
         // Request token exchange from Google
         const tokenResponse = await axios.post(
-            'https://accounts.google.com/o/oauth2/token', 
+            'https://oauth2.googleapis.com/token', 
             null,
             {
                 params: {
