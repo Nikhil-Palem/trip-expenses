@@ -292,7 +292,7 @@ app.post('/google-signUp', async (req, res) => {
                     code,
                     client_id: process.env.GOOGLE_CLIENT_ID,  
                     client_secret: process.env.GOOGLE_CLIENT_SECRET, 
-                    redirect_uri: 'http://localhost:5173/oauth2callback',  
+                    redirect_uri: 'https://trip-expenses-website.vercel.app/oauth2callback',  
                     grant_type: 'authorization_code',
                 },
             }
