@@ -275,7 +275,8 @@ app.post('/google-signIn', async (req, res) => {
 
 app.post('/google-signUp', async (req, res) => {
     console.log("response received");
-    const code  = req.query.code;
+    const { code } = req.body;
+
     console.log("Received authorization code:", code);
 
     if (!code) {

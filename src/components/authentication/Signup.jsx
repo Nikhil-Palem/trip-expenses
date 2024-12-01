@@ -79,15 +79,7 @@ function Signup({ onSignUp }) {
         onSuccess: async ({code}) => {
 
             console.log("Google Login Token Response:", code);
-            // const id_token = code?.credential; 
-            // console.log("Extracted ID Token:", id_token);
-
-            // if (!id_token) {
-            //     console.log("Token is undefined:", code);
-            //     setErrorMessage("Failed to retrieve token from Google.");
-            //     return;
-            // }
-
+            
             try {
                 const res = await axios.post(`${BackendUrl}/google-signUp`, {
                     code:code,
