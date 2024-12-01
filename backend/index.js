@@ -11,7 +11,7 @@ import axios from "axios";
 env.config();
 const app = express();
 const saltRounds = 10;
-const port = process.env.PORT||3000;
+const port = process.env.PORT || 3000;
 console.log(port);
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -275,40 +275,11 @@ app.post('/google-signIn', async (req, res) => {
 
 app.post('/google-signUp', async (req, res) => {
     console.log("response received");
-    const { code } = req.body;
+    const { token } = req.body;
     console.log("Received authorization code:", code);
-
-    if (!code) {
-        return res.status(400).json({ error: 'Authorization code is required.' });
-    }
-
     try {
-        // Request token exchange from Google
-        const tokenResponse = await axios.post(
-            'https://oauth2.googleapis.com/token', 
-            null,
-            {
-                params: {
-                    code:code,
-                    client_id: process.env.GOOGLE_CLIENT_ID,  
-                    client_secret: process.env.GOOGLE_CLIENT_SECRET, 
-                    redirect_uri: 'http://localhost:5173/oauth2callback',  
-                    grant_type: 'authorization_code',
-                },
-            }
-        );
-
-        // Log the token response for debugging
-        console.log("Google Token Response:", tokenResponse.data);
-
-        const { id_token } = tokenResponse.data;
-
-        if (!id_token) {
-            return res.status(400).json({ error: 'Failed to retrieve ID token from Google.' });
-        }
-
         const ticket = await client.verifyIdToken({
-            idToken: id_token,
+            idToken: token,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
 
