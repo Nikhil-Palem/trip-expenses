@@ -276,13 +276,16 @@ app.post('/google-signIn', async (req, res) => {
 app.post('/google-signUp', async (req, res) => {
     console.log("response received");
     const { code } = req.body;
-    console.log(code);
+    console.log("Received authorization code:", code);
+
     if (!code) {
         return res.status(400).json({ error: 'Authorization code is required.' });
     }
+
     try {
+        // Request token exchange from Google
         const tokenResponse = await axios.post(
-            'https://oauth2.googleapis.com/token',//is this wright
+            'https://accounts.google.com/o/oauth2/token', 
             null,
             {
                 params: {
@@ -295,31 +298,46 @@ app.post('/google-signUp', async (req, res) => {
             }
         );
 
+        // Log the token response for debugging
+        console.log("Google Token Response:", tokenResponse.data);
+
         const { id_token } = tokenResponse.data;
+
+        if (!id_token) {
+            return res.status(400).json({ error: 'Failed to retrieve ID token from Google.' });
+        }
+
         const ticket = await client.verifyIdToken({
             idToken: id_token,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
+
         const payload = ticket.getPayload();
+        console.log("Decoded payload:", payload);
+
         const { name, email, picture } = payload;
+
         const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
 
         if (userCheck.rows.length > 0) {
-            // User exists, return existing user details
             return res.status(200).json({
                 success: true,
                 user: userCheck.rows[0],
                 errorMessage: 'User already exists',
             });
         } else {
-            const result = await pool.query("insert into users(username, password,email,profile_url) VALUES ($1, $2,$3) RETURNING *", [name, 'google', email, picture]);
-            res.status(200).json({ success: true, user: result.rows[0] });
+            const result = await pool.query("INSERT INTO users(username, password, email, profile_url) VALUES ($1, $2, $3, $4) RETURNING *", [name, 'google', email, picture]);
+            return res.status(200).json({ success: true, user: result.rows[0] });
         }
-
     } catch (error) {
-        res.status(500).json({ success: false, errorMessage: 'Google auth failed' })
+        // Log the actual error
+        console.error("Error during Google sign-up process:", error);
+
+        // Respond with a generic message, but log detailed error info for internal review
+        res.status(500).json({ success: false, errorMessage: 'Google auth failed, please try again later.' });
     }
-})
+});
+
 
 app.listen(port, () => {
     console.log(`Server is running on  http://localhost:${port}`);
