@@ -108,11 +108,14 @@
     background-color: white;
     padding: 0 10px;
 }
-.login-with{
+
+.login-container {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-.login-container .custom-googleButton{
+    align-items: center;
+    justify-content: center;
     width: 100%;
+}
+
+.login-container > * {
+    flex-grow: 1;
 }

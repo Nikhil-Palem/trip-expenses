@@ -52,14 +52,14 @@ function SignIn({ SignIn }) {
     try {
       const res = await axios.post(
         `${BackendUrl}/google-signIn`,
-        { token:token },
+        { token: token },
         {
           headers: {
             'Content-Type': 'application/json',
           },
         }
       );
-      if (res.status===200) {
+      if (res.status === 200) {
         setId(res.data.user_id);
         SignIn(res.data.user_id, res.data.username);
         setImageUrl(res.data.profile_url);
@@ -73,7 +73,7 @@ function SignIn({ SignIn }) {
       setErrorMessage('Google Sign-In failed');
     }
   };
-  
+
   const handleGoogleLoginFail = (error) => {
     console.log(error);
     setErrorMessage('Google signIn failed');
@@ -106,8 +106,8 @@ function SignIn({ SignIn }) {
           </div>
 
           <div className="login-container">
-          <GoogleLogin onSuccess={handleGoogleLoginSuccess}
-            onError={handleGoogleLoginFail} className="custom-googleButton"/>
+            <GoogleLogin onSuccess={handleGoogleLoginSuccess}
+              onError={handleGoogleLoginFail} className="custom-googleButton" />
           </div>
 
           <span className='signin-span'>Don't have an Account? <Link to="/Signup">Sign Up</Link> </span>
