@@ -239,14 +239,24 @@ app.post('/google-signIn', async (req, res) => {
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const { email } = payload;
+        const { email,picture } = payload;
         console.log("Received token:", token);
         console.log("Payload email:", email);
 
         const result = await pool.query("select * from users where email=$1", [email]);
         if (result.rows.length > 0) {
             const user = result.rows[0];
-            res.status(200).json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url });
+
+            if (user.password !== 'google') {
+                // If the user exists but hasn't linked to Google, update their account
+                await pool.query(
+                    "UPDATE users SET password = $1, profile_url = $2 WHERE email = $3",
+                    ['google', picture, email]
+                );
+                console.log("Google account linked to an existing user.");
+            }
+
+            res.status(200).json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url||picture });
             console.log("successfull");
         } else {
             res.status(500).json({ success: false, message: 'user not found' });
