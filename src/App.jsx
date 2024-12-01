@@ -12,7 +12,7 @@ import ForgotPage from './components/ForgotPassword/ForgotPage'
 import Profile from './components/header/Profile'
 import Home from './components/Interface/Home'
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import OAuthCallback from './OAuthCallback';
 export const RecoveryContext = createContext();
 function App() {
   const [isLoggedin, setIsLoggedin] = useState(false);
@@ -68,6 +68,9 @@ function App() {
     {
       path: "/Profile",
       element: <> <Profile /></>
+    },{
+      path:"/oauth2callback",
+      element:<><OAuthCallback /></>
     }
   ]);
 
