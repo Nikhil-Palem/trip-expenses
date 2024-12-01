@@ -76,22 +76,23 @@ function Signup({ onSignUp }) {
     }
 
     const handleGoogleLoginSuccess = useGoogleLogin({
-        onSuccess: async (tokenResponse) => {
-            console.log("Google Login Token Response:", tokenResponse);
-    
-            const token = tokenResponse.id_token || tokenResponse.access_token;
-            console.log(token);
-            if (!token) {
-                console.log("Token is undefined:", tokenResponse);
-                setErrorMessage("Failed to retrieve token from Google.");
-                return;
-            }
-    
+        onSuccess: async ({code}) => {
+
+            console.log("Google Login Token Response:", code);
+            // const id_token = code?.credential; 
+            // console.log("Extracted ID Token:", id_token);
+
+            // if (!id_token) {
+            //     console.log("Token is undefined:", code);
+            //     setErrorMessage("Failed to retrieve token from Google.");
+            //     return;
+            // }
+
             try {
                 const res = await axios.post(`${BackendUrl}/google-signUp`, {
-                    token: token,
+                    code:code,
                 });
-    
+
                 if (res.data.errorMessage) {
                     setErrorMessage(res.data.errorMessage);
                 } else {
@@ -109,8 +110,13 @@ function Signup({ onSignUp }) {
             console.error("Google Login Error:", error);
             setErrorMessage(error?.message || "Google SignUp failed. Please try again.");
         },
+        // scope: 'openid email profile',
+        flow: 'auth-code',
+        // response_type: 'token id_token',
+        // redirectUri: "http://localhost:5173/oauth2callback",
     });
-    
+
+
     return (
         <div className="centered-container">
             <div className='login-div'>
@@ -145,7 +151,7 @@ function Signup({ onSignUp }) {
                     <div className="login-container">
                         <button
                             className="google-signup-btn"
-                            onClick={handleGoogleLoginSuccess }
+                            onClick={()=>handleGoogleLoginSuccess()}
                         >
                             <img src={"https://cdn.codechef.com/images/icons/google.svg"} alt="Google Logo" className="google-logo" />
                             <span>Sign Up with Google</span>

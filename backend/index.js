@@ -14,7 +14,7 @@ const port = process.env.PORT;
 console.log(port);
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-app.use(express.json()); 
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use((req, res, next) => {
@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 
 app.use(cors({
     origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
@@ -103,8 +103,8 @@ app.post("/signIn", async (req, res) => {
     try {
         const Exists = await pool.query("select * from users where username=$1", [username]);
         const user = Exists.rows[0];
-        if(user.password==="google"){
-            return res.json({error:"Please sigin with Google (or) Reset Password"});
+        if (user.password === "google") {
+            return res.json({ error: "Please sigin with Google (or) Reset Password" });
         }
         if (Exists.rows.length > 0) {
             const hashedPassword = user.password;
@@ -244,7 +244,7 @@ app.post('/google-signIn', async (req, res) => {
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const { email,picture } = payload;
+        const { email, picture } = payload;
         console.log("Received token:", token);
         console.log("Payload email:", email);
 
@@ -261,7 +261,7 @@ app.post('/google-signIn', async (req, res) => {
                 console.log("Google account linked to an existing user.");
             }
 
-            res.status(200).json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url||picture });
+            res.status(200).json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url || picture });
             console.log("successfull");
         } else {
             res.status(500).json({ success: false, message: 'user not found' });
@@ -274,15 +274,29 @@ app.post('/google-signIn', async (req, res) => {
 
 app.post('/google-signUp', async (req, res) => {
     console.log("response received");
-    const { token } = req.body;
-    console.log(token);
-    
-    if (!token) {
-        return res.status(400).json({ success: false, message: 'Token is required' });
+    const { code } = req.body;
+    console.log(code);
+    if (!code) {
+        return res.status(400).json({ error: 'Authorization code is required.' });
     }
     try {
+        const tokenResponse = await axios.post(
+            'https://oauth2.googleapis.com/token',
+            null,
+            {
+                params: {
+                    code,
+                    client_id: process.env.GOOGLE_CLIENT_ID,  
+                    client_secret: process.env.GOOGLE_CLIENT_SECRET, 
+                    redirect_uri: 'http://localhost:5173/auth/google',  
+                    grant_type: 'authorization_code',
+                },
+            }
+        );
+
+        const { id_token } = tokenResponse.data;
         const ticket = await client.verifyIdToken({
-            idToken: token,
+            idToken: id_token,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
@@ -296,9 +310,9 @@ app.post('/google-signUp', async (req, res) => {
                 user: userCheck.rows[0],
                 errorMessage: 'User already exists',
             });
-        }else{
-            const result = await pool.query("insert into users(username, password,email,profile_url) VALUES ($1, $2,$3) RETURNING *",[name,'google',email,picture]);
-            res.status(200).json({success:true,user:result.rows[0]});
+        } else {
+            const result = await pool.query("insert into users(username, password,email,profile_url) VALUES ($1, $2,$3) RETURNING *", [name, 'google', email, picture]);
+            res.status(200).json({ success: true, user: result.rows[0] });
         }
 
     } catch (error) {
