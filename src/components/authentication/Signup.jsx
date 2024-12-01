@@ -6,7 +6,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
-import {  useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function Signup({ onSignUp }) {
     const [username, setUsername] = useState("")
@@ -81,20 +81,20 @@ function Signup({ onSignUp }) {
                 const res = await axios.post(`${BackendUrl}/google-signUp`, {
                     token: tokenResponse.credential,
                 });
-                if (res.status === 200) {
+                if (res.status.errorMessage) {
+                    setErrorMessage(res.data.errorMessage);
+                } else {
                     const { user_id, username } = res.data.user;
                     setId(user_id);
                     onSignUp(user_id, username);
                     navigate("/PaidPage");
-                } else {
-                    setErrorMessage(res.data.errorMessage);
                 }
             } catch (error) {
                 console.error("Google signup error:", error);
                 setErrorMessage("Google SignUp failed");
             }
         },
-        onError: () => setErrorMessage("Google SignUp failed"),
+        onError: () => setErrorMessage("User Already Exists.."),
     });
 
     return (

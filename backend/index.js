@@ -271,7 +271,7 @@ app.post('/google-signUp', async (req, res) => {
         const { name, email, picture } = payload;
         const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
         if (userCheck.rows.length > 0) {
-            return res.status(200).json({ success: true, message: 'User already exists' });
+            return res.json({ success: true, errorMessage: 'User already exists' });
         }else{
             const result = await pool.query("insert into users(username, password,email,profile_url) VALUES ($1, $2,$3) RETURNING *",[name,'google',email,picture]);
             res.status(200).json({success:true,user:result.rows[0]});
