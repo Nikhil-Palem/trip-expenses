@@ -276,7 +276,7 @@ app.post('/google-signIn', async (req, res) => {
 app.post('/google-signUp', async (req, res) => {
     console.log("response received");
     const { token } = req.body;
-    console.log("Received authorization code:", code);
+    console.log("Received authorization code:", token);
     try {
         const ticket = await client.verifyIdToken({
             idToken: token,
