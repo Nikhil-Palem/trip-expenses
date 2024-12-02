@@ -115,33 +115,4 @@
     background-color: white;
     padding: 0 10px;
 }
-.login-with{
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-.google-signup-btn {
-    display: flex;
-    align-items: center;
-    justify-content: stretch;
-    gap: 60px;
-    background-color: white;
-    color: #4c4c4c;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 10px 0px 10px 25px;
-    border: 1px solid #d1d1d1;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    width: 100%;
-}
 
-.google-signup-btn:hover {
-    background-color: #f7f7f7;
-}
-
-.google-logo {
-    width: 25px;
-    vertical-align: middle;
-}

@@ -6,7 +6,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
-import { GoogleLogin} from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 
 function Signup({ onSignUp }) {
     const [username, setUsername] = useState("")
@@ -81,7 +81,7 @@ function Signup({ onSignUp }) {
             console.log('ID Token:', idToken);
 
             const res = await axios.post(`${BackendUrl}/google-signUp`, {
-                token:idToken,
+                token: idToken,
             });
 
             if (res.data.errorMessage) {
@@ -98,39 +98,22 @@ function Signup({ onSignUp }) {
         }
     };
 
+    useEffect(() => {
+        window.google.accounts.id.initialize({
+            client_id: '19918831208-tedq0rkmeus8j7lgo8ginorig6ekqt6s.apps.googleusercontent.com',
+            callback: handleGoogleLoginSuccess,
+        });
 
-    // const handleGoogleLoginSuccess = useGoogleLogin({
-    //     onSuccess: async ({code}) => {
-
-    //         console.log("Google Login Token Response:", code);
-
-    //         try {
-    //             const res = await axios.post(`${BackendUrl}/google-signUp`, {
-    //                 code:code,
-    //             });
-
-    //             if (res.data.errorMessage) {
-    //                 setErrorMessage(res.data.errorMessage);
-    //             } else {
-    //                 const { user_id, username } = res.data.user;
-    //                 setId(user_id);
-    //                 onSignUp(user_id, username);
-    //                 navigate("/PaidPage");
-    //             }
-    //         } catch (error) {
-    //             console.error("Google signup error:", error?.response || error.message || error);
-    //             setErrorMessage("Google SignUp failed. Please try again.");
-    //         }
-    //     },
-    //     onError: (error) => {
-    //         console.error("Google Login Error:", error);
-    //         setErrorMessage(error?.message || "Google SignUp failed. Please try again.");
-    //     },
-    //     // scope: 'openid email profile',
-    //     flow: 'auth-code',
-    //     // response_type: 'token id_token',
-    //     // redirectUri: "http://localhost:5173/oauth2callback",
-    // });
+        window.google.accounts.id.renderButton(
+            document.getElementById("google-signup-btn"),
+            {
+                theme: "outline",
+                size: "large",
+                text: "signup_with",
+                shape: "square",
+            }
+        );
+    }, []);
 
 
     return (
@@ -164,25 +147,8 @@ function Signup({ onSignUp }) {
                         <span className="or-text">or</span>
                     </div>
 
-                    <div className="login-container">
+                    <div id="google-signup-btn"></div> {/* google sign up button */}
 
-                        {/* <button
-                            className="google-signup-btn"
-                            onClick={()=>handleGoogleLoginSuccess()}
-                        >
-                            <img src={"https://cdn.codechef.com/images/icons/google.svg"} alt="Google Logo" className="google-logo" />
-                            <span>Sign Up with Google</span>
-                        </button> */}
-                    </div>
-                    <>
-                        <GoogleLogin
-                            clientId="19918831208-tedq0rkmeus8j7lgo8ginorig6ekqt6s.apps.googleusercontent.com"
-                            buttonText="Login with Google"
-                            onSuccess={handleGoogleLoginSuccess}
-                            onFailure={(error) => console.error('Google Login Error:', error)}
-                            cookiePolicy={'single_host_origin'}
-                        />;
-                    </>
                     <span className='login-span'>Already a member? <Link to="/Signin">Log In</Link> </span>
                     {errorMessage && <p style={{ color: "red", fontSize: "12px" }}> {errorMessage} </p>}
                 </form>
