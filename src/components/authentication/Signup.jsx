@@ -6,7 +6,6 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
-import { GoogleLogin } from "@react-oauth/google";
 
 function Signup({ onSignUp }) {
     const [username, setUsername] = useState("")
@@ -17,7 +16,7 @@ function Signup({ onSignUp }) {
     const [id, setId] = useState(1)
     const navigate = useNavigate();
 
-    const { BackendUrl } = useContext(RecoveryContext);
+    const { setImageUrl,BackendUrl } = useContext(RecoveryContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -87,9 +86,10 @@ function Signup({ onSignUp }) {
             if (res.data.errorMessage) {
                 setErrorMessage(res.data.errorMessage);
             } else {
-                const { user_id, username } = res.data.user;
+                const { user_id, username ,profile_url} = res.data.user;
                 setId(user_id);
                 onSignUp(user_id, username);
+                setImageUrl(profile_url);
                 navigate("/PaidPage");
             }
         } catch (error) {

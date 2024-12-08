@@ -5,9 +5,10 @@
   margin: 0px;
   padding: 0px;
 }
-body{
+body,html{
   margin:0px;
   padding:0px;
+  overflow-x: hidden;
 }
 
 

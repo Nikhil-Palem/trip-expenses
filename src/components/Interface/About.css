@@ -38,3 +38,10 @@
         flex: 3;
         /* width: 100px; */
     }
+
+@media (max-width:500px) {
+    .first-about-div,.second-about-div{
+        display: flex;
+        flex-direction: column;
+    }
+}

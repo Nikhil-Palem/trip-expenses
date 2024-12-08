@@ -172,8 +172,8 @@ function PaidCard({ User_Id, user_name }) {
                         <table className="paiddetails-tab">
                             <thead>
                                 <tr>
-                                    <th>Checklist</th>
-                                    <th>PayerName</th>
+                                    <th>Check List</th>
+                                    <th>Payer Name</th>
                                     <th>Item Name</th>
                                     <th>Amount Paid</th>
                                     <th>Paid Date</th>

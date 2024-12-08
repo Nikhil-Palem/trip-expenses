@@ -28,3 +28,12 @@
     font-family: serif; 
     text-shadow:  2px 2px 4px rgba(0, 0, 0, 0.7);   
 }
+
+@media (max-width:500px) {
+    .welcome-div h1{
+        font-size: 19px;
+    }
+    .welcome-div p{
+        font-size: 11px;
+    }
+}

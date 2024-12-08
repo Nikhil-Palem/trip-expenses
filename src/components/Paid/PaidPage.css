@@ -3,3 +3,9 @@
     justify-content: center;
     margin-top: 10px;
 }
+@media (max-width:500px) {
+    .paidpage-conatiner{
+        margin-top: 70px;
+        width: 100%;
+    }
+}

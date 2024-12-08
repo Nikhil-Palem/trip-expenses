@@ -119,3 +119,8 @@
 .login-container > * {
     flex-grow: 1;
 }
+@media (max-width:320px) {
+    .container{
+        width: 85%;
+    }
+}

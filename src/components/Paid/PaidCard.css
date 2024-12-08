@@ -1,66 +1,75 @@
-.paidcontainer{
+.paidcontainer {
     display: flex;
     flex-direction: row;
     gap: 30px;
 }
-.paidcard-div{
+
+.paidcard-div {
     display: flex;
     flex: 0.8;
     flex-direction: column;
     align-items: center;
 }
 
-.inputdata{
-    box-shadow:0 4px 8px rgba(0,0,0,0.1),0 6px 20px rgba(0,0,0,0.1);
+.inputdata {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    width:50vw;
+    width: 50vw;
     border: 1px solid rgb(171, 171, 171);
     padding-right: 50px;
     padding-top: 20px;
     padding-bottom: 20px;
     margin-bottom: 20px;
-    
+
 }
-.paidcard-form{
-    display:flex;
+
+.paidcard-form {
+    display: flex;
     flex-direction: column;
     gap: 5px;
 }
-.paidcard-form :last-child{
-    display:flex;
-    align-items:center;
+
+.paidcard-form :last-child {
+    display: flex;
+    align-items: center;
 }
-.paidcard-form div{
+
+.paidcard-form div {
     display: flex;
     flex: 1;
 }
-.paidcard-form div label{
+
+.paidcard-form div label {
     display: flex;
     padding-right: 5px;
     flex: 0.3;
     align-items: center;
     justify-content: center;
 }
-.paidcard-form div input{
-    flex:0.7;
+
+.paidcard-form div input {
+    flex: 0.7;
     padding-left: 15px;
-    width:300px;
-    height:25px;
+    width: 300px;
+    height: 25px;
     border-radius: 3px;
     border: 1px solid gray;
 }
-.paidcard-form input:focus{
+
+.paidcard-form input:focus {
     border-color: #198754;
     outline: none;
     border-width: 2px;
     box-shadow: 0px 0px 3px #198754;
 }
-.paidcard-form .paidform-button{
+
+.paidcard-form .paidform-button {
     display: flex;
     justify-content: center;
     text-align: center;
 }
-.paidcard-form .paidform-button button{
+
+.paidcard-form .paidform-button button {
     border-radius: 20px;
     background-color: #198754;
     color: white;
@@ -73,22 +82,25 @@
     cursor: pointer;
 }
 
-.result-list{
-    box-shadow:0 4px 8px rgba(0,0,0,0.1),0 6px 20px rgba(0,0,0,0.1);
+.result-list {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    width:50vw;
+    width: 50vw;
     border: 1px solid rgb(171, 171, 171);
     padding-right: 50px;
     padding-top: 20px;
     padding-bottom: 20px;
 }
-.paiddetails-tab{
+
+.paiddetails-tab {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     table-layout: fixed;
 }
-.paiddetails-tab th,.paiddetails-tab td{
+
+.paiddetails-tab th,
+.paiddetails-tab td {
     word-wrap: break-word;
     vertical-align: middle;
 }
@@ -98,7 +110,21 @@
     align-items: center;
     justify-content: center;
 }
-.paiddetails-tab tbody .buttons{
+
+.paiddetails-tab th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.paiddetails-tab tbody tr:nth-child(odd) {
+    background-color: #fafafa;
+}
+
+.paiddetails-tab tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+.paiddetails-tab tbody .buttons {
     display: flex;
     justify-content: space-evenly;
     padding: 5px 10px;
@@ -106,15 +132,15 @@
     height: 100%;
 }
 
-.paiddetails-tab tbody td  button{
+.paiddetails-tab tbody td button {
     background-color: #198754;
     color: aliceblue;
     cursor: pointer;
     border-radius: 10px;
-    border:none;
+    border: none;
 }
 
-.paidcard-div .cal-btn button{
+.paidcard-div .cal-btn button {
     display: flex;
     width: 820px;
     background-color: #198754;
@@ -131,11 +157,11 @@
     font-size: 1rem;
 }
 
-.transactions{
+.transactions {
     display: flex;
     flex: 0.2;
     flex-direction: column;
-    box-shadow:0 4px 8px rgba(0,0,0,0.1),0 6px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     border: 1px solid rgb(171, 171, 171);
     padding: 10px;
@@ -144,9 +170,146 @@
     justify-content: center;
 }
 
-.transactions p{
+.transactions p {
     display: flex;
     text-align: center;
 }
 
-/* .transactions  */
+@media (max-width:500px) {
+    .inputdata {
+        width: 82%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 24px 7px 24px;
+    }
+
+    .result-list {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 91%;
+        padding: 0;
+        margin-bottom: 10px;
+    }
+
+    .paiddetails-tab tbody td button {
+        padding: 0;
+    }
+
+    .paiddetails-tab tbody td button {
+        background: none !important;
+        color: #198754;
+    }
+
+    .paiddetails-tab {
+        table-layout: fixed;
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .paiddetails-tab th,
+    .paiddetails-tab td {
+        padding: 8px 5px;
+        /* Reduce padding for compactness */
+        font-size: 14px;
+        /* Smaller font size for mobile */
+        word-wrap: break-word;
+        /* Wrap text to fit in cells */
+        text-align: left;
+        /* Align text for readability */
+    }
+
+    .paiddetails-tab th {
+        background-color: #f4f4f4;
+        /* Distinguish header */
+        font-weight: bold;
+    }
+
+    .paiddetails-tab tbody tr:nth-child(odd) {
+        background-color: #fafafa;
+        /* Alternating row colors */
+    }
+
+    .paiddetails-tab tbody tr:nth-child(even) {
+        background-color: #fff;
+    }
+
+    .paidcontainer {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .paidcard-div {
+        display: flex;
+        flex: 0;
+    }
+
+    .paidcard-div .cal-btn button {
+        width: 300px;
+    }
+
+    .transactions {
+        display: flex;
+        margin-left: 68px;
+        width: 297px;
+        flex: 0;
+    }
+}
+
+@media (max-width:425px) {
+    .inputdata {
+        width: 70%;
+    }
+
+    .inputdata h1 {
+        font-size: 20px;
+    }
+
+    .paidcard-form {
+        width: 104%;
+    }
+    .result-list{
+        width: 82%;
+    }
+    .paiddetails-tab{
+        margin: 0;
+    }
+    .paiddetails-tab th{
+        font-size: 13px;
+    }
+}
+
+@media (max-width:360px) {
+    .navbar{
+        display: flex;
+    }
+    .travel-logo{
+        font-size: 30px;
+    }
+    .paidcard-form div label{
+        font-size: 12px;
+    }
+    .inputdata {
+        width: 60%;
+    }
+    .result-list {
+        width: 71%;
+        padding: 3px;
+    }
+    .paiddetails-tab th{
+        font-size: 11px;
+    }
+    .paiddetails-tab td{
+        font-size: 12px;
+    }
+    .paiddetails-tab tbody .buttons {
+        padding: 0;
+    }
+    .transactions {
+        margin-left: 80px;
+        width: 260px;
+    }
+}

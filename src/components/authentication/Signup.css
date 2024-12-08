@@ -115,4 +115,13 @@
     background-color: white;
     padding: 0 10px;
 }
-
+@media (max-width:500px){
+    .login-div{
+        width: 85%;
+    }
+}
+@media (max-width:320px) {
+    .login-div{
+        width: 85%;
+    }
+}

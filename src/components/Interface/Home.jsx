@@ -7,9 +7,11 @@ function Home() {
   return (
     <div>
         <Navbar/>
+        {/* <div className="separte"> */}
         <Welcome/>
         <About/>
         <Contact/>
+        {/* </div> */}
     </div>
   )
 }
