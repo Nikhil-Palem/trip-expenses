@@ -56,21 +56,21 @@ app.get("/", (req, res) => {
     res.send("Server is running");
 });
 
-app.get("/PaidPage/:user_id", async (req, res) => {
-    const { user_id } = req.params;
-    try {
-        const details = await pool.query("SELECT * FROM paid_list WHERE user_id = $1", [user_id]);
-        const Url = await pool.query("select profile_url from users where user_id=$1", [user_id]);
-        res.json({
-            profile_url: Url.rows[0]?.profile_url,
-            details: details.rows
-        });
+// app.get("/PaidPage/:user_id", async (req, res) => {
+//     const { user_id } = req.params;
+//     try {
+//         const details = await pool.query("SELECT * FROM paid_list WHERE user_id = $1", [user_id]);
+//         const Url = await pool.query("select profile_url from users where user_id=$1", [user_id]);
+//         res.json({
+//             profile_url: Url.rows[0]?.profile_url,
+//             details: details.rows
+//         });
 
-    } catch (err) {
-        console.log("Database query error:", err);
-        res.json({ error: "Server side error" });
-    }
-});
+//     } catch (err) {
+//         console.log("Database query error:", err);
+//         res.json({ error: "Server side error" });
+//     }
+// });
 
 app.post("/signup", async (req, res) => {
     const { username, password, Email } = req.body;
@@ -132,23 +132,23 @@ app.post("/signIn", async (req, res) => {
     }
 });
 
-app.post("/PaidPage", async (req, res) => {
-    const { item_id, user_id, Payername, Itemname, Amountpaid, PaidDate } = req.body;
-    console.log(req.body);
-    try {
-        const details = await pool.query("INSERT INTO paid_list (item_id,user_id,Payername,Itemname,Amountpaid,PaidDate) VALUES ($1,$2,$3,$4,$5,$6)", [item_id, user_id, Payername, Itemname, Amountpaid, PaidDate]);
-        res.json(details.rows[0]);
-    } catch (err) {
-        console.log("Database query error:", err.message);
-        res.json({ error: `server side error,${err.message}` });
-    }
-});
+// app.post("/PaidPage", async (req, res) => {
+//     const { item_id, user_id, Payername, Itemname, Amountpaid, PaidDate } = req.body;
+//     console.log(req.body);
+//     try {
+//         const details = await pool.query("INSERT INTO paid_list (item_id,user_id,Payername,Itemname,Amountpaid,PaidDate) VALUES ($1,$2,$3,$4,$5,$6)", [item_id, user_id, Payername, Itemname, Amountpaid, PaidDate]);
+//         res.json(details.rows[0]);
+//     } catch (err) {
+//         console.log("Database query error:", err.message);
+//         res.json({ error: `server side error,${err.message}` });
+//     }
+// });
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
+        pass: process.env.GOOGLE_APP_PASSWORD,
     },
 });
 
@@ -167,6 +167,7 @@ app.post("/send_recovery_email", async (req, res) => {
                 subject: 'Password Recovery',
                 text: `Your OTP for password recovery is: ${OTP}`
             }
+            
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     res.send({ error: "Failed to send recovery email", err });
