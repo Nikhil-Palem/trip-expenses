@@ -149,19 +149,17 @@ app.post("/send_recovery_email", async (req, res) => {
         } else {
             const mailOptions = {
                 from: process.env.EMAIL,
-                to: Email,
-                subject: 'Password Recovery',
-                text: `Your OTP for password recovery is: ${OTP}`
+                to: 'nikhilpalem93466@gmail.com', // Replace with your email to test
+                subject: 'Test Email',
+                text: 'This is a test email to verify the correct password.',
             };
-
+            
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     console.error('Error sending email:', err);
-                    res.send({ error: "Failed to send recovery email", details: err.message });
-                    return;
+                } else {
+                    console.log('Email sent:', info.response);
                 }
-                console.log(info.response);
-                res.send({ success: "Recovery email sent" });
             });
         }
     } catch (error) {
