@@ -1,0 +1,197 @@
+.privacy-security-container {
+    width: 98%;
+    margin: 8px;
+    padding: 0px 0px 0px 3px;
+}
+.privacy-sec-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.privacy-security-container h3,
+.privacy-security-container h4,
+.privacy-security-container p {
+    text-align: left;
+    margin: 0;
+}
+
+.privacy-security-container h3 {
+    margin: 20px 0;
+}
+.ps-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.privacy-security-innbox {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    width: 100%;
+}
+
+.changePsw-Recovery {
+    border: 1px solid gray;
+    margin-right: 10px;
+    margin-top: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.changePsw-Recovery h5 {
+    margin: 0;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-weight: lighter;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.changePsw-Recovery h5:hover {
+    background-color: rgb(0, 0, 0, 0.05);
+}
+
+.changePsw-Recovery h5:not(:last-child) {
+    border-bottom: 1px solid gray;
+}
+
+.changePswd {
+    width: 100vw;
+    height: 100vh;
+}
+
+.privacy-security-container .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.mui_icon {
+    display: flex;
+    align-self: flex-end;
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 0;
+    margin-bottom: 40px;
+}
+
+.mui_icon:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.overlay .mui_icon {
+    display: flex;
+    align-self: flex-end;
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.overlay .mui_icon:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.changePswd,
+.accountrecovery {
+    width: 100%;
+    height: 100%;
+    max-width: 450px;
+    max-height: 520px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.changePswd h1,
+.accountrecovery h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.changePswd p,
+.accountrecovery p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.changePswd label,
+.accountrecovery label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.changePswd input,
+.accountrecovery input,
+.accountrecovery select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.changePswd input:focus,
+.accountrecovery input:focus,
+.accountrecovery select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.changePswd input:hover,
+.accountrecovery input:hover,
+.accountrecovery select:hover {
+    border-color: #0056b3;
+}
+
+.changePswd a {
+    display: block; /* Ensure the link takes up the full width */
+    margin-bottom: 10px; /* Apply margin at the bottom */
+    margin-bottom: 30px;
+    margin-top: 10px;
+    color: #007bff; /* Optional: Add color to the link */
+    text-decoration: none; /* Optional: Remove underline */
+}
+
+.changePswd a:hover {
+    text-decoration: underline; /* Optional: Add underline on hover */
+}
+
+.recovery_btn {
+    background-color: #007bff;
+    color: white;
+    outline: none;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.recovery_btn:hover {
+    background-color: #0056b3;
+    /* transform: scale(1.05); */
+}
+
+.recovery_btn:active {
+    background-color: #004494;
+    transform: scale(1.01);
+}

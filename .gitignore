@@ -26,8 +26,3 @@ dist-ssr
 
 .env
 .node_modules
-# Ignore the src folder (frontend)
-src/
-# Ignore build output
-dist/
-build/

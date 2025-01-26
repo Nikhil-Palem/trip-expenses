@@ -1,0 +1,109 @@
+.info {
+    display: flex;
+    flex: 5;
+    padding-left: 100px;
+}
+
+.common {
+    text-decoration: none;
+    color: gray;
+    padding-top: 10px;
+    height: 34px;
+    margin-top: 8px;
+    padding-top: 8px;
+    width: 110px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+.common.uline {
+    border-bottom: 3px solid black;
+    font-weight: bold;
+    color: black;
+    border-bottom: 2px solid #007bff;
+}
+
+.common:hover {
+    color: black;
+}
+
+.reportproblem {
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px;
+    max-height: 350px;
+    height: 100%;
+    text-align: left;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reportproblem .mui_icon {
+    margin: 0;
+    /* padding: 0; */
+}
+
+.reportproblem h1 {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+}
+
+.report_btn {
+    align-self: flex-start;
+    background-color: #007bff;
+    color: white;
+    outline: none;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 15px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.report_btn:hover {
+    background-color: #0056b3;
+    /* transform: scale(1.05); */
+}
+
+.report_btn:active {
+    background-color: #004494;
+    transform: scale(1.02);
+}
+
+.reportproblem span {
+    font-size: 12px;
+    color: gray;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+.reportproblem textarea {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+    max-width: 450px;
+    min-width: 450px;
+    height: 100px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.reportproblem textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.reportproblem textarea:hover {
+    border-color: #0056b3;
+}

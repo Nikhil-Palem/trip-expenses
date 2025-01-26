@@ -1,0 +1,88 @@
+
+.custom-container {
+    display: flex;
+    justify-content: center; /* Horizontal center */
+    align-items: center; /* Vertical center */
+    height: 100vh; /* Full height */
+    width: 100%; /* Full width */
+    margin: 0;
+  }
+
+.customPlaces-div {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 600px;
+    height: 100%;
+  }
+  
+  .customPlaces-div form{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+.form-data{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex: 1;
+    align-items: center;
+}
+
+.form-data label{
+    flex: 1;
+    text-align: start;
+    font-weight: bolder;
+}
+.form-data input{
+    border: 1px solid gray;
+    width: 200px;
+    height: 30px;
+    padding-left: 10px;
+    outline: none;
+    border-radius: 5px;
+}
+.form-data input:focus{
+    border: 2px solid rgb(107, 107, 181);
+}
+.cutom-form-btns{
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+.cutom-form-btns button{
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.submit-btn{
+    background-color: #45a049;
+    transition: background-color 0.3s ease;
+}
+.submit-btn:hover{
+    background-color: #51b756;
+}
+.back-btn{
+    background-color: rgb(234, 30, 7);
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover{
+    background-color: rgb(212, 47, 47);
+}

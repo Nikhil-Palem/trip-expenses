@@ -1,0 +1,211 @@
+.mytrips-div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* margin-top: 60px; */
+    margin: 60px 0px 20px 40px;
+}
+
+.mytrips-div .not-found {
+    text-align: center;
+    color: red;
+    font-size: 20px;
+}
+
+.mytrips-div .not-found-h2 {
+    text-align: start;
+}
+
+.current-trip h2,
+.past-trips h2 {
+    text-align: left;
+    width: 100%;
+}
+
+.current-trip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.curr-trip{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 450px;
+    width: 449px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.curr-trip:hover{
+    transform: scale(1.02);
+}
+
+.trip-img{
+    overflow: hidden;
+    height: 75%;
+}
+
+.trip-img img{
+    height: 100%;
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.trip-img img:hover{
+    transform: scale(1.03);
+}
+
+.trip-info{
+    padding: 10px;
+}
+
+.trip-name{
+    margin: 0;
+    padding-top: 10px !important; 
+}
+
+.second-line-box{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+}
+
+.third-line-btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 5px;
+    gap: 40px;
+}
+
+.third-line-btns button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
+
+.third-line-btns .completed{
+    background-color: #28a745; /* Green color for success */
+    color: white;
+    position: relative;
+}
+
+.completed-info{
+    display: none;
+    position: absolute;
+    white-space: nowrap;
+    background-color: black;
+    color: white;
+    bottom: 12%;
+    left: 41%;
+    /* top: 5%; */
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    transform: translateX(-50%);
+}
+
+.completed:hover+.completed-info{
+    display: block;
+}
+
+.third-line-btns .del {
+    background-color: #dc3545; /* Red color for delete */
+    color: white;
+}
+
+.third-line-btns .completed:hover{
+    background-color: #218838; /* Dark green color for success */
+} 
+
+.third-line-btns  .del:hover{
+    background-color: #c82333; /* Dark red color for delete */
+}
+
+.past-trips-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+}
+
+.past-trip{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 350px;
+    width: 350px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.past-trip:hover {
+    transform: scale(1.02);
+}
+
+.past-trip-img {
+    overflow: hidden;
+    height: 100%;
+}
+
+.past-trip-img img{
+    height: 100%;
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.past-trip-img img:hover {
+    transform: scale(1.03);
+}
+
+.trip-info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.trip-info p{
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.trip-name{
+    margin-bottom: 5px;
+}
+
+.del{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    background-color: #dc3545; /* Red color for delete */
+    color: white;
+}
+
+.del:hover{
+    background-color: #c82333;
+}

@@ -1,0 +1,74 @@
+.details-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #f8f9fa; /* Light gray background for contrast */
+    min-height: 100vh; /* Full page height */
+  }
+  
+  .detail_place {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    overflow: hidden;
+  }
+  
+  .detail_img-div {
+    flex: 1;
+    max-height: 500px; 
+    overflow: hidden;
+  }
+  
+  .detail_img-div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure image covers the div */
+  }
+  
+  .detail_place_info {
+    flex: 2;
+    padding: 1.5rem;
+    color: #333;
+    text-align: start;
+  }
+  
+  .detail_place_h4 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+  
+  .detail_place_p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .detail_place_p span{
+    font-weight: bold;
+  }
+
+  .btn_class{
+    text-align: center;
+  }
+  
+  .detail_goback_btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #007bff; /* Button color */
+    color: #fff;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .detail_goback_btn:hover {
+    background-color: #0056b3; /* Hover effect */
+  }

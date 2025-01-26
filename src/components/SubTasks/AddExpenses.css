@@ -1,0 +1,149 @@
+.add-expense-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.add-expense-div form {
+  width: 100%;
+  max-width: 500px;
+}
+
+.add-expense-div .input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.add-expense-div .input-container-check {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.add-expense-div .input-container-exp {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.add-expense-div .input-container-check p,
+.add-expense-div .input-container-exp p {
+  color: #1E90FF;
+}
+
+.add-expense-div .input-container-exp span {
+  border-bottom: 1px solid #ccc;
+  flex: 1;
+}
+
+.add-expense-div .input-container input,
+.add-expense-div .input-container textarea,
+.add-expense-div .input-container select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.add-expense-div .input-container textarea {
+  width: 100%;
+  max-width: 500px;
+}
+
+.add-expense-div .input-container input:focus,
+.add-expense-div .input-container textarea:focus,
+.add-expense-div .input-container select:focus {
+  border-color: #1E90FF;
+}
+
+.add-expense-div .input-container label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: white;
+  padding: 0 5px;
+  color: #999;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.add-expense-div .input-container input:placeholder-shown+label,
+.add-expense-div .input-container textarea:placeholder-shown+label {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.add-expense-div .input-container input:focus+label,
+.add-expense-div .input-container textarea:focus+label,
+.add-expense-div .input-container select:focus+label,
+.add-expense-div .input-container input:not(:placeholder-shown)+label,
+.add-expense-div .input-container textarea:not(:placeholder-shown)+label,
+.add-expense-div .input-container select:not([value=""])+label {
+  top: -10px;
+  left: 10px;
+  color: #1E90FF;
+  font-size: 12px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.add-expense-div .input-container-check input[type="checkbox"] {
+  cursor: pointer;
+  transform: scale(1.5);
+}
+
+.add-expense-div .input-container select {
+  cursor: pointer;
+}
+
+.add-expense-div hr {
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.add-expense-div .expense-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-expense-div .expense-btns button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-expense-div .expense-btns button[type="submit"] {
+  border: 2px solid #28a745;
+  background-color: #28a745;
+  color: white;
+  transition: all 0.5s ease;
+}
+
+.add-expense-div .expense-btns button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+  border: 2px solid #dc3545;
+  transition: all 0.5s ease;
+}
+
+.add-expense-div .expense-btns button[type="submit"]:hover {
+  background: none;
+  color: black;
+}
+
+.add-expense-div .expense-btns button[type="button"]:hover {
+  background: none;
+  color: black;
+}

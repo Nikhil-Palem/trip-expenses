@@ -1,0 +1,345 @@
+.trip-div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.tripH {
+    display: flex;
+    margin: 0;
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+.places-div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+}
+
+.exploreMore {
+    background: url(https://ak-s.tripcdn.com/modules/ibu/online-home/d0e20aecd9b1096251a059430d778043.d0e20aecd9b1096251a059430d778043.png) no-repeat right 24px top 4px, radial-gradient(ellipse 30% 26% at 80% 0, rgba(204, 243, 255, .6), transparent), radial-gradient(ellipse 30% 26% at bottom left, rgba(204, 243, 255, .6), transparent), #f7fafc;
+    height: 100%;
+    width: 1160px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.exploreMore h2 {
+    display: flex;
+    padding-left: 20px;
+    margin: 15px 0 10px 0;
+}
+
+.country-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+.country-buttons .Cbtn {
+    border: none;
+    background: white;
+    color: black;
+    /* box-shadow: ; */
+    padding: 7px 20px 7px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.country-buttons .Cbtn:hover {
+    color: blue;
+}
+
+.country-buttons .Cbtn.active {
+    background-color: black;
+    color: white;
+    font-size: 14px;
+    font-weight: bolder;
+}
+
+.places {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 25px 25px 25px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+    gap: 30px;
+}
+
+.place {
+    height: 300px;
+    background-color: white;
+    width: 270px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.place:hover {
+    transform: scale(1.02);
+}
+
+.img-div {
+    overflow: hidden;
+    height: 75%;
+}
+
+.img-div img {
+    height: 100%;
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.img-div img:hover {
+    transform: scale(1.03);
+}
+
+.place_info {
+    padding: 10px;
+    max-width: 300px;
+}
+
+.first_line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.places_h4 {
+    margin: 0;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.places_btn {
+    display: flex;
+    flex-shrink: 0;
+    /* Prevents the button from shrinking or growing when other elements size is increasing  */
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-left: 2px;
+}
+
+.places_btn:hover {
+    background-color: #2b7dd4;
+}
+
+.places_btn:active{
+    transform: scale(0.95);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.AddToMytrips {
+    display: none;
+    position: absolute;
+    white-space: nowrap;
+    background-color: black;
+    color: white;
+    bottom: 40px;
+    left: 20%;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    transform: translateX(-50%);
+}
+
+.places_btn:hover .AddToMytrips {
+    display: block;
+}
+
+.places_p {
+    margin: 0;
+    font-size: 14px;
+    overflow-wrap: break-word;
+    color: rgb(51, 51, 124);
+
+}
+
+.places_p:hover {
+    text-decoration: underline;
+}
+
+.arrow-btn {
+    display: flex;
+    position: absolute;
+    bottom: 42%;
+    left: 96%;
+    background-color: white;
+    color: black;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.arrow-btn:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+}
+
+.arrow-btn .MuiSvgIcon-root {
+    width: 1.7em !important;
+    height: 1.7em !important;
+}
+
+.arrow-btnL {
+    display: flex;
+    position: absolute;
+    background-color: white;
+    color: black;
+    bottom: 42%;
+    left: 7px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.arrow-btnL:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+}
+
+.arrow-btnL .MuiSvgIcon-root {
+    width: 1.7em !important;
+    height: 1.7em !important;
+}
+
+.popularPlaces {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAMAAABlApw1AAAAQlBMVEUAAAD/6en/8O7/4OT/2eL/5+n/29//8u3/5er/3+X/9e//6+r/4OT/2eD/3uT/8u3/7PD/3uL/3eL/2d//4uL/8u6X0f01AAAAFnRSTlMAPT09PSgoKA0IMTY2NhkgBB8ULxAt3F0YUgAAA+VJREFUeNrt3Q1v2jAQgGF/JCEm1Ngp/f9/dabGOwWbo5A49VX3zAuBFfVeEmBDkyoYY4wxxhhjjDEi3Gi9t/biBEFuHj665NPTanAX/9nd8UYQMcbhc1a0z1g4b3JD2+eRiSc95rPZAjef4/AUC7JnLGYQjRnt0L1kFu0wdjh1r/po5CSCt6lXefHr4KR/x0n8rtHmw5N5FqBvU62/EN2f9KTOITjpN2HErkYYfiMXsRtTfpui8SyOfzerwYr6Lh6GpxfgltNTC3D21C0QCzDZaw6tgEt6+HWnw4r72fX8NoDev3rA2Omg0/BNl9ez/cVlgt+/ZoA5Zd8YBswGKX7d8/vXDPjUr4EhX1EvwMNAyKD40Pj96waYTr+rjSPgdRGZAHfSRWQCZl1GJmDQZWQCPnQZmQD9AJUAp2vokvoBo95et0AuoCsgFPDs09HWA7APqP1shGg8oMMChsCOruWADg+I/MW1GtA9C0j8bKoHyDsbBQA71gyQBevmhwAwu1oBMLWSKqy4v10AJNQJkCq5Dg8Rb84PATnvqgQAJSFiywBg6hwBUCsACrYPWA4O1swPAXlBjQBQP8BTDxhm6gGDox5gqQcMjnrASD3AUg/w1AMG8gGOeoDhgD8VIFWR5IDaAXiB1HQCtHw0v9QyrMYCSkNhn6pACOwjAbp6AAxU3r/SshwKQcuZk2uYjttaATAcDLq8DWKwr4Xhl/+vIm6CU62AIhjwh38Gj/RVlxaoHAADvRkUJ87G3itgPQ04gAM4oIUAdYdYgCqgFKCKJKqlAPUAmSOABKw6Av2QhN0+LIIBYeogDQ/XSQT0NykE9okFRH8koO8JnkIcwAEcwAEcwAEcsGuA/N4QDIiDpx00oJl/UqaZrzfItA0raD/gFiFvS6bxg70CwAvjQ8FtZtiCZwG//8HWPQ7ggM1NHMABHMABHMABHMABFAKUVGHl1+NlcwFxqHxQNCRAonYOCPAIGDa/TKRqICBsCtChw2okABn8Z1oMiDiAAziAAziAA9YGKIIBKm6uv76XUu0H3Br+76k0e1gEAlR8xNOKv5Ms4NAfwmor4CollExp4DykiQCpnpgOS2FwiGggAAFHICwYPmySFQFG7WU6IJx4l1N7OdYJEFLt5AuZvxfvO6qdHBDnFQFnhdgrYBai+Zch9DlsxAqT2sXXxmcQsGoP8oC4CNH8Idj+AIBZVYc/A0axUq+qw+a3Yi33pe4ROoGu3FFVdcTmd2GAxo8B9vj7xfxtviFXeQvOjQcFdjp9vBFbGvtpz/F7a8TmRn8+HDcwTVJO09f5EW9nMj/ukTHGGGOMMcYYYf8APpjlsRqTVYAAAAAASUVORK5CYII=) no-repeat right 24px top 4px, radial-gradient(ellipse 30% 26% at 80% 0, rgba(255, 233, 236, .6), transparent), radial-gradient(ellipse 30% 26% at bottom left, rgba(255, 233, 236, .6), transparent), #fcf9f6;
+    height: 100%;
+    width: 1160px;
+    border-radius: 5px;
+}
+
+.popularPlaces h2 {
+    display: flex;
+    padding-left: 20px;
+}
+
+.popular-arrow-btnR {
+    display: flex;
+    position: absolute;
+    bottom: -20%;
+    right: 12%;
+    background-color: white;
+    color: black;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.popular-arrow-btnR:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+}
+
+.popular-arrow-btnR .MuiSvgIcon-root {
+    width: 1.7em !important;
+    height: 1.7em !important;
+}
+
+.popular-arrow-btnL {
+    display: flex;
+    position: absolute;
+    bottom: -20%;
+    left: 12%;
+    background-color: white;
+    color: black;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.popular-arrow-btnL:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+}
+
+.popular-arrow-btnL .MuiSvgIcon-root {
+    width: 1.7em !important;
+    height: 1.7em !important;
+}
+
+.customPlaces {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADABAMAAACg8nE0AAAAG1BMVEUAAACV5duF8OCg7+O86d638euV8eGi8uic6eO8jGMcAAAACXRSTlMACRYTCBAOCwRjCXXNAAAFw0lEQVR42uzWMW/TUBAH8IsKiceIDMy8FyUZU59wO1YIiRUpS0erlspaWoQ6WliFr01rLB1+L3nP53vXyT8JMbw6F9//zg5MJpPJ5JVlXyrzzN7+qEFB9tOQb+lL/DZ9j5DWyrjOk7bn3vi2tcLnK1V4Z477AGk05pRLSGFmTlumCOAmUGCTIIZPJmSdpkGaTboxYRuQmZuYEkRyE2OVboCUOgmQjdINkDLZQyj5Iykzw4xe5zMzzF4UsWLMb8xQV4IOafbo3gy1VZohUgu2TG/XfjEK7AQR6IVgOITvyrhlqi3AWwxsgjjj4uplwatAypKM6Qf1KknKuf/cD7wnbII9tjUd5vJdngV/6TbyMZoHboBugZTiKd2FZ2wvntJluIM76Y9qGxmytXQN1pEvsJW+8PeRjDbSAnfO+UJWwO9xHVlEKyxg43/A5HYg2sMRBXK0xnT/HynQO+cXaC97/mdt+xFbf45755ZdALG7tGUvwPXQO0dkh9xdmv9TgKui8xb7Duz/8EgB24P8FuWt7mv619P5i5xd4IB93qI55wUwUIvJ0n3jSQs8YF/pvvGc8wtgWmHfpXPeOOfnwNREWlB5X4DpDIMpZ+jgvZOpx+S6d/yEXkZMMwz2qEJvypgydN0BWaDfQS4M3UKFLgDBIlAKlIBgDWhOXY/d0R8kNKVcb/FUBfp88hUYKEdP8f3ze+q/MwHsMeKoQZByCGUsT5mIMiZzRoESRsi0IqAQdCIgjV4E9ED1ybeAHHCYjzBSo9MhslDqEDnodIg0jA4pztESxqswrgCBJ4y7BoFM6TlE/rZXBr1tg1Acj6Vo3TFPsiDfo8vd0TJp99TrtdZUacdxmLojk3bYxx48XP52TAEvcFp+CQ5VIe89fkA+3qf4sLmKu0qHAJwrHQJorqQYmmsphuZKiqG5kmLwNXWKC2g+931/uLefB273rg/F12nuDQcOgp4L1OtNCT6Z7+KvPpy5Bx42Rbhzmc+++ny2dbDiAvzowzxuCvGuDwPFJTQvgeLrd2qdAsC2D9FhQGnNUFxT81PJAO9rKYbmoop/0Sv7t0voIqNTEND+QurnPPjQBHIXnF48e1xIc777AqQfrDK1NKRoRKCE537KFz8ag2nYZQZQg0ftoDmouJHCQ4kAKJrE+KJBhTVrFDCQf33LdGwqEPTaoDmseBDCN8pzLG3uw9iE19wE96i0mQtybdBZCgQhJ2NBLy+kRxSgZhXsshS41XE5mfd+eSE9TRTPKviZpcANdwqEkATNC8VSzBzIqARULcQYwSJkh516uUdtKmiCciQ0JnEycO0WXDHbhWK77q5WnpF1EppxCrEBfmKnLq8hN5J4heKWkRX5CoSrHhfSxTVkRyEfQdjUEXjGwALGQAR1z/NryGZtmsXOsN0Mx7yggj+EwfZxIV0odrApBpZjjrlmVGB67XSnaqyQ256jA9uPScC6zh1wF5qnii04NcTbLimBMx4MLoILRNA82aOsyt25LiH+TCpABdw4M4UL6QUjlXdA/lSSSkjYSgMpA9mOFGSepPC7o3ENOQSPJ5IW8+xSCpTHzWAClR+lg4gH+lkJCUeyCUkHIRZ1gbVUE+QItclj5mcgDEEzSjVMxziilrH1lGty7DB6ORCDJYGo5cZN4RmcOtgvCwizizt+k/bC1ZtELWOeklw3mGneUiSTuAIl+Z3IbFlpWgISgwYlJ29MhOIgXUSBHHFL9Lqd3FPuEwWkJUCBUiYCP00jfk5PM4F1EgioSO1bihNznE4Nha633FACjTxi7NYeM+jLHBZxnECjgAjtWgWgg+K1EvJmtqgzRrdWAdBIY72EY87UrDTa1QrAH8qg1f8eAGVmW4bjcnQRx0XYRxwXoQ0paNvj0bXTyfXwFxlW/V8HFJxKEpDwu2iAz8sAp7IsFRQOoKsHqOMYdHUdwzIcl6aSAqDrKABdXQULCafybG7cuHHj/+Evxb0QeXYo6cgAAAAASUVORK5CYII=) no-repeat right 24px top 4px, radial-gradient(ellipse 30% 26% at 80% 0, rgba(122, 226, 211, .28), transparent), radial-gradient(ellipse 30% 26% at bottom left, rgba(122, 226, 211, .28), transparent), #f7fafc;
+    height: 100%;
+    width: 1160px;
+}
+
+.customPlaces h2 {
+    display: flex;
+    padding-left: 20px;
+}
+
+
+.custom-places-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 30px;
+    position: fixed;
+    bottom: 6%;
+    cursor: pointer;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    right: 4%;
+}
+
+.custom-places-btn .MuiSvgIcon-root {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+}
+
+.places_del_btn{
+    display: flex;
+    background-color: red;
+    border-radius: 25px;
+    padding: 7px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.places_del_btn:hover{
+    background-color: rgb(238, 42, 42);
+}
+
+.addCustom-places {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    right: 6px;
+    background: black;
+    color: white;
+    padding: 3px 12px 3px 12px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9;
+}
+  .custom-places-btn:hover + .addCustom-places { /*here we use + combinator bcz .addcustom places is sibling of it not inside the custom placse btn if it is inside we directly use with keeping space b/w then*/
+    display: block;
+  }

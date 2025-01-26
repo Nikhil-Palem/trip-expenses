@@ -1,0 +1,126 @@
+.trip-preferences-container {
+  width: 98%;
+  margin: 8px;
+  padding: 0px 0px 0px 3px;
+}
+
+.trip-pref-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.trip-preferences-container h3 {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.trip-pref-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trip-preferences-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.trip-preferences-item {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 100%;
+}
+
+.trip-preferences-item label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.trip-preferences-item input,
+.trip-preferences-item select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.trip-preferences-item input:focus,
+.trip-preferences-item select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.trip-preferences-item input:hover,
+.trip-preferences-item select:hover {
+  border-color: #0056b3;
+}
+
+.trip-preferences-btn {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
+  outline: none;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.trip-preferences-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.trip-preferences-btn:active {
+  background-color: #004494;
+  transform: scale(1);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+ul li button {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+ul li button:hover {
+  background-color: #d9363e;
+}
+
+.mui_icon {
+  display: flex;
+  align-self: flex-end;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+.mui_icon:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}

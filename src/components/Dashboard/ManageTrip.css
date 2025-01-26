@@ -1,0 +1,449 @@
+.manage-trip-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* background-color: rgb(197, 194, 194); */
+}
+
+.manage-trip-container {
+    width: 70%;
+    margin: 4px 30px 30px 30px;
+    background-color: #77878B;
+    box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.2);
+    height: 100%;
+}
+
+.image-sec {
+    position: relative;
+    height: 462px;
+}
+
+.image-sec img {
+    height: 462px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.image-sec .name-date-btn {
+    display: inline-flex;
+    position: absolute;
+    flex-direction: row;
+    left: 2%;
+    top: 0%;
+    /* width: 100%; */
+    gap: 10px;
+    align-items: center;
+}
+
+.back-icon {
+    color: white;
+    cursor: pointer;
+}
+
+.back-icon:hover {
+    color: #f1f1f1;
+}
+
+.image-sec .name-date {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.image-sec .name-date h2,
+.image-sec .name-date p {
+    margin: 0;
+    /* Remove default margin */
+    padding: 0;
+    /* Remove default padding */
+}
+
+.image-sec .name-date p {
+    font-size: 0.7rem;
+}
+
+.members {
+    margin: 10px;
+    padding: 0 60px 0 60px;
+    background-color: white;
+}
+
+.members-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.manage-trip-div .members-add button {
+    display: flex;
+    padding: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    gap: 5px;
+    align-items: center;
+}
+
+.members-add button:hover {
+    background-color: #45a049;
+}
+
+.add-member-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+}
+
+.add-member-form input:invalid {
+    border: 1px solid red;
+}
+
+.add-member-form button {
+    padding: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.add-member-form.open {
+    max-height: 200px;
+    /* Adjust based on the content height */
+    opacity: 1;
+}
+
+.add-member-form input {
+    margin-bottom: 10px;
+    padding: 5px;
+    outline: none;
+    padding-left: 10px;
+}
+
+.manage-trip-div .add-member-form input:focus {
+    border: 2px solid #4CAF50;
+}
+
+.add-member-form button {
+    padding: 5px;
+}
+
+.members-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.manage-trip-div .member {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+    padding: 10px;
+}
+
+.member .member-left {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: center;
+}
+
+
+.member img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.member-right {
+    display: flex;
+    flex-direction: row;
+    max-height: 45px;
+}
+
+.member .member-right .addIcon,
+.member .member-right .delIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
+    cursor: pointer;
+    gap: 4px;
+    border-radius: 30px;
+}
+
+.member .member-right .addIcon {
+    padding: 4px 7px;
+}
+
+.member .member-right .addIcon .member-btns,
+.member .member-right .delIcon .member-btns {
+    font-size: 2rem;
+}
+
+/* .member .member-right .addIcon .member-btns:hover,
+.member .member-right .delIcon .member-btns:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+} */
+
+.member-right .addIcon .add-expense-prompt {
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.3s ease-in-out;
+}
+
+.addIcon:hover {
+    background-color: #1E90FF;
+    color: white;
+}
+
+.addIcon:hover .member-btns {
+    background-color: rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    padding: 2px;
+}
+
+.delIcon:hover {
+    background-color: rgba(0, 0, 0, 0.07);
+    border-radius: 30px;
+    /* padding: 5px; */
+}
+
+.member-right .addIcon:hover .add-expense-prompt {
+    /* display: block; */
+    max-width: 100px;
+}
+
+.members-trip-details {
+    margin: 10px;
+    padding: 5px 60px 5px 60px;
+    background-color: white;
+}
+
+.members-trip-details .total .sym-heading,
+.members-trip-details .expenseSummary .sym-heading,
+.members-trip-details .stats .sym-heading,
+.members-trip-details .details .sym-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.members-trip-details h4 {
+    display: flex;
+    gap: 20px;
+}
+
+.sym-heading{
+    cursor: pointer;
+}
+
+.sym-heading span {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.sym-heading span.rotate {
+    transform: rotate(180deg);
+}
+
+.sym-heading .sum-icon {
+    font-size: 2.5rem;
+    margin-top: 10px;
+}
+
+.total-show {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    /* padding: 10px 0; */
+}
+
+.total-show span {
+    font-size: small;
+}
+
+.total-rep h4 {
+    margin: 10px 0 0 0;
+}
+
+.members-trip-details .total-details {
+    display: flex;
+    flex-direction: column;
+    /* margin-top: 10px; */
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+}
+
+.total-details.open {
+    max-height: 200px;
+    /* Adjust based on the content height */
+    opacity: 1;
+}
+
+.members-trip-details .expense-details {
+    display: flex;
+    flex-direction: column;
+    /* margin-top: 10px; */
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    height: 100%;
+    align-items: center;
+    opacity: 0;
+}
+
+.expense-details.open {
+    max-height: 100%;
+    /* Adjust based on the content height */
+    opacity: 1;
+}
+
+.manage-trip-div .total-div {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 35px;
+    border-bottom: 2px solid #ccc;
+    text-align: center;
+    width: 83%;
+}
+
+.total-div h4{
+    color: #3b3bad;
+}
+
+.expense-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0px 35px;
+    text-align: center;
+    width: 83%;
+}
+
+.manage-trip-div .expense-item:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.top-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.expense-item p {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.details_hidden_box {
+    display: flex;
+    flex-direction: column;
+    /* margin-top: 10px; */
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    align-items: center;
+    opacity: 0;
+    /* margin-bottom: 10px; */
+
+}
+
+.details_hidden_box.open {
+    max-height: 300px;
+    /* Adjust based on the content height */
+    opacity: 1;
+    margin-bottom: 10px;
+}
+
+.details_hidden_box .desc {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 85%;
+    text-align: left;
+}
+
+.manage-trip-div .desc h4{
+    margin: 0px 0px;
+    padding: 6px;
+    border-bottom: 1px solid #ccc;
+    color: #3b3bad;
+}
+
+.details_hidden_box .places{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 85%;
+    text-align: left;
+    overflow: hidden;
+}
+
+.manage-trip-div .places h4{
+    margin: 0px 0px;
+    padding: 6px;
+    border-bottom: 1px solid #ccc;
+    color: #3b3bad;
+}
+
+.pie-chart{
+    display: flex;
+    flex-direction: column;
+    /* margin-top: 10px; */
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    align-items: center;
+    opacity: 0;
+}
+
+.pie-chart.open{
+    max-height: 500px;
+    /* Adjust based on the content height */
+    opacity: 1;
+}
+
+.manage-trip-div .pie-chart h4{
+    color: #3b3bad;
+    border-bottom: 1px solid #ccc;
+    width: 85%;
+
+}
+
+.pie-chart .pie-chart-container .pie-graph{
+    height: 326px;
+    width: 326px;
+    cursor: pointer;
+}
+
+.mui-icon img {
+    padding: 0;
+    margin: 0;
+}
