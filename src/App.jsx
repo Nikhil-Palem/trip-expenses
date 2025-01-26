@@ -15,7 +15,7 @@ import ProtectedRoute from './components/authentication/ProtectedRoute';
 import MyTrips from './components/Dashboard/MyTrips';
 import Report from './components/Dashboard/Report';
 import PlaceDetails from './components/Dashboard/PlaceDetails';
-import CustomPlace from './components/Dashboard/customPlace';
+import CustomPlace from './components/Dashboard/CustomPlace';
 import ManageTrip from './components/Dashboard/ManageTrip';
 import AddExpenses from './components/SubTasks/AddExpenses';
 import Settings from './components/Settings/Settings';
