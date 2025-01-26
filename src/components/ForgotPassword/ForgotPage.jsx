@@ -17,37 +17,35 @@ function ForgotPage() {
     }, [sucess,navigate])
     
 
-  const handleForgot = async (e) => {
-    
-    e.preventDefault();
-    if (Email) {
-      const OTP = Math.floor(Math.random() * 9000 + 1000);
-      setOTP(OTP);
-      console.log("Generated OTP:", OTP);
-
-      try {
-        const response = await axios.post(`${BackendUrl}/send_recovery_email`, {
-          OTP,
-          Email,
-        });
-
-        if (response.data.error) {
-          setErrorMessage('Failed to send recovery email',response);
-          console.error('Error response :', response.data.error);
-        } else {
-          console.log('Email sent successfully:', response.data);
-          navigate("/OtpPage");
-          setSucess(true);
-        }
-      } catch (error) {
-        console.error('Request failed:', error);
-        setErrorMessage('An error occurred. Please try again');
+    const handleForgot = async (e) => {
+      e.preventDefault();
+      if (Email) {
+          const OTP = Math.floor(Math.random() * 9000 + 1000);
+          setOTP(OTP);
+          console.log("Generated OTP:", OTP);
+          try {
+              const response = await axios.post(`${BackendUrl}/send_recovery_email`, {
+                  OTP,
+                  Email,
+              });
+  
+              if (response.data.error) {
+                  setErrorMessage(response.data.error);
+                  console.error('Error response :', response.data.error);
+              } else {
+                  console.log('Email sent successfully:', response.data);
+                  navigate("/OtpPage");
+                  setSucess(true);
+              }
+          } catch (error) {
+              console.error('Request failed:', error);
+              setErrorMessage('An error occurred. Please try again');
+          }
+      } else {
+          setErrorMessage('Please enter a valid email address');
       }
-    } else {
-      setErrorMessage('Please enter a valid email address');
-    }
   };
-
+  
   return (
     <form action="" onSubmit={handleForgot}>
     <div className='forgotPage-container boxes'>

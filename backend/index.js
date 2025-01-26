@@ -140,10 +140,11 @@ const transporter = nodemailer.createTransport({
 
 app.post("/send_recovery_email", async (req, res) => {
     const { OTP, Email } = req.body;
-    console.log(Email, OTP);
+    console.log('Received request to send recovery email:', Email, OTP);
     try {
         const EmailExists = await pool.query("select * from users where email=$1", [Email]);
         if (EmailExists.rows.length == 0) {
+            console.log('Email not found in the database');
             res.send({ error: "user not found" });
             return;
         } else {
@@ -153,21 +154,23 @@ app.post("/send_recovery_email", async (req, res) => {
                 subject: 'Password Recovery',
                 text: `Your OTP for password recovery is: ${OTP}`
             };
-
+            
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     console.error('Error sending email:', err);
                     res.send({ error: "Failed to send recovery email", details: err.message });
                     return;
                 }
-                console.log(info.response);
+                console.log('Recovery email sent successfully:', info.response);
                 res.send({ success: "Recovery email sent" });
             });
         }
     } catch (error) {
+        console.error('Error in /send_recovery_email:', error);
         res.send({ error: "Database error" });
     }
 });
+
 
 app.post("/reset", async (req, res) => {
     const { Email, NewPassword } = req.body;
