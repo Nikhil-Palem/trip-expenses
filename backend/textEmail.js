@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 const mailOptions = {
     from: process.env.EMAIL,
-    to: 'nikhilpalem93466@gmail.com', // Replace with your email to test
+    to: '22eg105n41@anurag.edu.in', // Replace with your email to test
     subject: 'Test Email',
     text: 'This is a test email to verify the correct password.',
 };

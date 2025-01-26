@@ -130,8 +130,19 @@ app.post("/signIn", async (req, res) => {
 //     }
 // });
 
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: process.env.EMAIL,
+//         pass: process.env.EMAIL_PASSWORD, // or process.env.EMAIL_PASSWORD
+//     },
+// });
+
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: "smtp.gmail.com",
+    service: "gmail",
+    port: 465,
+    secure: true,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD,
@@ -154,7 +165,7 @@ app.post("/send_recovery_email", async (req, res) => {
                 subject: 'Password Recovery',
                 text: `Your OTP for password recovery is: ${OTP}`
             };
-            
+
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     console.error('Error sending email:', err);
