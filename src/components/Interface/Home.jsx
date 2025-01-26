@@ -5,7 +5,7 @@ import Welcome from './Welcome'
 import About from './About'
 function Home() {
   return (
-    <div>
+    <div className='home'>
         <Navbar/>
         {/* <div className="separte"> */}
         <Welcome/>

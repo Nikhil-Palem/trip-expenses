@@ -1,12 +1,13 @@
-.welcome-div{
+.welcome-div {
     width: 100%;
-    height: 80vh;
+    top: 52px;
     position: relative;
 }
 .welcome-div img{
     width: 100%;
     height: 100%;
     object-fit: cover;
+    margin-bottom:25px;
 }
 .welcome-div h1{
     display: flex;
@@ -35,5 +36,8 @@
     }
     .welcome-div p{
         font-size: 11px;
+    }
+    .welcome-div{
+        height: 80vh;
     }
 }

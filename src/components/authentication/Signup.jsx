@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react' //change in functions
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import './Signup.css';
@@ -52,7 +52,7 @@ function Signup({ onSignUp }) {
                     setId(response.data.user_id);
                     onSignUp(response.data.user_id, response.data.username);
                     console.log("login page", response.data.user_id);
-                    navigate("/PaidPage");
+                    navigate("/Trips");
                 }
 
             } catch (error) {
@@ -90,7 +90,7 @@ function Signup({ onSignUp }) {
                 setId(user_id);
                 onSignUp(user_id, username);
                 setImageUrl(profile_url);
-                navigate("/PaidPage");
+                navigate("/Trips");
             }
         } catch (error) {
             console.error("Google signup error:", error?.response || error.message || error);
@@ -118,7 +118,7 @@ function Signup({ onSignUp }) {
 
     return (
         <div className="centered-container">
-            <div className='login-div'>
+            <div className='login-div small-Boxes'>
                 <h1>Create an account</h1>
                 <p className='Cp'>connect your friends today!</p>
                 <p> <span className='signup-hylyt'>Sign Up </span>to continue</p>
@@ -144,7 +144,7 @@ function Signup({ onSignUp }) {
                     <input type="submit" value="Agree and join" className="submit" />
                     <div className="hr-container">
                         <hr />
-                        <span className="or-text">or</span>
+                        <span className="or-text boxP">or</span>
                     </div>
 
                     <div id="google-signup-btn"></div> {/* google sign up button */}

@@ -1,11 +1,11 @@
 
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react' //change in functions
 import './SignIn.css'
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
 import { GoogleLogin } from '@react-oauth/google';
 
@@ -17,6 +17,7 @@ function SignIn({ SignIn }) {
   const [id, setId] = useState(1)
   const navigate = useNavigate();
   const { imageUrl, setImageUrl, BackendUrl } = useContext(RecoveryContext);
+
   const handleVisibility = () => {
     setVisibility(!visibility);
   }
@@ -35,7 +36,7 @@ function SignIn({ SignIn }) {
         SignIn(response.data.user_id, response.data.username);
         setImageUrl(response.data.profile_url);
         console.log("login page", response.data.user_id);
-        navigate("/PaidPage");
+        navigate("/Trips");
       }
 
     } catch (error) {
@@ -64,7 +65,7 @@ function SignIn({ SignIn }) {
         SignIn(res.data.user_id, res.data.username);
         setImageUrl(res.data.profile_url);
         console.log('login page', res.data.user_id);
-        navigate('/PaidPage');
+        navigate('/Trips');
       } else {
         setErrorMessage(res.data.message || 'Google SignIn failed');
       }
@@ -80,8 +81,8 @@ function SignIn({ SignIn }) {
   }
 
   return (
-    <div className="sigin_centered_conatiner">
-      <div className='container'>
+    <div className="sigin_centered_conatiner boxes">
+      <div className='container small-Boxes'>
         <h1>Hello Welcome back!</h1>
         <p><span className='signin-hylyt'>Sign In </span> to continue</p>
         <form action="" className='signin-form' onSubmit={submitLogin}>
@@ -97,12 +98,12 @@ function SignIn({ SignIn }) {
             <span onClick={handleVisibility}>{!visibility ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />}</span>
           </div>
 
-          <a><Link to="/ForgotPage"><span>Forgot Password?</span></Link></a>
+          <NavLink to="/ForgotPage"><span>Forgot Password?</span></NavLink>
           <input type="submit" value="Sign In" className="submit" />
 
           <div className="hr-container">
             <hr />
-            <span className="or-text">or</span>
+            <span className="or-text boxP">or</span>
           </div>
 
           <div className="login-container">
@@ -110,7 +111,7 @@ function SignIn({ SignIn }) {
               onError={handleGoogleLoginFail} className="custom-googleButton" />
           </div>
 
-          <span className='signin-span'>Don't have an Account? <Link to="/Signup">Sign Up</Link> </span>
+          <span className='signin-span'>Don't have an Account? <NavLink to="/Signup">Sign Up</NavLink> </span>
           {errorMessage && <p style={{ color: "red", fontSize: "12px" }}> {errorMessage} </p>}
         </form>
       </div>

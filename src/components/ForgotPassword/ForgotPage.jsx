@@ -3,7 +3,7 @@ import './ForgotPage.css';
 import { RecoveryContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+// thiss forgot page it not working need to fix at backend
 function ForgotPage() {
   const { Email, setEmail, setOTP,BackendUrl } = useContext(RecoveryContext);
   const [sucess, setSucess] = useState(false)
@@ -33,10 +33,10 @@ function ForgotPage() {
 
         if (response.data.error) {
           setErrorMessage('Failed to send recovery email');
-          console.error('Error response:', response.data.error);
+          console.error('Error response :', response.data.error);
         } else {
           console.log('Email sent successfully:', response.data);
-          // navigate("/OtpPage");
+          navigate("/OtpPage");
           setSucess(true);
         }
       } catch (error) {
@@ -50,8 +50,8 @@ function ForgotPage() {
 
   return (
     <form action="" onSubmit={handleForgot}>
-    <div className='forgotPage-container'>
-      <div className="forgot-div">
+    <div className='forgotPage-container boxes'>
+      <div className="forgot-div small-Boxes">
         <strong>Forgot Password? </strong>
         <p>Enter your email address to reset your password</p>
         <div className="email-forgot-input">

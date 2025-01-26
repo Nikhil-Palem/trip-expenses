@@ -28,4 +28,6 @@ dist-ssr
 .node_modules
 # Ignore the src folder (frontend)
 src/
-dist
+# Ignore build output
+dist/
+build/

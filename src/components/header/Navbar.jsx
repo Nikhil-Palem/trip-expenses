@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { NavLink } from 'react-router-dom';
 import './Navbar.css';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -10,33 +10,59 @@ import { RecoveryContext } from '../../App';
 import { Avatar } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
-import FestivalSharpIcon from '@mui/icons-material/FestivalSharp';
-import HomeTwoToneIcon from '@mui/icons-material/HomeTwoTone';
-import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-import ContactPhoneTwoToneIcon from '@mui/icons-material/ContactPhoneTwoTone';
-import LoginIcon from '@mui/icons-material/Login';
-import AppRegistrationTwoToneIcon from '@mui/icons-material/AppRegistrationTwoTone';
-
+import Logo from '../../images/logo.png';
+import NavMenu from './NavMenu';
+import DashboardNav from './DashboardNav';
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import CustomAvatar from '../SubTasks/CustomAvatar';
+import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 function Navbar() {
-  const [isAcitvePage, setAcitvePage] = useState(false);
-  const [dropdown, setdropdown] = useState(false);
-  const [ShowConfirm, setShowConfirm] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
-  const { isLoggedin, setIsLoggedin, user_name, imageUrl } = useContext(RecoveryContext);
-  const dropdownRef = useRef(null);
-  const handleToggle = () => {
-    setdropdown(!dropdown);
-  }
+  const [dropdown, setdropdown] = useState(false);
+  const [ShowConfirm, setShowConfirm] = useState('');
+  const [ULine, setULine] = useState('');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const { isLoggedin, setIsLoggedin, user_name, imageUrl, setUser_Id, setUsername } = useContext(RecoveryContext);
+  const navLinksRef = useRef(null);
+  const accountDropdownRef = useRef(null);
+  const accountIconRef = useRef(null);
+  const logoutRef = useRef(null);
+  const [Appearance, setAppearance] = useState(false);
+  const [selectedMode, setSelectedMode] = useState(localStorage.getItem('mode') || 'LightMode');
+
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', selectedMode === 'DarkMode');
+    localStorage.setItem('mode', selectedMode);
+  }, [selectedMode]);
+
+  const handleToggle = (e) => {
+    e.preventDefault();
+    setdropdown(prevState => !prevState);
+  };
+
+  // const handleLogout = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirm(true);
+  // };
+
   const handleConfirm = () => {
-    navigate("/home");
-    setShowConfirm(false);
+    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('loggedin');
     setIsLoggedin(false);
-  }
+    setUser_Id(0);
+    setUsername('');
+    setShowConfirm(false);
+    navigate("/home");
+  };
+
   const handleCanel = () => {
-    setShowConfirm(false)
-  }
+    setShowConfirm(false);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,12 +76,19 @@ function Navbar() {
 
   const toggleMenu = () => {
     setdropdown(!dropdown);
-  }
+  };
 
+  // Handle clicks outside of dropdown menu and the logout button
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setdropdown(false);  
+      if (
+        dropdown && !isLoggedin ?
+          (navLinksRef.current && !navLinksRef.current.contains(e.target)) :
+          !accountIconRef.current.contains(e.target) && //purpose of this is when clicked on account icon it returns true other the accoutn icon elem is clicked it will return false so when i clicked on accicon it will return true it makes !true ==false and goes for toggle fun and converts the false to true and vice versa so it works only when i keep this without this if i click on the account icon this use effect consider it as outside of elems and the all conds return true and set the dropdown to false and even i am using toggle fun it will not effect to close the dropdown bcz this useeffect will return false bcz it always consider iam clicking outside of navmenu ,accmenu and logout button if i not mention  !accountIconRef.current.contains(e.target) condition
+          !accountDropdownRef.current.contains(e.target) &&
+          !logoutRef.current.contains(e.target)
+      ) {
+        setdropdown(false);
       }
     };
 
@@ -63,87 +96,128 @@ function Navbar() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, [dropdown]);
+
+  const handledropDown = (menu) => {
+    setdropdown(false);
+    setULine(menu);
+  };
+
+  useEffect(() => {
+    const savedMenu = localStorage.getItem('selectedMenu');
+    const savedDropdown = localStorage.getItem('dropdownVisible');
+
+    if (savedMenu) {
+      setULine(savedMenu);
+    }
+
+    if (savedDropdown === 'true') {
+      setdropdown(true);
+    }
   }, []);
 
-  const handledropDown = () => {
-    setdropdown(false);
+  useEffect(() => {
+    // Save selected menu item and dropdown visibility to localStorage
+    if (ULine) {
+      localStorage.setItem('selectedMenu', ULine);
+    }
+    localStorage.setItem('dropdownVisible', dropdown);
+  }, [ULine, dropdown]);
+
+  const getInitials = (name) => {
+    return name.split(' ').map(word => word[0]).join('').toUpperCase();
+  };
+
+  const handleAppearance = () => {
+    setAppearance(!Appearance);
   }
+
+  const handleModeSelect = (mode) => {
+    setSelectedMode(mode);
+  };
 
   return (
     <div className='navbar'>
       {dropdown && <div className="overlay"></div>}
       <nav>
         <div className="nav-header">
-          <NavLink to={!isLoggedin ? "/home" : ""} className="travel-logo">Travel Book</NavLink>
-          {!isLoggedin && (
+          <div className="logoName">
+            <NavLink to={!isLoggedin ? "/home" : ""}> <img className="travelExpenses-logo invert-img" src={Logo} alt="img" /></NavLink>
+            <NavLink to={!isLoggedin ? "/home" : ""} className="travel-logo boxTC">Travel Book</NavLink>
+          </div>
+
+          {!isLoggedin && isMobile && (
             <div className="hamburger" onClick={toggleMenu}>
               {!dropdown ? <MenuOpenIcon /> : <CancelIcon />}
             </div>
           )}
         </div>
 
-        <div ref={dropdownRef} className={`nav-links ${!dropdown && isMobile ? "" : "show-menu"}`}>
+        <div ref={navLinksRef} className={`nav-links ${!dropdown && isMobile ? "" : "show-menu"}`}>
           {!isLoggedin ? (
-            <div className="info">
-              <a href="/home" className='common' onClick={handledropDown}><HomeTwoToneIcon/> Home</a>
-              <a href="#About" className='common' onClick={handledropDown}><InfoTwoToneIcon/> About Us</a>
-              <a href="#Contact" className='common' onClick={handledropDown}><ContactPhoneTwoToneIcon/> Contact</a>
-              <NavLink to="/Signin" className='common' onClick={handledropDown}><LoginIcon/> Signin</NavLink>
-              <NavLink to="/Signup" style={{ border: "2px solid white" }} className='common' onClick={handledropDown}><AppRegistrationTwoToneIcon/> Register</NavLink>
-            </div>
+            <NavMenu ULine={ULine} handledropDown={handledropDown} isMobile={isMobile} />
           ) : (
-            !isMobile && (
-              <div className="pages">
-                <NavLink to="/PaidPage" className={!isAcitvePage ? "PaidPage" : "common"} onClick={() => setAcitvePage(false)}>PaidPage</NavLink>
-                <NavLink to="/TourPage" className={isAcitvePage ? "TourPage" : "common"} onClick={() => setAcitvePage(true)}>TourPage</NavLink>
-              </div>
-            )
+            <DashboardNav ULine={ULine} setULine={setULine} handledropDown={handledropDown} isMobile={isMobile} />
           )}
-
         </div>
 
-        {isLoggedin && (<div className='account-conatiner'>
-          <NavLink className={"logout"} onClick={handleToggle}><Avatar
-            src={imageUrl || ''}
-            alt={user_name}
-            sx={{ width: 40, height: 40 }}
-          >
-            {!imageUrl && <AccountCircleIcon className='profile-icon' style={{ fontSize: "60px" }} />}
-          </Avatar></NavLink>
-          <div ref={dropdownRef} className={`dropdown-menu ${dropdown ? 'active' : ""}`}>
-            <div className="profile-drop">
-              <Avatar
-                src={imageUrl || ''}
-                alt={user_name}
-                sx={{ width: 60, height: 60 }}
-              >
-                {!imageUrl && <AccountCircleIcon className='profile-icon' style={{ fontSize: "70px" }} />}
-              </Avatar>
-              <p>Hi,<span style={{ color: "#198754" }}>{user_name}</span></p>
+        {isLoggedin && (
+          <div className='account-container'>
+            <NavLink className={"logout"} onClick={handleToggle} ref={accountIconRef}>
+              <CustomAvatar imgUrl={imageUrl} name={user_name} height={40} width={40} />
+            </NavLink>
+
+            <div ref={accountDropdownRef} className={`dropdown-menu ${dropdown ? 'active' : ""} boxes`} onClick={(e) => e.stopPropagation()}>
+              <div className="profile-drop">
+                <CustomAvatar imgUrl={imageUrl} name={user_name} height={60} width={60} />
+                <h3 className='boxTC'>{user_name}</h3>
+              </div>
+              <hr style={{ border: "1px solid #ccc", margin: "0" }} />
+
+              <div className="dropdown-items">
+                <NavLink to="/settings" className="dropdown-item boxH"><RecentActorsIcon onClick={handledropDown} />Profile</NavLink>
+                <div className={`dropdown-item boxH`} onClick={handleAppearance}>
+                  <div className='DL-icon'>
+                    {selectedMode === 'DarkMode' ? <DarkModeIcon /> : <LightModeIcon />}
+                    Appearance
+                  </div>
+                  <span className={`right ${Appearance ? 'change' : ''}`}><KeyboardArrowRightIcon /></span>
+                </div>
+                <div className={`appearance-div ${Appearance ? 'open' : ''}`}>
+                  <span className='boxH' onClick={() => handleModeSelect('DarkMode')}><DarkModeIcon />  DarkMode</span>
+                  <span className='boxH' onClick={() => handleModeSelect('LightMode')}><LightModeIcon />  LightMode</span>
+                </div>
+                <span className="dropdown-item boxH" onClick={() => setShowConfirm('reportproblem')}><ReportGmailerrorredIcon />Report a Problem</span>
+                <NavLink to="/settings" className="dropdown-item boxH"><SettingsIcon onClick={handledropDown} />Settings</NavLink>
+                <div className="dropdown-item boxH" ref={logoutRef} onClick={() => setShowConfirm('logout')}><LogoutIcon />Logout</div>
+              </div>
             </div>
-            <hr style={{ border: "1px solid #ccc", margin: "0" }} />
-            {isMobile && (<>
-              <NavLink to="/PaidPage" className={!isAcitvePage ? "PaidPage" : "commonmobile"} onClick={handledropDown}><PaidOutlinedIcon /> PaidPage</NavLink>
-              <NavLink to="/TourPage" className={isAcitvePage ? "TourPage" : "commonmobile"} onClick={handledropDown}><FestivalSharpIcon /> TourPage</NavLink>
-            </>)
-            }
-            <NavLink to="/Profile" className="dropdown-item"><RecentActorsIcon onClick={handledropDown} />Profile</NavLink>
-            <NavLink to="/Settings" className="dropdown-item"><SettingsIcon onClick={handledropDown} />Settings</NavLink>
-            <NavLink to="/home" className="dropdown-item" onClick={(e) => { e.preventDefault(); setShowConfirm(true); }}><LogoutIcon />Logout</NavLink>
           </div>
-        </div>)}
+        )}
       </nav>
-      {ShowConfirm && <div className="confirm-container">
-        <div className="confirm-box">
+
+      {ShowConfirm == 'logout' && <div className="confirm-container">
+        <div className="confirm-box small-Boxes">
           <p>Are you sure you want to logout?</p>
-          <div className="confrim-buttons">
+          <div className="confirm-buttons">
             <button className='confirm' onClick={handleConfirm}>Yes</button>
             <button className='cancel' onClick={handleCanel}>No</button>
           </div>
         </div>
       </div>}
+      {ShowConfirm == 'reportproblem' && (
+        <div className="confirm-container">
+          <div className="reportproblem small-Boxes">
+            <CloseTwoToneIcon className='mui_icon boxH' onClick={() => setShowConfirm('')} />
+            <h1>Report a problem</h1>
+            <textarea rows={5} name="reportproblem" placeholder='please include as much info as possible...' id="" />
+            <button className='report_btn' type="submit">Send Report</button>
+            <span>Your Trips Expense username and browser information will be automatically included in your report.</span>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

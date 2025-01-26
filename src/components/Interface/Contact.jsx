@@ -6,6 +6,7 @@ import SmartphoneOutlinedIcon from '@mui/icons-material/SmartphoneOutlined';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import axios from 'axios';
 import { RecoveryContext } from '../../App';
+import { NavLink } from 'react-router-dom';
 function Footer() {
   const [Name, setName] = useState("");
   const [UserEmail, setUserEmail] = useState("");
@@ -56,11 +57,11 @@ function Footer() {
           <button onClick={handleContact}>Send Message <NearMeOutlinedIcon /></button>
         </form>
         <div className="contact-info">
-          <a href="mailto:nikhilpalem93466@gmail.com">
-            <MarkEmailReadOutlinedIcon /> nikhilpalem93466@gmail.com</a>
-          <a href="tel:+91 6302247559">
-            <SmartphoneOutlinedIcon /> (+91) 6302247559</a>
-          <a href=""><RoomOutlinedIcon /> Lb Nagaar ,Hyderabad ,Telangana ,500074</a>
+          <NavLink to="mailto:nikhilpalem93466@gmail.com" className='btn-DM'>
+            <MarkEmailReadOutlinedIcon /> nikhilpalem93466@gmail.com</NavLink>
+          <NavLink to="tel:+91 6302247559" className='btn-DM'>
+            <SmartphoneOutlinedIcon /> (+91) 6302247559</NavLink>
+          <NavLink className='btn-DM'><RoomOutlinedIcon /> Lb Nagaar ,Hyderabad ,Telangana ,500074</NavLink>
         </div>
       </div>
     </div>
