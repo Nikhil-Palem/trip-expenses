@@ -15,17 +15,11 @@ const port = process.env.PORT || 3000;
 console.log(port);
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use((req, res, next) => {
-    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
-    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-    next();
-});
+app.use(express.urlencoded({ extended: true }));
 
-// app.use(cors());
-
+// Configure CORS
 app.use(cors({
     origin: ['http://localhost:5173', 'https://trip-expenses-website.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -43,18 +37,10 @@ pool.on("error", (err, client) => {
     process.exit(-1);
 });
 
-// const db = new pg.Client({
-//     user: process.env.PG_USER,
-//     password: process.env.PG_PASSWORD,
-//     host: process.env.PG_HOST,
-//     database: process.env.PG_DATABASE,
-//     port: process.env.PG_PORT,
-//   });
-//   db.connect(); 
-
 app.get("/", (req, res) => {
     res.send("Server is running");
 });
+
 
 // app.get("/PaidPage/:user_id", async (req, res) => {
 //     const { user_id } = req.params;
@@ -154,31 +140,29 @@ const transporter = nodemailer.createTransport({
 
 app.post("/send_recovery_email", async (req, res) => {
     const { OTP, Email } = req.body;
+    console.log(Email, OTP);
     try {
         const EmailExists = await pool.query("select * from users where email=$1", [Email]);
         if (EmailExists.rows.length == 0) {
             res.send({ error: "user not found" });
             return;
-        }
-        else {
+        } else {
             const mailOptions = {
                 from: process.env.EMAIL,
                 to: Email,
                 subject: 'Password Recovery',
                 text: `Your OTP for password recovery is: ${OTP}`
-            }
-            
+            };
+
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
-                    res.send({ error: "Failed to send recovery email", err });
+                    console.error('Error sending email:', err);
+                    res.send({ error: "Failed to send recovery email", details: err.message });
                     return;
-                } else {
-                    console.log(info.response);
-                    res.send({ success: "Recovery email sent" });
                 }
+                console.log(info.response);
+                res.send({ success: "Recovery email sent" });
             });
-
-
         }
     } catch (error) {
         res.send({ error: "Database error" });
