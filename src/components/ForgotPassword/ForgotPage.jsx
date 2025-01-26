@@ -32,7 +32,7 @@ function ForgotPage() {
         });
 
         if (response.data.error) {
-          setErrorMessage('Failed to send recovery email');
+          setErrorMessage('Failed to send recovery email',response);
           console.error('Error response :', response.data.error);
         } else {
           console.log('Email sent successfully:', response.data);
