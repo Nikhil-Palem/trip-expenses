@@ -1,72 +1,66 @@
-import React, { useContext, useState ,useEffect} from 'react';
+import React, { useContext, useState } from 'react';
 import './ForgotPage.css';
 import { RecoveryContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// thiss forgot page it not working need to fix at backend
+import LockResetIcon from '@mui/icons-material/LockReset';
+import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
 function ForgotPage() {
-  const { Email, setEmail, setOTP,BackendUrl } = useContext(RecoveryContext);
-  const [sucess, setSucess] = useState(false)
+  const { Email, setEmail, setOTP, BackendUrl ,isLoggedin} = useContext(RecoveryContext);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-    useEffect(() => {
-      if(sucess){
-        navigate('/OtpPage');
-      }
-    }, [sucess,navigate])
-    
-
-    const handleForgot = async (e) => {
-      e.preventDefault();
-      if (Email) {
-          const OTP = Math.floor(Math.random() * 9000 + 1000);
-          setOTP(OTP);
-          console.log("Generated OTP:", OTP);
-          try {
-              const response = await axios.post(`${BackendUrl}/send_recovery_email`, {
-                  OTP,
-                  Email,
-              });
-  
-              if (response.data.error) {
-                  setErrorMessage(response.data.error);
-                  console.error('Error response :', response.data.error);
-              } else {
-                  console.log('Email sent successfully:', response.data);
-                  navigate("/OtpPage");
-                  setSucess(true);
-              }
-          } catch (error) {
-              console.error('Request failed:', error);
-              setErrorMessage('An error occurred. Please try again');
+  const handleForgot = async (e) => {
+    e.preventDefault();
+    if (Email) {
+      const OTP = Math.floor(Math.random() * 9000 + 1000);
+      setOTP(OTP);
+      console.log("Generated OTP:", OTP);
+      try {
+        const response = await axios.post(
+          `${BackendUrl}/send_recovery_email`,
+          { Email, OTP },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
           }
-      } else {
-          setErrorMessage('Please enter a valid email address');
+        );
+        if (response.data.success) {
+          navigate('/OtpPage');
+        } else {
+          setErrorMessage(response.data.error || "Failed to send recovery email");
+        }
+      } catch (error) {
+        console.error("Error sending recovery email:", error);
+        setErrorMessage("Failed to send recovery email");
       }
+    } else {
+      setErrorMessage("Please enter a valid email address");
+    }
   };
-  
+
   return (
-    <form action="" onSubmit={handleForgot}>
-    <div className='forgotPage-container boxes'>
-      <div className="forgot-div small-Boxes">
-        <strong>Forgot Password? </strong>
-        <p>Enter your email address to reset your password</p>
-        <div className="email-forgot-input">
+    <div className="forgot-page ">
+      <div className="forgot-page-div small-Boxes">
+        <span><LockResetIcon className='mui_icon_fp' /></span>
+        <h2>Forgot Password</h2>
+        <p>Enter your email we will send you a OTP to reset your password.</p>
+        <form onSubmit={handleForgot}>
           <input
-            type="text"
-            placeholder='Enter your email'
+            type="email"
+            placeholder="Enter your email"
             value={Email}
-            onChange={(e) => setEmail(e.target.value.toLowerCase())}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            autoComplete="email"
           />
-        </div>
-        <button type='submit' >Submit</button>
+          <button className='forgot_pswd_Btn' type="submit">Send OTP</button>
+        </form>
+        <span onClick={()=>isLoggedin?navigate('/settings'):navigate('/Signin')}><KeyboardArrowLeftRoundedIcon /> Back to Login</span>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
+
     </div>
-    </form>
   );
 }
 

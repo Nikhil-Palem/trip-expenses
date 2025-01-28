@@ -16,7 +16,7 @@ function Signup({ onSignUp }) {
     const [id, setId] = useState(1)
     const navigate = useNavigate();
 
-    const { setImageUrl,BackendUrl } = useContext(RecoveryContext);
+    const { setImageUrl, BackendUrl } = useContext(RecoveryContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,7 +50,7 @@ function Signup({ onSignUp }) {
                     setErrorMessage(response.data.error);
                 } else {
                     setId(response.data.user_id);
-                    onSignUp(response.data.user_id, response.data.username);
+                    onSignUp(response.data.user_id, response.data.username, response.data.Email);
                     console.log("login page", response.data.user_id);
                     navigate("/Trips");
                 }
@@ -86,9 +86,15 @@ function Signup({ onSignUp }) {
             if (res.data.errorMessage) {
                 setErrorMessage(res.data.errorMessage);
             } else {
-                const { user_id, username ,profile_url} = res.data.user;
+                const { user_id, username, profile_url, email } = res.data.user;
+                console.log('Google SignUp response:', res.data.user);
+                localStorage.setItem('user_id', user_id);
+                localStorage.setItem('username', username);
+                localStorage.setItem('profile_url', profile_url);
+                localStorage.setItem('email', email);
                 setId(user_id);
-                onSignUp(user_id, username);
+                onSignUp(user_id, username, email);
+                localStorage.setItem('imageUrl', profile_url);
                 setImageUrl(profile_url);
                 navigate("/Trips");
             }

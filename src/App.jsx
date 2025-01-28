@@ -26,24 +26,31 @@ function App() {
   const storedState = JSON.parse(localStorage.getItem('loggedin'));
   const storedUsername = localStorage.getItem('username');
   const storedId = localStorage.getItem('userId');
-
+  const storedEmail = localStorage.getItem('Email');
+  const storedimg = localStorage.getItem('imageUrl');
+  
   const [isLoggedin, setIsLoggedin] = useState(storedState || false);
   const [User_Id, setUser_Id] = useState(storedId || 0);
   const [user_name, setUsername] = useState(storedUsername || '');
-  const [Email, setEmail] = useState();
+  const [Email, setEmail] = useState(storedEmail || '');
   const [OTP, setOTP] = useState();
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(storedimg || '');
   const [currentTrip, setCurrentTrip] = useState(null);//it should be rendered from db is there any currenttrip
   const BackendUrl = 'https://trip-expenses-website-backend.vercel.app';
 
   const [customPlaces, setcustomPlaces] = useState([]);
-  const handleLogin = (id, username) => {
+  const handleLogin = (id, username,email) => {
     setIsLoggedin(true);
     setUsername(username);
     setUser_Id(id);
+    setEmail(email);
     localStorage.setItem('username', username);
     localStorage.setItem('userId', id);
     localStorage.setItem('loggedin', true);
+    localStorage.setItem('Email', email);
+    localStorage.setItem('BackendUrl', BackendUrl);
+    localStorage.setItem('isLoggedin', isLoggedin);
+    localStorage.setItem('user_name', user_name);
   };
 
 
@@ -60,7 +67,7 @@ function App() {
 
 function AppContent({ isLoggedin, handleLogin }) { //extra fun is used to wrap the location inside the browser router
   const location = useLocation();
-  const hideNavbar = location.pathname.startsWith('/detail/') || location.pathname.startsWith('/customPlace') || location.pathname.startsWith('/manage-trip/')|| location.pathname.startsWith('/addexpense')|| location.pathname.startsWith('/settings');
+  const hideNavbar = location.pathname.startsWith('/detail/') || location.pathname.startsWith('/customPlace') || location.pathname.startsWith('/manage-trip/')|| location.pathname.startsWith('/addexpense')|| location.pathname.startsWith('/settings')||location.pathname.startsWith('/ForgotPage')||location.pathname.startsWith('/Reset')||location.pathname.startsWith('/OtpPage');
   // console.log(location.pathname.startsWith('/customPlace'));
   return (
     <>

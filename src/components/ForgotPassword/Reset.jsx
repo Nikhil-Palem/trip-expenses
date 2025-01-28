@@ -12,7 +12,7 @@ function Reset() {
     const [visibilityPassword, setvisibilityPassword] = useState(false);
     const [visibilityCP, setvisibilityCP] = useState(false)
     const [ErrorMsg, setErrorMsg] = useState('');
-    const {Email,BackendUrl} = useContext(RecoveryContext);
+    const {Email,BackendUrl,isloggedin} = useContext(RecoveryContext);
     const navigate = useNavigate();
 
     const handleVisibility=(field)=>{
@@ -35,7 +35,11 @@ function Reset() {
             if(Response.data.error){
                 setErrorMsg("Failed to reset the Password")
             }else{
-                navigate("/Signin");
+                if(isloggedin){
+                    navigate("/Trips");
+                }else{
+                    navigate("/Signin");
+                }
             }
         }catch(error){
         console.log(error);

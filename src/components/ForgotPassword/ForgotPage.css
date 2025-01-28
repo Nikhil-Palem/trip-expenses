@@ -1,64 +1,95 @@
-.forgotPage-container{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100vw;
-        height: 100vh;
+.forgot-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
 }
 
-.forgot-div{
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.1);
-    border-radius: 5px;
+.forgot-page-div {
     display: flex;
     flex-direction: column;
-    place-content: center;
-    border: 1px solid gray;
-    padding: 0px 20px 20px 20px;
-    max-width: 300px; 
-    width: 100%; 
-    height: 300px; 
-    background-color: white;
+    /* justify-content: center; */
     align-items: center;
+    max-width: 370px;
+    max-height: 400px;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.forgot-div strong{
-    font-weight: bolder;
-    color: #198754;
-    font-size: 30px;
+.forgot-page-div h2 {
+    margin: 0;
+    color: #007bff;;
+    margin-bottom: 5px;
 }
 
-.forgot-div p{
+.forgot-page-div p {
+    margin: 0;
+    margin-bottom: 20px;
     color: gray;
-    font-size: 13px;
+    font-size: small;
 }
 
-.forgot-div .email-forgot-input{
-    display: flex;
-    align-items: center;
-    width: 240px;
-    height: 28px;
-    border: 2px solid #198754;
-    border-radius: 5px;
-    padding-left: 15px;
-    margin-bottom: 10px;
-    position: relative;
-    margin-top: 20px;
+.forgot-page .forgot-page-div .mui_icon_fp {
+    margin: 0;
+    /* width: 50px; */
+    font-size: 88px;
 }
-.forgot-div .email-forgot-input input{
-    flex: 1;
-    border: none;
+
+.forgot-page-div input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 20px;
+}
+
+.forgot-page-div input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     outline: none;
 }
 
-.forgot-div button{
-    width: 257px;
-    height: 30px;
+.forgot-page-div input:hover {
+    border-color: #0056b3;
+}
+
+
+.forgot_pswd_Btn {
+    align-self: self-end;
+    background-color: #007bff;
     color: white;
-    background-color: #198754;
+    outline: none;
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    border: 1px solid #198754;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.3s;
+    /* margin-top: 20px */
+
+}
+
+.forgot_pswd_Btn:hover {
+    background-color: #0056b3;
+}
+
+.forgot_pswd_Btn:active {
+    background-color: #004494;
+    transform: scale(1);
+}
+
+.forgot-page-div span{
+    display: flex;
+    margin-top: 20px;
     cursor: pointer;
 }
-.forgot-div .error-message{
-        color:red;
+.forgot-page-div span:hover{
+    color: #007bff;
 }

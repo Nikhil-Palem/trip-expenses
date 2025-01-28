@@ -17,7 +17,7 @@ function SignIn({ SignIn }) {
   const [id, setId] = useState(1)
   const navigate = useNavigate();
   const { imageUrl, setImageUrl, BackendUrl } = useContext(RecoveryContext);
-
+//update backend url
   const handleVisibility = () => {
     setVisibility(!visibility);
   }
@@ -33,7 +33,8 @@ function SignIn({ SignIn }) {
         setErrorMessage(response.data.error);
       } else {
         setId(response.data.user_id);
-        SignIn(response.data.user_id, response.data.username);
+        console.log(response.data);
+        SignIn(response.data.user_id, response.data.username, response.data.Email);
         setImageUrl(response.data.profile_url);
         console.log("login page", response.data.user_id);
         navigate("/Trips");
@@ -52,7 +53,7 @@ function SignIn({ SignIn }) {
     console.log(token);
     try {
       const res = await axios.post(
-        `${BackendUrl}/google-signIn`,
+        ` ${BackendUrl}/google-signIn`,
         { token: token },
         {
           headers: {
@@ -62,7 +63,13 @@ function SignIn({ SignIn }) {
       );
       if (res.status === 200) {
         setId(res.data.user_id);
-        SignIn(res.data.user_id, res.data.username);
+        SignIn(res.data.user_id, res.data.username, res.data.email);
+        console.log('login page', res.data.email);
+        console.log('login data', res);
+        localStorage.setItem('user_id', res.data.user_id);
+        localStorage.setItem('username', res.data.username);
+        localStorage.setItem('profile_url', res.data.profile_url);
+        localStorage.setItem('email', res.data.email);
         setImageUrl(res.data.profile_url);
         console.log('login page', res.data.user_id);
         navigate('/Trips');

@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import { useNavigate } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
-import { Avatar } from '@mui/material';
+// import { Avatar } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import Logo from '../../images/logo.png';
@@ -19,17 +19,20 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import CustomAvatar from '../SubTasks/CustomAvatar';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import axios from 'axios';
+
 function Navbar() {
   const navigate = useNavigate();
   const [dropdown, setdropdown] = useState(false);
   const [ShowConfirm, setShowConfirm] = useState('');
   const [ULine, setULine] = useState('');
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const { isLoggedin, setIsLoggedin, user_name, imageUrl, setUser_Id, setUsername } = useContext(RecoveryContext);
+  const { isLoggedin, setIsLoggedin, user_name, imageUrl, setUser_Id, setUsername, Email, setEmail,BackendUrl } = useContext(RecoveryContext);
   const navLinksRef = useRef(null);
   const accountDropdownRef = useRef(null);
   const accountIconRef = useRef(null);
   const logoutRef = useRef(null);
+  const [ReportText, setReportText] = useState('');
   const [Appearance, setAppearance] = useState(false);
   const [selectedMode, setSelectedMode] = useState(localStorage.getItem('mode') || 'LightMode');
 
@@ -38,6 +41,19 @@ function Navbar() {
     document.body.classList.toggle('dark-mode', selectedMode === 'DarkMode');
     localStorage.setItem('mode', selectedMode);
   }, [selectedMode]);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('Email');
+    const savedUsername = localStorage.getItem('username');
+
+    if (savedEmail) {
+      setEmail(savedEmail);
+      console.log("saved", savedEmail);
+    }
+    if (savedUsername) {
+      setUsername(savedUsername);
+    }
+  }, []);
 
   const handleToggle = (e) => {
     e.preventDefault();
@@ -53,6 +69,14 @@ function Navbar() {
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
     localStorage.removeItem('loggedin');
+    localStorage.removeItem('currentTrip');
+    localStorage.removeItem('customPlaces');
+    localStorage.removeItem('imageUrl');
+    localStorage.removeItem('Email');
+    // localStorage.removeItem('OTP');
+    localStorage.removeItem('BackendUrl');
+    localStorage.removeItem('isLoggedin');
+    localStorage.removeItem('user_name');
     setIsLoggedin(false);
     setUser_Id(0);
     setUsername('');
@@ -136,6 +160,35 @@ function Navbar() {
     setSelectedMode(mode);
   };
 
+  const handleReportChange = (e) => {
+    setReportText(e.target.value);
+  }
+
+  const handleReportProblem = async (e) => {
+    e.preventDefault();
+    console.log(Email);
+    setShowConfirm('');
+    if (Email) {
+      try {
+        const response = await axios.post(`${BackendUrl}/report_problem`, { Email, ReportText, user_name }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.data.success) {
+          console.log("Report sent successfully");
+        } else {
+          console.log("Failed to send report");
+        }
+      }
+      catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log("Please enter a valid email address");
+    }
+  }
+
   return (
     <div className='navbar'>
       {dropdown && <div className="overlay"></div>}
@@ -205,13 +258,14 @@ function Navbar() {
           </div>
         </div>
       </div>}
+
       {ShowConfirm == 'reportproblem' && (
         <div className="confirm-container">
           <div className="reportproblem small-Boxes">
             <CloseTwoToneIcon className='mui_icon boxH' onClick={() => setShowConfirm('')} />
             <h1>Report a problem</h1>
-            <textarea rows={5} name="reportproblem" placeholder='please include as much info as possible...' id="" />
-            <button className='report_btn' type="submit">Send Report</button>
+            <textarea rows={5} name="reportproblem" placeholder='please include as much info as possible...' id="" onChange={handleReportChange} />
+            <button className='report_btn' type="submit" onClick={handleReportProblem}>Send Report</button>
             <span>Your Trips Expense username and browser information will be automatically included in your report.</span>
           </div>
         </div>
