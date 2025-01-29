@@ -170,7 +170,7 @@ function Navbar() {
     setShowConfirm('');
     if (Email) {
       try {
-        const response = await axios.post(`http://localhost:3000/report_problem`, { Email, ReportText, user_name }, {
+        const response = await axios.post(`${BackendUrl}/report_problem`, { Email, ReportText, user_name }, {
           headers: {
             'Content-Type': 'application/json',
           },
