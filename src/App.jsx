@@ -38,6 +38,9 @@ function App() {
   const [currentTrip, setCurrentTrip] = useState(null);//it should be rendered from db is there any currenttrip
   const BackendUrl = 'https://trip-expenses-website-backend.vercel.app';
 
+  // const BackendUrl = process.env.NODE_ENV === 'production' ? 'https://your-deployed-backend-url.com' : 'http://localhost:3000';
+
+
   const [customPlaces, setcustomPlaces] = useState([]);
   const handleLogin = (id, username,email) => {
     setIsLoggedin(true);
