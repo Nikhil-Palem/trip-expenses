@@ -28,7 +28,7 @@ function App() {
   const storedId = localStorage.getItem('userId');
   const storedEmail = localStorage.getItem('Email');
   const storedimg = localStorage.getItem('imageUrl');
-  
+
   const [isLoggedin, setIsLoggedin] = useState(storedState || false);
   const [User_Id, setUser_Id] = useState(storedId || 0);
   const [user_name, setUsername] = useState(storedUsername || '');
@@ -36,12 +36,15 @@ function App() {
   const [OTP, setOTP] = useState();
   const [imageUrl, setImageUrl] = useState(storedimg || '');
   const [currentTrip, setCurrentTrip] = useState(null);//it should be rendered from db is there any currenttrip
-  const BackendUrl = 'https://trip-expenses-website-backend.vercel.app';
+  // const BackendUrl = 'https://trip-expenses-website-backend.vercel.app';
 
-  // const BackendUrl = process.env.NODE_ENV === 'production' ? 'https://your-deployed-backend-url.com' : 'http://localhost:3000';
+  const BackendUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_BACKEND_URL : 'http://localhost:3000';
 
+  console.log(import.meta.env.VITE_BACKEND_URL);
+  console.log(import.meta.env.VITE_NODE_ENV);
 
   const [customPlaces, setcustomPlaces] = useState([]);
+  
   const handleLogin = (id, username,email) => {
     setIsLoggedin(true);
     setUsername(username);
@@ -51,7 +54,6 @@ function App() {
     localStorage.setItem('userId', id);
     localStorage.setItem('loggedin', true);
     localStorage.setItem('Email', email);
-    localStorage.setItem('BackendUrl', BackendUrl);
     localStorage.setItem('isLoggedin', isLoggedin);
     localStorage.setItem('user_name', user_name);
   };

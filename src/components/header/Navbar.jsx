@@ -35,7 +35,9 @@ function Navbar() {
   const [ReportText, setReportText] = useState('');
   const [Appearance, setAppearance] = useState(false);
   const [selectedMode, setSelectedMode] = useState(localStorage.getItem('mode') || 'LightMode');
+  console.log("navbar",BackendUrl);
 
+  console.log("navbar",import.meta.env.VITE_NODE_ENV);
 
   useEffect(() => {
     document.body.classList.toggle('dark-mode', selectedMode === 'DarkMode');

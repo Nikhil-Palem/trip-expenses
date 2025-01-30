@@ -6,7 +6,7 @@ import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import { useNavigate } from 'react-router-dom';
 //all views of sidebar need to complete by this week
 function ProfileView() {
-  const { imageUrl, user_name, Email } = useContext(RecoveryContext);
+  const { imageUrl, user_name, Email,setEmail } = useContext(RecoveryContext);
   const navigate=useNavigate();
   return (
     <div className='profile-view-container'>
@@ -20,7 +20,7 @@ function ProfileView() {
             <CustomAvatar imgUrl={imageUrl} name={user_name} height={50} width={50} />
             <div className="profile_left_content">
               <p>{user_name}</p>
-              <p>{Email}@gmail.com</p>
+              <p>{Email}</p>
             </div>
           </div>
           <div className="profile_right">
@@ -38,11 +38,11 @@ function ProfileView() {
           </div>
           <div className="username">
             <label htmlFor="Username">Username</label>
-            <input type="text" name="username" id="" placeholder='enter username'/>
+            <input type="text" value={user_name} name="username" id="" placeholder='enter username'/>
           </div>  
           <div className="email">
             <label htmlFor="Email">Email</label>
-            <input type="email" name="email" id="" placeholder='enter email' />
+            <input type="email" value={Email} name="email" id="" placeholder='enter email' onChange={(e)=>setEmail(e.target.value)}/>
           </div>
           <div className="lang">
             <label htmlFor="Language">Language</label>

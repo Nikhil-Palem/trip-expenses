@@ -57,7 +57,7 @@ function ForgotPage() {
           />
           <button className='forgot_pswd_Btn' type="submit">Send OTP</button>
         </form>
-        <span onClick={()=>isLoggedin?navigate('/settings'):navigate('/Signin')}><KeyboardArrowLeftRoundedIcon /> Back to Login</span>
+        <span onClick={()=>isLoggedin?navigate('/settings'):navigate('/Signin')}><KeyboardArrowLeftRoundedIcon />{!isLoggedin? "Back to Login":"Back to Settings"}</span>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
 

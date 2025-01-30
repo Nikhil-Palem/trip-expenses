@@ -49,8 +49,13 @@
 
 .profile_left_content p:first-child {
     font-weight: bolder;
+    margin-top: 5px;
 }
 
+.profile_left_content p + p{
+    color: gray;
+    font-size: small;
+}
 .profile_right {
     padding-right: 30px;
 }
