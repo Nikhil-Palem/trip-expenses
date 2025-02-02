@@ -24,6 +24,7 @@
     background: url(https://ak-s.tripcdn.com/modules/ibu/online-home/d0e20aecd9b1096251a059430d778043.d0e20aecd9b1096251a059430d778043.png) no-repeat right 24px top 4px, radial-gradient(ellipse 30% 26% at 80% 0, rgba(204, 243, 255, .6), transparent), radial-gradient(ellipse 30% 26% at bottom left, rgba(204, 243, 255, .6), transparent), #f7fafc;
     height: 100%;
     width: 1160px;
+    height: 450px;
     border-radius: 5px;
     position: relative;
 }
@@ -147,7 +148,7 @@
     background-color: #2b7dd4;
 }
 
-.places_btn:active{
+.places_btn:active {
     transform: scale(0.95);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 
@@ -294,7 +295,6 @@
     padding-left: 20px;
 }
 
-
 .custom-places-btn {
     display: flex;
     align-items: center;
@@ -314,7 +314,7 @@
     height: 2.5rem !important;
 }
 
-.places_del_btn{
+.places_del_btn {
     display: flex;
     background-color: red;
     border-radius: 25px;
@@ -324,7 +324,7 @@
     justify-content: center;
 }
 
-.places_del_btn:hover{
+.places_del_btn:hover {
     background-color: rgb(238, 42, 42);
 }
 
@@ -340,6 +340,92 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 9;
 }
-  .custom-places-btn:hover + .addCustom-places { /*here we use + combinator bcz .addcustom places is sibling of it not inside the custom placse btn if it is inside we directly use with keeping space b/w then*/
+
+.custom-places-btn:hover+.addCustom-places {
+    /*here we use + combinator bcz .addcustom places is sibling of it not inside the custom placse btn if it is inside we directly use with keeping space b/w them*/
     display: block;
-  }
+}
+
+.complete-message {
+    position: fixed;
+    top: 10;
+    right: 10px;
+    background-color: #ff1a1a;
+    max-width: 400px;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.complete-message p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 10px;
+}
+
+.countdown-timer {
+    height: 5px;
+    background-color: #fff8f8;
+    animation: countdown 3s linear forwards;
+    /* border-radius: 5px; */
+    margin-top: 5px;
+}
+
+.complete-message-success {
+    position: fixed;
+    top: 10;
+    right: 10px;
+    background-color: #23a523;
+    max-width: 250px;
+    width: 100%;
+    height: 50px;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.complete-message-success p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    gap: 10px;
+    padding: 10px;
+}
+
+.complete-message-success .countdown-timer {
+    height: 5px;
+    background-color: #fff8f8;
+    animation: countdown 1s linear forwards;
+    /* border-radius: 5px; */
+    margin-top: 5px;
+}
+
+.no-places{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    margin-top: -10px;
+}
+
+.no-places img{
+    height: 300px;
+}
+.no-places p{
+    margin: 0;
+}
+
+@keyframes countdown {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}

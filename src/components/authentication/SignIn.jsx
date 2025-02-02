@@ -8,22 +8,25 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { NavLink } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
 import { GoogleLogin } from '@react-oauth/google';
-
+import Lottie from "lottie-react";
+import animationData from '../../images/loading-animation.json';
 function SignIn({ SignIn }) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
   const [visibility, setVisibility] = useState(false)
+  const [Loading, setLoading] = useState(false);
   const [id, setId] = useState(1)
   const navigate = useNavigate();
   const { imageUrl, setImageUrl, BackendUrl } = useContext(RecoveryContext);
-//update backend url
+  //update backend url
   const handleVisibility = () => {
     setVisibility(!visibility);
   }
 
   const submitLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(`${BackendUrl}/signIn`, {
         username: username,
@@ -42,6 +45,8 @@ function SignIn({ SignIn }) {
 
     } catch (error) {
       console.log("this is catch error", error.message);
+    } finally {
+      setLoading(false);
     }
     setPassword('');
     setUsername('');
@@ -51,6 +56,7 @@ function SignIn({ SignIn }) {
   const handleGoogleLoginSuccess = async (response) => {
     const token = response.credential;
     console.log(token);
+    setLoading(true);
     try {
       const res = await axios.post(
         ` ${BackendUrl}/google-signIn`,
@@ -80,6 +86,9 @@ function SignIn({ SignIn }) {
       console.log('Error during Google Sign-In', error.message);
       setErrorMessage('Google Sign-In failed');
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleLoginFail = (error) => {
@@ -89,7 +98,7 @@ function SignIn({ SignIn }) {
 
   return (
     <div className="sigin_centered_conatiner boxes">
-      <div className='container small-Boxes'>
+      {!Loading ? (<div className='container small-Boxes'>
         <h1>Hello Welcome back!</h1>
         <p><span className='signin-hylyt'>Sign In </span> to continue</p>
         <form action="" className='signin-form' onSubmit={submitLogin}>
@@ -121,7 +130,9 @@ function SignIn({ SignIn }) {
           <span className='signin-span'>Don't have an Account? <NavLink to="/Signup">Sign Up</NavLink> </span>
           {errorMessage && <p style={{ color: "red", fontSize: "12px" }}> {errorMessage} </p>}
         </form>
-      </div>
+      </div>) : <div className="loader">
+        <Lottie animationData={animationData} loop={true} />
+      </div>}
     </div>
   )
 }

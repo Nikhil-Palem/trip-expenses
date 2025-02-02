@@ -6,12 +6,15 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
+import Lottie from "lottie-react";
+import animationData from '../../images/loading-animation.json';
 
 function Signup({ onSignUp }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [Email, setEmail] = useState("")
-    const [errorMessage, setErrorMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("");
+    const [Loading, setLoading] = useState(false);
     const [visibility, setVisibility] = useState(false)
     const [id, setId] = useState(1)
     const navigate = useNavigate();
@@ -20,6 +23,7 @@ function Signup({ onSignUp }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         if (password.length < 8) {
             setErrorMessage("password must be atleast 8 characters");
             setPassword("");
@@ -58,6 +62,9 @@ function Signup({ onSignUp }) {
             } catch (error) {
                 console.log("this is catch error", error);
             }
+            finally {
+                setLoading(false);
+            }
             setPassword('');
             setUsername('');
             setEmail('');
@@ -75,6 +82,7 @@ function Signup({ onSignUp }) {
     }
 
     const handleGoogleLoginSuccess = async (credentialResponse) => {
+        setLoading(true);
         try {
             const idToken = credentialResponse.credential;
             console.log('ID Token:', idToken);
@@ -102,6 +110,9 @@ function Signup({ onSignUp }) {
             console.error("Google signup error:", error?.response || error.message || error);
             setErrorMessage("Google SignUp failed. Please try again.");
         }
+        finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -124,7 +135,7 @@ function Signup({ onSignUp }) {
 
     return (
         <div className="centered-container">
-            <div className='login-div small-Boxes'>
+            {!Loading ? <div className='login-div small-Boxes'>
                 <h1>Create an account</h1>
                 <p className='Cp'>connect your friends today!</p>
                 <p> <span className='signup-hylyt'>Sign Up </span>to continue</p>
@@ -158,7 +169,9 @@ function Signup({ onSignUp }) {
                     <span className='login-span'>Already a member? <Link to="/Signin">Log In</Link> </span>
                     {errorMessage && <p style={{ color: "red", fontSize: "12px" }}> {errorMessage} </p>}
                 </form>
-            </div>
+            </div> : <div className="loader">
+                <Lottie animationData={animationData} loop={true} />
+            </div>}
         </div>
     )
 }

@@ -57,8 +57,8 @@ function Footer() {
           <button onClick={handleContact}>Send Message <NearMeOutlinedIcon /></button>
         </form>
         <div className="contact-info">
-          <NavLink to="mailto:nikhilpalem93466@gmail.com" className='btn-DM'>
-            <MarkEmailReadOutlinedIcon /> nikhilpalem93466@gmail.com</NavLink>
+          <NavLink to="mailto:travel.tripexpenses@gmail.com" className='btn-DM'>
+            <MarkEmailReadOutlinedIcon /> travel.tripexpenses@gmail.com</NavLink>
           <NavLink to="tel:+91 6302247559" className='btn-DM'>
             <SmartphoneOutlinedIcon /> (+91) 6302247559</NavLink>
           <NavLink className='btn-DM'><RoomOutlinedIcon /> Lb Nagaar ,Hyderabad ,Telangana ,500074</NavLink>

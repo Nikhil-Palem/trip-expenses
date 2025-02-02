@@ -35,6 +35,7 @@ function App() {
   const [Email, setEmail] = useState(storedEmail || '');
   const [OTP, setOTP] = useState();
   const [imageUrl, setImageUrl] = useState(storedimg || '');
+  const [customPlaces, setcustomPlaces] = useState([]);
   const [currentTrip, setCurrentTrip] = useState(null);//it should be rendered from db is there any currenttrip
   // const BackendUrl = 'https://trip-expenses-website-backend.vercel.app';
 
@@ -43,8 +44,6 @@ function App() {
   console.log(import.meta.env.VITE_BACKEND_URL);
   console.log(import.meta.env.VITE_NODE_ENV);
 
-  const [customPlaces, setcustomPlaces] = useState([]);
-  
   const handleLogin = (id, username,email) => {
     setIsLoggedin(true);
     setUsername(username);
