@@ -47,3 +47,16 @@ export const deleteCustomPlace = async (req, res) => {
         res.status(500).send({ error: "Database error", err });
     }
 }
+
+export const getPlaces=async(req,res)=>{
+    const {id,User_Id}=req.query;
+    console.log(id,User_Id);
+    try{
+        const places=await pool.query("select * from custom_places where id=$1 and user_id=$2",[id,User_Id]);
+        console.log(places);
+        res.send({success:places.rows[0]});
+    }catch(err){
+        console.error("Error getting places:",err);
+        res.status(500).send({error:"Database error",err});
+    }
+}

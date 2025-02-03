@@ -46,6 +46,7 @@ function CustomPlace() {
       }
     } catch (err) {
       console.log("this is catch error", err);
+      alert("please check your internet connection");
     } finally {
       setLoading(false);
     }

@@ -23,11 +23,11 @@ function ManageTrip() {
   const [showMore, setshowMore] = useState('');
   const formRef = useRef(null);
   const navigate = useNavigate();
-
+  console.log(trip);
   const handleAddMember = () => {
     setShowInput(!showInput);
   };
-
+  
   const handleSaveMember = (event) => {
     event.preventDefault();
     trip.members = [...trip.members, newMember];

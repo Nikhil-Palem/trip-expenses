@@ -27,7 +27,8 @@ function MyTrips() {
   }
 
   const handleManageTrip = (trip) => {
-    navigate(`/manage-trip/${trip.id}`,{state:{trip}});
+    console.log("fun",trip);
+    navigate(`/manage-trip/${trip.id}`,{state:{trip:{...trip,members:[],expenses:0}}});
   }
 
   return (
