@@ -20,7 +20,7 @@ function Otp() {
             newOtp[index] = value;
             setUserOTP(newOtp);
 
-            // Move focus to the next input field
+            
             if (value !== '' && index < inputRefs.current.length - 1) {
                 inputRefs.current[index + 1].focus();
             }
@@ -30,11 +30,9 @@ function Otp() {
     const handleOtp = () => {
         const enteredOtp = UserOTP.join('');
         if (enteredOtp === OTP.toString()) {
-            console.log("success");
-            navigate("/Reset");
+                        navigate("/Reset");
         } else {
-            console.log("Invalid");
-            setErrorMsg("Invalid OTP");
+                        setErrorMsg("Invalid OTP");
         }
     };
 

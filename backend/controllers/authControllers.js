@@ -22,12 +22,11 @@ export const signup = async (req, res) => {
                 } else {
                     const result = await pool.query("INSERT INTO users (username, password,email) VALUES ($1, $2,$3) RETURNING *", [username, hash, Email]);
                     res.json(result.rows[0]);
-                    console.log(username, hash, Email);
                 }
             })
         }
     } catch (err) {
-        // console.log(err);
+
         res.json({ error: "internal server error..." })
     }
 }
@@ -42,7 +41,6 @@ export const signIn = async (req, res) => {
         }
         if (Exists.rows.length > 0) {
             const hashedPassword = user.password;
-            console.log(hashedPassword);
             bcrypt.compare(password, hashedPassword, (err, valid) => {
                 if (err) {
                     console.log("Error comparing passwords", err);
@@ -67,7 +65,6 @@ export const signIn = async (req, res) => {
 
 export const googleSignIn = async (req, res) => {
     const { token } = req.body;
-    console.log(token);
     if (!token) {
         return res.status(400).json({ success: false, message: 'Token is required' });
     }
@@ -78,8 +75,6 @@ export const googleSignIn = async (req, res) => {
         });
         const payload = ticket.getPayload();
         const { email, picture } = payload;
-        console.log("Received token:", token);
-        console.log("Payload email:", email);
 
         const result = await pool.query("select * from users where email=$1", [email]);
         if (result.rows.length > 0) {
@@ -91,24 +86,19 @@ export const googleSignIn = async (req, res) => {
                     "UPDATE users SET password = $1, profile_url = $2 WHERE email = $3",
                     ['google', picture, email]
                 );
-                console.log("Google account linked to an existing user.");
             }
 
             res.status(200).json({ success: true, user_id: user.user_id, username: user.username, profile_url: user.profile_url || picture, email: user.email });
-            console.log("successfull");
         } else {
             res.status(500).json({ success: false, message: 'user not found' });
         }
     } catch (error) {
-        console.log('db google auth failed', error);
         res.status(404).json({ success: false, message: 'Google auth failed' });
     }
 }
 
 export const googleSignUp = async (req, res) => {
-    console.log("response received");
     const { token } = req.body;
-    console.log("Received authorization code:", token);
     try {
         const ticket = await client.verifyIdToken({
             idToken: token,
@@ -116,7 +106,6 @@ export const googleSignUp = async (req, res) => {
         });
 
         const payload = ticket.getPayload();
-        console.log("Decoded payload:", payload);
 
         const { name, email, picture } = payload;
 

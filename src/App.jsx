@@ -28,7 +28,8 @@ function App() {
   const storedId = localStorage.getItem('userId');
   const storedEmail = localStorage.getItem('Email');
   const storedimg = localStorage.getItem('imageUrl');
-
+  const storedCurrTripID = localStorage.getItem('currentTripID');
+  
   const [isLoggedin, setIsLoggedin] = useState(storedState || false);
   const [User_Id, setUser_Id] = useState(storedId || 0);
   const [user_name, setUsername] = useState(storedUsername || '');
@@ -36,15 +37,15 @@ function App() {
   const [OTP, setOTP] = useState();
   const [imageUrl, setImageUrl] = useState(storedimg || '');
   const [customPlaces, setcustomPlaces] = useState([]);
-  const [currentTrip, setCurrentTrip] = useState(null);//it should be rendered from db is there any currenttrip
-  // const BackendUrl = 'https://trip-expenses-website-backend.vercel.app';
+  const [expenses, setExpenses] = useState([]);
+  const [CurrentTripId, setCurrentTripId] = useState(storedCurrTripID || '')
+  const [currentTrip, setCurrentTrip] = useState(null);
+  
 
   const BackendUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_BACKEND_URL : 'http://localhost:3000';
 
-  console.log(import.meta.env.VITE_BACKEND_URL);
-  console.log(import.meta.env.VITE_NODE_ENV);
-
-  const handleLogin = (id, username,email) => {
+    
+  const handleLogin = (id, username, email) => {
     setIsLoggedin(true);
     setUsername(username);
     setUser_Id(id);
@@ -60,7 +61,7 @@ function App() {
 
   return (
     <GoogleOAuthProvider clientId="19918831208-tedq0rkmeus8j7lgo8ginorig6ekqt6s.apps.googleusercontent.com">
-      <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP, user_name, User_Id, isLoggedin, setIsLoggedin, imageUrl, setImageUrl, BackendUrl, setUser_Id, setUsername, setcustomPlaces, customPlaces, currentTrip, setCurrentTrip }}>
+      <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP, user_name, User_Id, isLoggedin, setIsLoggedin, imageUrl, setImageUrl, BackendUrl, setUser_Id, setUsername, setcustomPlaces, customPlaces, currentTrip, setCurrentTrip, CurrentTripId, setCurrentTripId,expenses, setExpenses }}>
         <BrowserRouter>
           <AppContent isLoggedin={isLoggedin} handleLogin={handleLogin} />
         </BrowserRouter>
@@ -71,8 +72,8 @@ function App() {
 
 function AppContent({ isLoggedin, handleLogin }) { //extra fun is used to wrap the location inside the browser router
   const location = useLocation();
-  const hideNavbar = location.pathname.startsWith('/detail/') || location.pathname.startsWith('/customPlace') || location.pathname.startsWith('/manage-trip/')|| location.pathname.startsWith('/addexpense')|| location.pathname.startsWith('/settings')||location.pathname.startsWith('/ForgotPage')||location.pathname.startsWith('/Reset')||location.pathname.startsWith('/OtpPage');
-  // console.log(location.pathname.startsWith('/customPlace'));
+  const hideNavbar = location.pathname.startsWith('/detail/') || location.pathname.startsWith('/customPlace') || location.pathname.startsWith('/manage-trip/') || location.pathname.startsWith('/addexpense') || location.pathname.startsWith('/settings') || location.pathname.startsWith('/ForgotPage') || location.pathname.startsWith('/Reset') || location.pathname.startsWith('/OtpPage');
+  
   return (
     <>
       {!hideNavbar && <Navbar />}
@@ -113,7 +114,7 @@ function AppContent({ isLoggedin, handleLogin }) { //extra fun is used to wrap t
         <Route path="/customPlace" element={<CustomPlace />} />
         <Route path='/manage-trip/:id' element={<ManageTrip />} />
         <Route path='/addexpense' element={<AddExpenses />} />
-        <Route path='/settings' element={<Settings/>}></Route>
+        <Route path='/settings' element={<Settings />}></Route>
       </Routes>
     </>
   );

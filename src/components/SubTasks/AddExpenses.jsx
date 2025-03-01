@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './AddExpenses.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { RecoveryContext } from '../../App';
+import axios from 'axios';
 function AddExpenses() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { BackendUrl, User_Id, CurrentTripId,expenses, setExpenses } = useContext(RecoveryContext);
     const { trip, name } = location.state;
-    const [expenses, setExpenses] = useState(trip.expenses || []);
+    
     const [newExpense, setNewExpense] = useState({
         desc: '',
         category: '',
@@ -23,12 +25,22 @@ function AddExpenses() {
             [name]: type === 'checkbox' ? checked : value
         }));
     };
-
-    const handleSubmit = (e) => {
+  
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const updatedExpenses = [...expenses, newExpense];
-        setExpenses(updatedExpenses);
-        navigate(`/manage-trip/${trip.id}`, { state: { trip: { ...trip, expenses: updatedExpenses } } });
+        try {
+            await axios.patch(`${BackendUrl}/patchExpenses`, {
+                newExpense: newExpense,
+                trip_id: CurrentTripId,
+                User_Id: User_Id,
+                manage_id:trip.manage_id,
+            });
+            const updatedExpenses = [...expenses, newExpense];
+            setExpenses(updatedExpenses);
+            navigate(`/manage-trip/${trip.id}`, { state: { trip: { ...trip, expenses: updatedExpenses } } });
+        } catch (err) {
+            console.log("addexpenes catch err", err);
+        }
     };
 
     return (

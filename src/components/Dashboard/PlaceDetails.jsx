@@ -9,7 +9,7 @@ import animationData from '../../images/loading-animation.json';
 
 function PlaceDetails() {
   const { id } = useParams();
-  const { User_Id } = useContext(RecoveryContext);
+  const { User_Id ,BackendUrl} = useContext(RecoveryContext);
   const [place, setPlace] = useState(null);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function PlaceDetails() {
 
   const getPlaceFromBackend = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/places?id=${id}&User_Id=${User_Id}`);
+      const response = await axios.get(`${BackendUrl}/places?id=${id}&User_Id=${User_Id}`);
       if (response.data.error) {
         console.log("customplaces error", response.data.error);
       } else {
@@ -42,8 +42,7 @@ function PlaceDetails() {
           nearby_places: backendData.nearby_places,
         };
         setPlace(mappedData);
-        console.log("response.data.success", mappedData);
-      }
+              }
     } catch (err) {
       console.log("this is catch error", err);
     }

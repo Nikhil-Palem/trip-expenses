@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react' //change in functions
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import './Signup.css';
@@ -41,9 +41,9 @@ function Signup({ onSignUp }) {
             setUsername('');
             return;
         } else {
-            setErrorMessage(""); // Clear error message
-            // const credentials = { username, password };
-            // console.log(username,password);
+            setErrorMessage("");
+
+
             try {
                 const response = await axios.post(`${BackendUrl}/signup`, {
                     username: username,
@@ -55,7 +55,6 @@ function Signup({ onSignUp }) {
                 } else {
                     setId(response.data.user_id);
                     onSignUp(response.data.user_id, response.data.username, response.data.Email);
-                    console.log("login page", response.data.user_id);
                     navigate("/Trips");
                 }
 
@@ -85,7 +84,6 @@ function Signup({ onSignUp }) {
         setLoading(true);
         try {
             const idToken = credentialResponse.credential;
-            console.log('ID Token:', idToken);
 
             const res = await axios.post(`${BackendUrl}/google-signUp`, {
                 token: idToken,
@@ -95,10 +93,9 @@ function Signup({ onSignUp }) {
                 setErrorMessage(res.data.errorMessage);
             } else {
                 const { user_id, username, profile_url, email } = res.data.user;
-                console.log('Google SignUp response:', res.data.user);
                 localStorage.setItem('user_id', user_id);
                 localStorage.setItem('username', username);
-                localStorage.setItem('profile_url', profile_url);
+                // localStorage.setItem('profile_url', profile_url);
                 localStorage.setItem('email', email);
                 setId(user_id);
                 onSignUp(user_id, username, email);
@@ -164,7 +161,7 @@ function Signup({ onSignUp }) {
                         <span className="or-text boxP">or</span>
                     </div>
 
-                    <div id="google-signup-btn"></div> {/* google sign up button */}
+                    <div id="google-signup-btn"></div> { }
 
                     <span className='login-span'>Already a member? <Link to="/Signin">Log In</Link> </span>
                     {errorMessage && <p style={{ color: "red", fontSize: "12px" }}> {errorMessage} </p>}

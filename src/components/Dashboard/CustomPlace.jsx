@@ -6,7 +6,7 @@ import axios from 'axios';
 import Lottie from "lottie-react"; 
 import animationData from '../../images/loading-animation.json';
 function CustomPlace() {
-  const { setcustomPlaces, User_Id } = useContext(RecoveryContext);
+  const { setcustomPlaces, User_Id,BackendUrl } = useContext(RecoveryContext);
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -18,8 +18,7 @@ function CustomPlace() {
     nearByPlaces: '',
   });
 
-  console.log(User_Id, formData);
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -29,7 +28,7 @@ function CustomPlace() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:3000/customPlaces', {
+      const response = await axios.post(`${BackendUrl}/customPlaces`, {
         id: Date.now(),
         User_Id: User_Id,
         formData: {

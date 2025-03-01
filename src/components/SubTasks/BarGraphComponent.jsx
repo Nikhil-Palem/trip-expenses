@@ -1,4 +1,4 @@
-// BarGraphComponent.jsx
+
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, Cell } from 'recharts';
 import './BarGraphComponent.css'; 

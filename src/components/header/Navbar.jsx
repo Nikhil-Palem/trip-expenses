@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import { useNavigate } from 'react-router-dom';
 import { RecoveryContext } from '../../App';
-// import { Avatar } from '@mui/material';
+
 import CancelIcon from '@mui/icons-material/Cancel';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import Logo from '../../images/logo.png';
@@ -35,10 +35,8 @@ function Navbar() {
   const [ReportText, setReportText] = useState('');
   const [Appearance, setAppearance] = useState(false);
   const [selectedMode, setSelectedMode] = useState(localStorage.getItem('mode') || 'LightMode');
-  console.log("navbar",BackendUrl);
-
-  console.log("navbar",import.meta.env.VITE_NODE_ENV);
-
+  
+  
   useEffect(() => {
     document.body.classList.toggle('dark-mode', selectedMode === 'DarkMode');
     localStorage.setItem('mode', selectedMode);
@@ -50,8 +48,7 @@ function Navbar() {
 
     if (savedEmail) {
       setEmail(savedEmail);
-      console.log("saved", savedEmail);
-    }
+          }
     if (savedUsername) {
       setUsername(savedUsername);
     }
@@ -61,11 +58,7 @@ function Navbar() {
     e.preventDefault();
     setdropdown(prevState => !prevState);
   };
-
-  // const handleLogout = (e) => {
-  //   e.preventDefault();
-  //   setShowConfirm(true);
-  // };
+  
 
   const handleConfirm = () => {
     localStorage.removeItem('username');
@@ -75,7 +68,7 @@ function Navbar() {
     localStorage.removeItem('customPlaces');
     localStorage.removeItem('imageUrl');
     localStorage.removeItem('Email');
-    // localStorage.removeItem('OTP');
+    
     localStorage.removeItem('BackendUrl');
     localStorage.removeItem('isLoggedin');
     localStorage.removeItem('user_name');
@@ -104,13 +97,13 @@ function Navbar() {
     setdropdown(!dropdown);
   };
 
-  // Handle clicks outside of dropdown menu and the logout button
+  
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
         dropdown && !isLoggedin ?
           (navLinksRef.current && !navLinksRef.current.contains(e.target)) :
-          !accountIconRef.current.contains(e.target) && //purpose of this is when clicked on account icon it returns true other the accoutn icon elem is clicked it will return false so when i clicked on accicon it will return true it makes !true ==false and goes for toggle fun and converts the false to true and vice versa so it works only when i keep this without this if i click on the account icon this use effect consider it as outside of elems and the all conds return true and set the dropdown to false and even i am using toggle fun it will not effect to close the dropdown bcz this useeffect will return false bcz it always consider iam clicking outside of navmenu ,accmenu and logout button if i not mention  !accountIconRef.current.contains(e.target) condition
+          !accountIconRef.current.contains(e.target) && 
           !accountDropdownRef.current.contains(e.target) &&
           !logoutRef.current.contains(e.target)
       ) {
@@ -143,7 +136,7 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    // Save selected menu item and dropdown visibility to localStorage
+    
     if (ULine) {
       localStorage.setItem('selectedMenu', ULine);
     }
@@ -168,8 +161,7 @@ function Navbar() {
 
   const handleReportProblem = async (e) => {
     e.preventDefault();
-    console.log(Email);
-    setShowConfirm('');
+        setShowConfirm('');
     if (Email) {
       try {
         const response = await axios.post(`${BackendUrl}/report_problem`, { Email, ReportText, user_name }, {

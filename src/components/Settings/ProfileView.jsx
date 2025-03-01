@@ -1,13 +1,39 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import './ProfileView.css';
 import CustomAvatar from '../SubTasks/CustomAvatar';
 import { RecoveryContext } from '../../App';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 //all views of sidebar need to complete by this week
 function ProfileView() {
-  const { imageUrl, user_name, Email,setEmail } = useContext(RecoveryContext);
-  const navigate=useNavigate();
+  const { imageUrl, user_name, setUsername, Email, setEmail, User_Id, BackendUrl } = useContext(RecoveryContext);
+  const [Name, setName] = useState('');
+  const [UserEmail, setUserEmail] = useState('');
+  const [Lang, setLang] = useState('English');
+  const [Gender, setGender] = useState('male');
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    console.log("lang and gender", Lang, Gender);
+    try {
+      const updatedData = {
+        User_Id: User_Id,
+        name: Name,
+        email: UserEmail,
+        url: imageUrl,
+        lang: Lang,
+        gender: Gender
+      };
+
+      const resp = await axios.put(`${BackendUrl}/profile_update`, updatedData);
+      setName('');
+      setUserEmail('');
+    } catch (err) {
+      console.error("Error updating profile:", err);
+    }
+  };
+
   return (
     <div className='profile-view-container'>
       <div className="profile-view-header">
@@ -30,7 +56,7 @@ function ProfileView() {
         <div className="edit_profile_details">
           <div className="gender">
             <label htmlFor="Gender">Gender</label>
-            <select name="gender" id="">
+            <select name="gender" value={Gender} id="" onChange={(e) => setGender(e.target.value)}>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="others">Others</option>
@@ -38,21 +64,21 @@ function ProfileView() {
           </div>
           <div className="username">
             <label htmlFor="Username">Username</label>
-            <input type="text" value={user_name} name="username" id="" placeholder='enter username'/>
-          </div>  
+            <input type="text" value={Name} onChange={(e) => setName(e.target.value)} name="username" id="" placeholder='enter username' />
+          </div>
           <div className="email">
             <label htmlFor="Email">Email</label>
-            <input type="email" value={Email} name="email" id="" placeholder='enter email' onChange={(e)=>setEmail(e.target.value)}/>
+            <input type="email" value={UserEmail} name="email" id="" placeholder='enter email' onChange={(e) => setUserEmail(e.target.value)} />
           </div>
           <div className="lang">
             <label htmlFor="Language">Language</label>
-            <select name="language" id="">
+            <select name="language" id="" value={Lang} onChange={(e) => setLang(e.target.value)}>
               <option value="telugu">Telugu</option>
               <option value="Hindi">Hindi</option>
               <option value="English">English</option>
             </select>
           </div>
-          <button className='edit_profile_btn' type="submit">Save Changes</button>
+          <button className='edit_profile_btn' type="submit" onClick={handleSubmit}>Save Changes</button>
         </div>
       </div>
     </div>

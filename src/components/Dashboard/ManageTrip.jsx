@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ManageTrip.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -14,25 +14,41 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PieChartComponent from '../SubTasks/PieChartComponent';
 import CustomAvatar from '../SubTasks/CustomAvatar';
+import axios from 'axios';
+import { RecoveryContext } from '../../App';
+import moment from 'moment';
 
 function ManageTrip() {
   const location = useLocation();
   const { trip } = location.state || {};
+  const [Trip, setTrip] = useState(trip);
+  const { BackendUrl, CurrentTripId, User_Id, expenses, setExpenses } = useContext(RecoveryContext);
   const [showInput, setShowInput] = useState(false);
   const [newMember, setNewMember] = useState({ name: '', imgUrl: '' });
   const [showMore, setshowMore] = useState('');
+  const [iscompleted, setiscompleted] = useState(false);
+  const [Date, setDate] = useState('');
   const formRef = useRef(null);
   const navigate = useNavigate();
-  console.log(trip);
+
   const handleAddMember = () => {
     setShowInput(!showInput);
   };
-  
-  const handleSaveMember = (event) => {
+
+  const handleSaveMember = async (event) => {
     event.preventDefault();
-    trip.members = [...trip.members, newMember];
-    setNewMember({ name: '', imgUrl: '' });
-    setShowInput(false);
+    try {
+      await axios.patch(`${BackendUrl}/patchMembers`, {
+        newMember: newMember,
+        trip_id: Trip.id,
+        User_Id: User_Id,
+        manage_id: Trip.manage_id,
+      });
+      fetchMembers();
+      setNewMember({ name: '', imgUrl: '' });
+      setShowInput(false);
+    } catch (err) {
+    }
   };
 
   const handleClickOutside = (event) => {
@@ -53,24 +69,92 @@ function ManageTrip() {
     };
   }, [showInput]);
 
-  const getRandomColor = () => {
-    const colors = ['#FFB6C1', '#ADD8E6', '#90EE90', '#FFD700', '#FFA07A', '#20B2AA', '#87CEFA', '#778899'];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
-
   const handleshowMore = (section) => {
     setshowMore((prev) => (prev === section ? '' : section));
   };
 
+  useEffect(() => {
+    getIsCompletedandDate();
+  }, [])
+
+  //need to compltet the func here of fetching teh date ,iscomplted
+  const getIsCompletedandDate = async () => {
+    try {
+      const resp = await axios.get(`${BackendUrl}/getDateComplete`, {
+        params: {
+          User_Id: User_Id,
+          CurrentTripId: Trip.id,
+          manage_id: Trip.manage_id,
+        }
+      });
+      setiscompleted(resp.data.completed);
+      const formattedDate = moment(resp.data.created_at).format("MMMM D, YYYY h:mm A");
+      setDate(formattedDate);
+      console.log(resp.data.completed)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const handleAddExpense = (name) => {
-    console.log(name);
-    navigate('/addexpense', { state: { trip: trip, name: name } });
+    navigate('/addexpense', { state: { trip: Trip, name: name } });
+
   };
 
-  const totalAmount = trip.expenses ? trip.expenses.reduce((prevSum, curr) => prevSum + parseFloat(curr.amount), 0) : 0;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        await Promise.all([fetchMembers(), fetchExpenses()]);
+      } catch (err) {
+        console.log("Error fetching data:", err);
+      }
+    };
+
+    fetchData();
+  }, [newMember, expenses]);
 
 
-  const pieChartData = trip.expenses ? trip.expenses.reduce((acc, expense) => {
+  const fetchMembers = async () => {
+    try {
+      const resp = await axios.get(`${BackendUrl}/getmembers`, {
+        params: {
+          User_Id: User_Id,
+          CurrentTripId: Trip.id,
+          manage_id: Trip.manage_id,
+        }
+      });
+      setTrip(prevTrip => ({
+        ...prevTrip,
+        members: resp.data.success?.members || []
+      }));
+
+    } catch (err) {
+      console.log("error fetcing the members", err);
+    }
+  }
+
+  const fetchExpenses = async () => {
+    try {
+      const resp = await axios.get(`${BackendUrl}/getexpenses`, {
+        params: {
+          User_Id: User_Id,
+          CurrentTripId: Trip.id,
+          manage_id: Trip.manage_id,
+        }
+      });
+      setTrip(prevTrip => ({
+        ...prevTrip,
+        expenses: resp.data.success?.expense || []
+      }));
+    } catch (err) {
+      console.log("error fetching the expenses", err);
+    }
+  };
+
+  const totalAmount = Trip.expenses ? Trip.expenses?.reduce((prevSum, curr) => prevSum + parseFloat(curr.amount), 0) : 0;
+
+  const pieChartData = Trip.expenses ? Trip.expenses?.reduce((acc, expense) => {
     if (!acc[expense.category]) {
       acc[expense.category] = 0;
     }
@@ -86,58 +170,55 @@ function ManageTrip() {
 
   return (
     <div className='manage-trip-div'>
-      {trip ? (
+      {Trip ? (
         <div className="manage-trip-container">
           <div className="image-sec">
-            <img src={trip.image} alt={trip.name} />
+            <img src={Trip.image} alt={Trip.name} />
             <div className="name-date-btn">
               <ArrowBackIcon className="back-icon" onClick={() => navigate('/MyTrips')} />
               <div className="name-date">
-                <h2>{trip.name}</h2>
-                <p>12-05-2021</p>
+                <h2>{Trip.name}</h2>
+                <p>{Date}</p>
               </div>
             </div>
           </div>
           <div className="members boxes">
-            <div className="members-add">
+            {!iscompleted && (<><div className="members-add">
               <h3>Members</h3>
               <button onClick={handleAddMember}><PersonAddOutlinedIcon /> Add Member</button>
-            </div>
-            <form
+            </div><form
               className={`add-member-form ${showInput ? 'open' : 'closed'}`}
               ref={formRef}
               onSubmit={handleSaveMember}
             >
-              <input
-                type="text"
-                placeholder="Name"
-                value={newMember.name}
-                onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Image URL"
-                value={newMember.imgUrl}
-                onChange={(e) => setNewMember({ ...newMember, imgUrl: e.target.value })}
-                required
-              />
-              <button type='submit'>Save</button>
-            </form>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={newMember.name}
+                  onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
+                  required />
+                <input
+                  type="text"
+                  placeholder="Image URL"
+                  value={newMember.imgUrl}
+                  onChange={(e) => setNewMember({ ...newMember, imgUrl: e.target.value })}
+                  required />
+                <button type='submit'>Save</button>
+              </form></>)}
             <div className="members-list">
-              {trip.members.length > 0 ? trip.members.map((member, index) => (
+              {Trip.members.length > 0 ? Trip.members.map((member, index) => (
                 <div key={index} className="member">
                   <div className="member-left">
                     <span className="member-serial">{index + 1}.</span>
                     <CustomAvatar imgUrl={member.imgUrl} name={member.name} height={50} width={50} />
                     <h4>{member.name}</h4>
                   </div>
-                  <div className="member-right">
+                  {!iscompleted && <div className="member-right">
                     <span className='addIcon' onClick={() => handleAddExpense(member.name)}><AddIcon className='member-btns' /> <p className='add-expense-prompt'>Add Expense</p> </span>
 
                     <span className='delIcon'><DeleteIcon className='member-btns' /></span>
-                    {/* when user click on delete icon then delete the member from the list after confirming are you sure  prompting*/}
-                  </div>
+
+                  </div>}
                 </div>
               )) : <p>No members added yet.</p>}
             </div>
@@ -163,7 +244,7 @@ function ManageTrip() {
                 <p>1000</p>
               </div>
             </div>
-            {/* in total we need to groupby as the same date and calc the sum of the day and show here from db */}
+            { }
             <hr />
             <div className="expenseSummary">
               <div className="sym-heading" onClick={() => handleshowMore('expenseSummary')}>
@@ -177,17 +258,17 @@ function ManageTrip() {
                   <h4>Total</h4>
                   <p>&#8377; {totalAmount.toFixed(2)}</p>
                 </div>
-                {trip.expenses && trip.expenses.length > 0 ? (trip.expenses.map((expense, index) => {
+                {Trip.expenses && Trip.expenses?.length > 0 ? (Trip.expenses?.map((expense, index) => {
                   return (
                     <div key={index} className='expense-item'>
                       <div className="top-line">
                         <h4>{expense.category}</h4>
                         <p>{parseFloat(expense.amount).toFixed(2)}</p>
                       </div>
-                      <p>Date : {expense.date}</p>
-                      <p>Expense by : {expense.name}</p>
-                      <p>Shared By : {expense.sharedBy ? 'All' : 'HimSelf'}</p>
-                      <p>Description : {expense.desc}</p>
+                      <p>Date : {expense?.date}</p>
+                      <p>Expense by : {expense?.name}</p>
+                      <p>Shared By : {expense?.sharedBy ? 'All' : 'HimSelf'}</p>
+                      <p>Description : {expense?.desc}</p>
                     </div>
                   )
                 })) : <p>No expenses added yet.</p>}
@@ -203,9 +284,9 @@ function ManageTrip() {
               </div>
               <div className={`pie-chart ${showMore === 'stats' ? 'open' : ''}`}>
                 <h4>Expense Distribution</h4>
-                {trip.expenses && trip.expenses.length > 0 ? (
+                {Trip.expenses && Trip.expenses.length > 0 ? (
                   <div className="pie-chart-container">
-                    {/* <Pie className='pie-graph' data={pieChartData} /> */}
+                    { }
                     <PieChartComponent data={pieData} />
                   </div>
                 ) : (
@@ -224,11 +305,11 @@ function ManageTrip() {
               <div className={`details_hidden_box ${showMore === 'details' ? 'open' : ''}`}>
                 <div className="desc">
                   <h4>Description</h4>
-                  <p>{trip.description}</p>
+                  <p>{Trip.description}</p>
                 </div>
                 <div className="places">
                   <h4>Places To Visit</h4>
-                  {trip.nearby_places.map((place, index) => (
+                  {Trip.nearby_places.map((place, index) => (
                     <span key={index}>{place}</span>
                   ))}
                 </div>

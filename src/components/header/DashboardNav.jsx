@@ -3,11 +3,11 @@ import { NavLink, useLocation } from "react-router-dom";
 import './NavMenu.css';
 
 const NavMenu = ({ ULine, setULine, handledropDown, isMobile }) => {
-    
+
     const location = useLocation();
     useEffect(() => {
         const path = location.pathname.slice(1).toLowerCase();
-        // console.log(path);
+
         setULine(path);
     }, [location, setULine]);
 
@@ -20,7 +20,7 @@ const NavMenu = ({ ULine, setULine, handledropDown, isMobile }) => {
             >
                 {isMobile ? (
                     <>
-                        <HomeTwoToneIcon /> Trips
+                        Trips
                     </>
                 ) : (
                     "Trips"
@@ -33,7 +33,7 @@ const NavMenu = ({ ULine, setULine, handledropDown, isMobile }) => {
             >
                 {isMobile ? (
                     <>
-                        <InfoTwoToneIcon /> My Trips
+                        My Trips
                     </>
                 ) : (
                     "My Trips"
@@ -46,7 +46,7 @@ const NavMenu = ({ ULine, setULine, handledropDown, isMobile }) => {
             >
                 {isMobile ? (
                     <>
-                        <ContactPhoneTwoToneIcon /> Report
+                        Report
                     </>
                 ) : (
                     "Report"

@@ -23,7 +23,7 @@ function CustomAvatar({ imgUrl, name, height, width }) {
                     objectFit: 'cover',
                     overflow: 'hidden'
                 }}
-                // className='mui-icon dark-mui-icon'
+                
             >
                 {(!imgUrl && name) ? name.charAt(0).toUpperCase() : ""}
             </Avatar>

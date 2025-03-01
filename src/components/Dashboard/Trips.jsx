@@ -8,18 +8,21 @@ import { useNavigate } from 'react-router-dom';
 import { RecoveryContext } from '../../App.jsx';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import noDataImage from '../../images/nodata.png';
 import axios from 'axios';
+import Lottie from "lottie-react";
+import customPlacesAnimation from '../../images/customPlaces-loading.json';
 
 function Trips() {
   const [activePlaceBtn, setActivePlaceBtn] = useState('');
   const [activePopularPlaceBtn, setActivePopularPlaceBtn] = useState('');
   const [activeCustomPlaceBtn, setactiveCustomPlaceBtn] = useState('');
   const [viewLeftBtn, setViewLeftBtn] = useState(false);
+  const [Loading, setLoading] = useState(false);
   const [placesData, setPlacesData] = useState([]);
   const [popularPlacesData, setPopularPlacesData] = useState([]);
-  const { customPlaces, setcustomPlaces, currentTrip, setCurrentTrip, User_Id } = useContext(RecoveryContext);
+  const { customPlaces, setcustomPlaces, User_Id, BackendUrl, CurrentTripId, setCurrentTripId } = useContext(RecoveryContext);
   const [showCompleteMessage, setShowCompleteMessage] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
@@ -66,10 +69,9 @@ function Trips() {
     navigate("/customPlace");
   }
 
-  const handleDeletePlace = async(id) => {
+  const handleDeletePlace = async (id) => {
     try {
-      const resp =await axios.delete(`http://localhost:3000/customPlaces?id=${id}`);
-      // console.log(resp);
+      const resp = await axios.delete(`${BackendUrl}/customPlaces?id=${id}`);
       if (resp.data.success) {
         setcustomPlaces((prev) => prev.filter((p) => p.id !== resp.data.success.id));
       }
@@ -78,38 +80,52 @@ function Trips() {
     }
   }
 
-  const handleAddToMyTrips = (place) => {
-    if (currentTrip) {
-      setShowCompleteMessage(true);
-    } else {
-      setCurrentTrip(place);
-      setShowSuccessMessage(true);
+  const handleAddToMyTrips = async (place) => {
+    const trip_id = place.id;
+    try {
+      if (!CurrentTripId) {
+        const response = await axios.post(`${BackendUrl}/currentTrip`, {
+          trip_id: trip_id,
+          User_Id: User_Id
+        });
+        localStorage.setItem("currentTripID", response.data.success.trip_id);
+        setCurrentTripId(response.data.success.trip_id);
+        setShowSuccessMessage(true);
+      } else {
+        setShowCompleteMessage(true);
+      }
+    } catch (error) {
+      console.log("frontend catch error", error);
     }
   }
 
-  console.log(User_Id);
 
   useEffect(() => {
-    console.log("fetching cusotm places...")
     handleFetchCustomPlaces();
   }, []);
 
   const handleFetchCustomPlaces = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/customPlaces?User_Id=${User_Id}`);
+      const response = await axios.get(`${BackendUrl}/customPlaces?User_Id=${User_Id}`);
       if (response.data.error) {
         console.log("customplaces error", response.data.error);
       } else {
-        // console.log("customplaces", ...response.data.success);
-        setcustomPlaces([...response.data.success]);
+        const mappedData = response.data.success.map(place => ({
+          ...place,
+          name: place.place_name,
+          image: place.image_url
+        }));
+        setcustomPlaces(mappedData);
       }
     }
     catch (err) {
       console.log("this is catch error", err);
+    } finally {
+      setLoading(false);
     }
   }
 
-  console.log("customplaces", customPlaces);
 
   const filteredPlaces = activePlaceBtn ? placesData.filter((place) => place.country === activePlaceBtn) : placesData;
 
@@ -142,7 +158,6 @@ function Trips() {
     }
   }, [showSuccessMessage]);
 
-  console.log(customPlaces);
 
   return (
     <div className='trip-div'>
@@ -221,7 +236,7 @@ function Trips() {
           {viewLeftBtn && <span className='popular-arrow-btnL' onClick={handleScrollPopularLeft}><NavigateBeforeIcon /></span>}
         </div>
 
-        {customPlaces.length > 0 && <div className="customPlaces boxes">
+        {!Loading ? (customPlaces.length > 0 && <div className="customPlaces boxes">
           <h2>Custom Places</h2>
           <div className="country-buttons">
             <button className={`Cbtn ${activeCustomPlaceBtn === "india" ? "active" : ""}  small-Boxes`} onClick={() => hanldeActiveCustBtn("india")}>India</button>
@@ -235,12 +250,12 @@ function Trips() {
             {filteredCustomPlaces.length > 0 ? (filteredCustomPlaces.map((place) => (
               <div className="place small-Boxes" key={place.id}>
                 <div className="img-div">
-                  <img src={place.image_url} alt={`${place.place_name} img`} />
+                  <img src={place.image} alt={`${place.name} img`} />
                 </div>
                 <div className="place_info">
                   <div className="first_line">
                     <span className="places_del_btn" onClick={() => handleDeletePlace(place.id)}><DeleteForeverRoundedIcon /></span>
-                    <h4 className='places_h4'>{place.place_name}</h4>
+                    <h4 className='places_h4'>{place.name}</h4>
                     <span className='places_btn' onClick={() => handleAddToMyTrips(place)}>
                       <AddIcon />
                       <span className='AddToMytrips'>Add to MyTrips</span>
@@ -255,21 +270,24 @@ function Trips() {
             </div>)
             }
           </div>
+        </div>) : <div className="loader">
+          <Lottie animationData={customPlacesAnimation} loop={true} style={{ height: "100px" }} />
         </div>}
       </div>
+
       <span className='custom-places-btn' onClick={handleCustomPlaces}><AddIcon /></span>
       <span className="addCustom-places">Add Custom Places</span>
 
       {showCompleteMessage && (
         <div className="complete-message">
-          <p><WarningAmberRoundedIcon />There is already a current trip. Please mark it as completed before adding a new one.</p>
+          <p><WarningAmberRoundedIcon className='warning-icon' /> There is already a current trip. Please mark it as completed before adding a new one.</p>
           <div className="countdown-timer"></div>
         </div>
       )}
 
       {showSuccessMessage && (
         <div className="complete-message-success">
-          <p><CheckCircleOutlineRoundedIcon />Successfully Added.</p>
+          <p><TaskAltIcon className='sucess_icon'/> Successfully Added.</p>
           <div className="countdown-timer"></div>
         </div>
       )}

@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useContext } from 'react' //change in functions
+import React, { useState, useEffect, useContext } from 'react'
 import './SignIn.css'
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -19,7 +18,7 @@ function SignIn({ SignIn }) {
   const [id, setId] = useState(1)
   const navigate = useNavigate();
   const { imageUrl, setImageUrl, BackendUrl } = useContext(RecoveryContext);
-  //update backend url
+
   const handleVisibility = () => {
     setVisibility(!visibility);
   }
@@ -36,10 +35,9 @@ function SignIn({ SignIn }) {
         setErrorMessage(response.data.error);
       } else {
         setId(response.data.user_id);
-        console.log(response.data);
         SignIn(response.data.user_id, response.data.username, response.data.Email);
+        localStorage.setItem('imageUrl',response.data.profile_url);
         setImageUrl(response.data.profile_url);
-        console.log("login page", response.data.user_id);
         navigate("/Trips");
       }
 
@@ -55,7 +53,6 @@ function SignIn({ SignIn }) {
 
   const handleGoogleLoginSuccess = async (response) => {
     const token = response.credential;
-    console.log(token);
     setLoading(true);
     try {
       const res = await axios.post(
@@ -70,14 +67,11 @@ function SignIn({ SignIn }) {
       if (res.status === 200) {
         setId(res.data.user_id);
         SignIn(res.data.user_id, res.data.username, res.data.email);
-        console.log('login page', res.data.email);
-        console.log('login data', res);
         localStorage.setItem('user_id', res.data.user_id);
         localStorage.setItem('username', res.data.username);
         localStorage.setItem('profile_url', res.data.profile_url);
         localStorage.setItem('email', res.data.email);
-        setImageUrl(res.data.profile_url);
-        console.log('login page', res.data.user_id);
+        localStorage.setItem('imageUrl', res.data.profile_url);
         navigate('/Trips');
       } else {
         setErrorMessage(res.data.message || 'Google SignIn failed');
@@ -92,7 +86,6 @@ function SignIn({ SignIn }) {
   };
 
   const handleGoogleLoginFail = (error) => {
-    console.log(error);
     setErrorMessage('Google signIn failed');
   }
 

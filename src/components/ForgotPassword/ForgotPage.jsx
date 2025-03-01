@@ -9,15 +9,13 @@ function ForgotPage() {
   const { Email, setEmail, setOTP, BackendUrl ,isLoggedin} = useContext(RecoveryContext);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  console.log(BackendUrl);
-
+  
   const handleForgot = async (e) => {
     e.preventDefault();
     if (Email) {
       const OTP = Math.floor(Math.random() * 9000 + 1000);
       setOTP(OTP);
-      console.log("Generated OTP:", OTP);
-      try {
+            try {
         const response = await axios.post(
           ` ${BackendUrl}/send_recovery_email`,
           { Email, OTP },

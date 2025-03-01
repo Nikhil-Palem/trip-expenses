@@ -1,11 +1,46 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './PrivacySecurity.css'
 import KeyboardArrowRightSharpIcon from '@mui/icons-material/KeyboardArrowRightSharp';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { RecoveryContext } from '../../App';
+import Lottie from "lottie-react";
+import BtnAnimation from '../../images/button-animation.json';
 function PrivacySecurity() {
   const navigate = useNavigate();
   const [Show, setShow] = useState('');
+  const [CurrPswd, setCurrPswd] = useState('');
+  const [Loading, setLoading] = useState(false);
+  const [NewPswd, setNewPswd] = useState('');
+  const [ReNewPswd, setReNewPswd] = useState('');
+  const [ErrorMsg, setErrorMsg] = useState('');
+  const { BackendUrl, User_Id } = useContext(RecoveryContext);
+
+  const handleCPswd = async () => {
+    setLoading(true);
+    try {
+      if (NewPswd !== ReNewPswd) {
+        setErrorMsg('New password and retyped password do not match');
+        return;
+      }
+      const resp = await axios.put(`${BackendUrl}/changePswd`, {
+        currPswd: CurrPswd,
+        newPswd: NewPswd,
+        User_Id: User_Id
+      })
+      if (resp.data.status === 200) {
+        setErrorMsg('Password changed successfully');
+      } else {
+        setErrorMsg(resp.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className='privacy-security-container'>
       <div className="privacy-sec-header">
@@ -30,13 +65,18 @@ function PrivacySecurity() {
               <h1>Change password</h1>
               <p>Your password must be at least 6 characters and should include a combination of numbers, letters and special characters (!$@%).</p>
               <label htmlFor="currpswd">Current password</label>
-              <input type="text" name='currentpswd' placeholder='enter current password' />
+              <input type="text" name='currentpswd' placeholder='enter current password' onChange={(e) => setCurrPswd(e.target.value)} />
               <label htmlFor="currpswd">New password</label>
-              <input type="text" name='newpswd' placeholder='enter new password' />
+              <input type="text" name='newpswd' placeholder='enter new password' onChange={(e) => setNewPswd(e.target.value)} />
               <label htmlFor="currpswd">Re-type new password</label>
-              <input type="text" name='currentpswd' placeholder='Re-type new password' />
+              <input type="text" name='currentpswd' placeholder='Re-type new password' onChange={(e) => setReNewPswd(e.target.value)} />
               <NavLink to={"/ForgotPage"}>Forgot Password?</NavLink>
-              <button className='recovery_btn' type="submit">Change Password</button>
+              <button className='recovery_btn' type="submit" onClick={handleCPswd}>{!Loading ? "Change Password" : <div className="loader">
+                <Lottie style={{ height: "18px" }} animationData={BtnAnimation} loop={true} />
+              </div>}</button>
+              {setErrorMsg && <>
+                <p style={{ color: "red" }}>{ErrorMsg}</p>
+              </>}
             </div>
           </div>
         )
