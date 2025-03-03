@@ -15,4 +15,8 @@
   .recharts-bar-rectangle:hover {
     fill-opacity: 1 !important;
   }
-  
+  @media screen and (max-width: 768px) {
+    .bar-graph-container .recharts-wrapper .recharts-surface{
+      width: 70% !important;
+    }
+  }

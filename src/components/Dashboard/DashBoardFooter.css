@@ -1,0 +1,25 @@
+.dashboard-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dashboard-footer {
+    display: flex;
+    position: fixed;
+    bottom: 5px;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 65%;
+    background: white;
+    border: 1px solid gray;
+    height: 45px;
+    border-radius: 30px;
+}
+.dashboard-footer  .MuiSvgIcon-root{
+    color: gray;
+}
+.dashboard-footer .active{
+    color: black;
+    scale: 1.2;
+    border-bottom: 1px solid black;
+}

@@ -365,7 +365,7 @@
     padding: 10px;
 }
 
-.complete-message .warning-icon{
+.complete-message .warning-icon {
     color: #ff1a1a;
 }
 
@@ -382,7 +382,7 @@
     position: fixed;
     top: 10;
     right: 10px;
-    background-color:#befbd7;
+    background-color: #befbd7;
     max-width: 250px;
     width: 100%;
     height: 50px;
@@ -409,11 +409,11 @@
     margin-top: 1px;
 }
 
-.complete-message-success .sucess_icon{
+.complete-message-success .sucess_icon {
     color: #00C853;
 }
 
-.no-places{
+.no-places {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -423,11 +423,11 @@
     margin-top: -10px;
 }
 
-.no-places img{
+.no-places img {
     height: 300px;
 }
 
-.no-places p{
+.no-places p {
     margin: 0;
 }
 
@@ -438,5 +438,177 @@
 
     to {
         width: 0%;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .tripH {
+        margin: 0;
+        margin-left: 15px;
+        font-size: 20px !important;
+    }
+    .trip-div{
+        margin-bottom: 50px;
+    }
+    .exploreMore,
+    .popularPlaces,
+    .customPlaces {
+        width: calc(100% - 30px);
+        margin: 0 15px;
+        height: 100%;
+    }
+
+    .exploreMore h2,
+    .popularPlaces h2,
+    .customPlaces h2 {
+        font-size: 20px !important;
+    }
+
+    .country-buttons {
+        margin: 0 15px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .country-buttons::-webkit-scrollbar {
+        display: none;
+        /* Hide scrollbar for WebKit browsers */
+    }
+
+    .country-buttons .Cbtn {
+        border: 1px solid gray;
+        background: none;
+        box-shadow: none;
+        color: black;
+        padding: 7px 20px 7px 20px;
+        border-radius: 40px;
+        cursor: pointer;
+        height: 100%;
+    }
+
+    .place {
+        height: 221px;
+        width: 182px;
+    }
+
+    .img-div {
+        height: 68%;
+    }
+
+    .places {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* Two columns */
+        gap: 15px;
+        /* Space between the boxes */
+        padding: 10px;
+    }
+
+    .place_info {
+        padding: 8px;
+    }
+
+    .arrow-btn {
+        display: none;
+    }
+
+    .arrow-btnL {
+        display: none;
+    }
+
+    .popular-arrow-btnL {
+        display: none;
+    }
+
+    .popular-arrow-btnR {
+        display: none;
+    }
+
+    .show-all-btn {
+        display: block;
+        margin: 10px auto;
+        padding: 5px 10px;
+        color: white;
+        border: none;
+        background: none;
+        color: #0056b3;
+        margin: 0;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bolder;
+        font-size: 14px
+    }
+
+    .heading-showallbtn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .custom-places-btn {
+        bottom: 2%;
+    }
+}
+
+@media screen and (max-width:426px) {
+    .exploreMore,
+    .popularPlaces,
+    .customPlaces  {
+        width: calc(100% - 10px);
+    }
+
+    .place {
+        width: 170px;
+    }
+
+    .places {
+        padding: 10px 5px;
+    }
+
+    .img-div {
+        height: 62%;
+    }
+
+    .places_p {
+        word-wrap: break-word;
+        white-space: normal;
+    }
+}
+
+@media screen and (max-width: 360px) {
+
+    .exploreMore,
+    .popularPlaces,
+    .customPlaces {
+        width: calc(100% - 10px);
+    }
+
+    .exploreMore h2,
+    .popularPlaces h2,
+    .customPlaces h2 {
+        font-size: 18px !important;
+    }
+
+    .place {
+        width: 141px;
+    }
+
+    .places {
+        padding: 10px 5px;
+    }
+
+    .place_info p {
+        font-size: 12px;
+    }
+
+    .img-div {
+        height: 65%;
+    }
+
+    .places_p {
+        word-wrap: break-word;
+        white-space: normal;
     }
 }

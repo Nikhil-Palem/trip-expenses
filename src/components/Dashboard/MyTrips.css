@@ -217,3 +217,13 @@
     align-items: center;
     justify-content: center;
 }
+
+@media screen and (max-width:460px) {
+    .curr-trip{
+        width: 95%;
+    }
+    .mytrips-div{
+        margin: 30px 5px;
+        margin-bottom: 60px;
+    }
+}

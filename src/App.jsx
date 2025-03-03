@@ -19,7 +19,7 @@ import CustomPlace from './components/Dashboard/CustomPlace';
 import ManageTrip from './components/Dashboard/ManageTrip';
 import AddExpenses from './components/SubTasks/AddExpenses';
 import Settings from './components/Settings/Settings';
-
+import DashBoardFooter from './components/Dashboard/DashBoardFooter';
 export const RecoveryContext = createContext();
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
   const [expenses, setExpenses] = useState([]);
   const [CurrentTripId, setCurrentTripId] = useState(storedCurrTripID || '')
   const [currentTrip, setCurrentTrip] = useState(null);
-  
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const BackendUrl = import.meta.env.VITE_NODE_ENV === 'production' ? import.meta.env.VITE_BACKEND_URL : 'http://localhost:3000';
 
@@ -61,7 +61,7 @@ function App() {
 
   return (
     <GoogleOAuthProvider clientId="19918831208-tedq0rkmeus8j7lgo8ginorig6ekqt6s.apps.googleusercontent.com">
-      <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP, user_name, User_Id, isLoggedin, setIsLoggedin, imageUrl, setImageUrl, BackendUrl, setUser_Id, setUsername, setcustomPlaces, customPlaces, currentTrip, setCurrentTrip, CurrentTripId, setCurrentTripId,expenses, setExpenses }}>
+      <RecoveryContext.Provider value={{ Email, setEmail, OTP, setOTP, user_name, User_Id, isLoggedin, setIsLoggedin, imageUrl, setImageUrl, BackendUrl, setUser_Id, setUsername, setcustomPlaces, customPlaces, currentTrip, setCurrentTrip, CurrentTripId, setCurrentTripId,expenses, setExpenses ,isMobile, setIsMobile}}>
         <BrowserRouter>
           <AppContent isLoggedin={isLoggedin} handleLogin={handleLogin} />
         </BrowserRouter>
@@ -116,6 +116,7 @@ function AppContent({ isLoggedin, handleLogin }) { //extra fun is used to wrap t
         <Route path='/addexpense' element={<AddExpenses />} />
         <Route path='/settings' element={<Settings />}></Route>
       </Routes>
+      <DashBoardFooter/>
     </>
   );
 }
